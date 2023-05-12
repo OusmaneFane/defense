@@ -1,0 +1,22 @@
+@layout('layouts.base')
+
+@section('content')
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <form action="{{ route('superadmin.create_group_view', { id: ':class_id' }) }}" method="get">
+
+      <div class="mb-3">
+        <label for="class_id" class="form-label">Sélectionner une classe</label>
+        <select name="class_id" id="class_id" class="form-control" onchange="this.form.submit();">
+          @each(classe in classes)
+            <option value="{{ classe.id }}">{{ classe.name }}</option>
+          @endeach
+        </select>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+@endsection

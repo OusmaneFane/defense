@@ -1,0 +1,39 @@
+@layout('layouts.base')
+
+
+@section('content')
+
+{{--   form to edit classe  --}}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Modifier la classe: {{ classe.name}}</h4>
+        </div>
+        <div class="card-body">
+          <form method="POST" action="{{ route('classe.update', {id:classe.id}) }}">
+
+            <div class="mb-3">
+              <label for="name" class="form-label">Nom</label>
+              <input type="text" name="name" id="name" class="form-control"  value="{{ classe.name }}">
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea name="description" id="description" class="form-control" >{{ classe.description }}</textarea>
+            </div>
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary">Modifier</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+@endsection

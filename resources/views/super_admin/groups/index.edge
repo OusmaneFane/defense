@@ -6,10 +6,10 @@
       <div class="row">
           <div class="col-md-12">
             @!component('components/flash')
-              <h3 class="title-5 m-b-35">Gérer les utilisateurs</h3>
+              <h3 class="title-5 m-b-35">Manage Groups</h3>
               <div class="table-data__tool">
-                  <div class="table-data__tool-left">
-                      {{--  <div class="rs-select2--light rs-select2--md">
+                  {{--  <div class="table-data__tool-left">
+                      <div class="rs-select2--light rs-select2--md">
                           <select class="js-select2" name="property">
                               <option selected="selected">All Properties</option>
                               <option value="">Option 1</option>
@@ -26,19 +26,13 @@
                           <div class="dropDownSelect2"></div>
                       </div>
                       <button class="au-btn-filter">
-                          <i class="zmdi zmdi-filter-list"></i>filters</button>  --}}
-                  </div>
+                          <i class="zmdi zmdi-filter-list"></i>filters</button>
+                  </div>  --}}
                   <div class="table-data__tool-right">
-                      <a href="{{ route('superadmin.user.create') }}" class="au-btn au-btn-icon au-btn--green au-btn--small">
-                          <i class="zmdi zmdi-plus"></i>Nouveau Utilisateur</a>
-                      {{--  <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
-                          <select class="js-select2" name="type">
-                              <option selected="selected">Export</option>
-                              <option value="">Option 1</option>
-                              <option value="">Option 2</option>
-                          </select>
-                          <div class="dropDownSelect2"></div>
-                      </div>  --}}
+                      <a href="{{ route('superadmin.create_group') }}" class="au-btn au-btn-icon au-btn--green au-btn--small">
+                          <i class="zmdi zmdi-plus"></i>Nouveau Groupe</a>
+                          <a href="{{ route('superadmin.create_classe') }}" class="au-btn au-btn-icon au-btn--blue au-btn--small">
+                          <i class="zmdi zmdi-plus"></i>Nouvelle classe</a>
                   </div>
               </div>
               <div class="table-responsive table-responsive-data2">
@@ -51,8 +45,8 @@
                                       <span class="au-checkmark"></span>
                                   </label>
                               </th>
-                              <th>name</th>
-                              <th>email</th>
+                              <th>nom du groupe</th>
+                              <th>encadrant</th>
                               <th>Status</th>
                               <th>date</th>
                               <th>Action</th>

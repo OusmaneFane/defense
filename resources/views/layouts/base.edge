@@ -46,7 +46,7 @@
                             <img src="/images/logo3.png" alt="sup" />
                         </a>
                     </div>
-                    <div class="header__navbar">
+                    <div class="header__navbar ">
                       @if (auth.user.role === 'super_admin')
                       <ul class="list-unstyled">
                         <li class="has-sub">
@@ -75,16 +75,21 @@
                                 <span class="bot-line"></span>Gestion Utilisateurs</a>
                         </li>
                         <li>
-                            <a href="table.html">
+                            <a href="{{ route('superadmin.manage_groups') }}">
                                 <i class="fas fa-trophy"></i>
                                 <span class="bot-line"></span>Gestion Groupes</a>
                         </li>
+                        <li>
+                          <a href="{{ route('superadmin.manage_classe') }}">
+                              <i class="fas fa-trophy"></i>
+                              <span class="bot-line"></span>Gestion Classes</a>
+                      </li>
 
                         <li class="has-sub">
-                            <a href="#">
+                            <a href="">
                                 <i class="fas fa-desktop"></i>
                                 <span class="bot-line"></span>Gestion Documents</a>
-                            <ul class="header3-sub-list list-unstyled">
+                            {{--  <ul class="header3-sub-list list-unstyled">
                                 <li>
                                     <a href="button.html">Button</a>
                                 </li>
@@ -118,7 +123,7 @@
                                 <li>
                                     <a href="typo.html">Typography</a>
                                 </li>
-                            </ul>
+                            </ul>  --}}
                         </li>
                         <li class="has-sub">
                           <a href="#">
@@ -309,7 +314,7 @@
                             <span class="bot-line"></span>Gestion Utilisateurs</a>
                     </li>
                     <li>
-                        <a href="table.html">
+                        <a href="{{ route('superadmin.manage_groups') }}">
                             <i class="fas fa-trophy"></i>
                             <span class="bot-line"></span>Gestion Groupes</a>
                     </li>
@@ -318,7 +323,7 @@
                         <a href="#">
                             <i class="fas fa-desktop"></i>
                             <span class="bot-line"></span>Gestion Documents</a>
-                        <ul class="header3-sub-list list-unstyled">
+                        {{--  <ul class="header3-sub-list list-unstyled">
                             <li>
                                 <a href="button.html">Button</a>
                             </li>
@@ -352,7 +357,7 @@
                             <li>
                                 <a href="typo.html">Typography</a>
                             </li>
-                        </ul>
+                        </ul>  --}}
                     </li>
                     <li class="has-sub">
                       <a href="#">
@@ -381,7 +386,7 @@
                 <div class="account-wrap">
                     <div class="account-item account-item--style2 clearfix js-item-menu">
                         <div class="image">
-                            <img src="/images/icon/avatar-01.jpg" alt="{{ auth.user.name }}" />
+                            <img src="/images/icon2/avatar-01.jpg" alt="profil" />
                         </div>
                         <div class="content">
                             <a class="js-acc-btn" href="#">{{ auth.user.name }}</a>
@@ -390,7 +395,7 @@
                             <div class="info clearfix">
                                 <div class="image">
                                     <a href="#">
-                                        <img src="/images/icon/avatar-01.jpg" alt="{{ auth.user.name }}" />
+                                        <img src="/images/icon2/avatar-01.jpg" alt="{{ auth.user.name }}" />
                                     </a>
                                 </div>
                                 <div class="content">

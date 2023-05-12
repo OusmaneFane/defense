@@ -1,22 +1,3 @@
-/*
-|--------------------------------------------------------------------------
-| Routes
-|--------------------------------------------------------------------------
-|
-| This file is dedicated for defining HTTP routes. A single file is enough
-| for majority of projects, however you can define routes in different
-| files and just make sure to import them inside this file. For example
-|
-| Define routes in following two files
-| ├── start/routes/cart.ts
-| ├── start/routes/customer.ts
-|
-| and then import them inside `start/routes.ts` as follows
-|
-| import './routes/cart'
-| import './routes/customer''
-|
-*/
 
 import Route from '@ioc:Adonis/Core/Route'
 
@@ -35,6 +16,20 @@ Route.group(() => {
   Route.post('/users_store', 'AdminsController.store').as('users.store');
   Route.get('/user/:id/edit', 'AdminsController.edit').as('user.edit')
   Route.post('/user/:id', 'AdminsController.update').as('users.update')
+  Route.get('/manage_groups', 'GroupsController.index').as('superadmin.manage_groups')
+  Route.get('/create_group', 'GroupsController.create').as('superadmin.create_group')
+  // route pour récuperer la classe selectionner
+  Route.get('/groups/create/:id', 'GroupsController.view').as('superadmin.create_group_view')
+
+  Route.post('/groups', 'GroupsController.store').as('superadmin.groups.store')
+  // create classe
+  Route.get('/manage_classe', 'ClassesController.index').as('superadmin.manage_classe')
+  Route.get('/create_classe', 'ClassesController.create').as('superadmin.create_classe')
+  Route.post('/classes', 'ClassesController.store').as('superadmin.classes.store')
+  // edit classe
+  Route.get('/classe/:id/edit', 'ClassesController.edit').as('classe.edit')
+  Route.post('/classe/:id', 'ClassesController.update').as('classe.update')
+
 
 }).middleware('auth')
 
