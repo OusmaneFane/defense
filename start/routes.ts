@@ -29,6 +29,9 @@ Route.group(() => {
   // edit classe
   Route.get('/classe/:id/edit', 'ClassesController.edit').as('classe.edit')
   Route.post('/classe/:id', 'ClassesController.update').as('classe.update')
+  //
+  Route.get('/student/assignClass/:id', 'StudentsController.showAssignClassForm').as('student.assignClassForm');
+  Route.post('student/assign/:classId', 'StudentsController.assignToClass').as('student.assignToClass');
 
 
 }).middleware('auth')

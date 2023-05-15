@@ -46,9 +46,9 @@
 
                               <td>
                                   <div class="table-data-feature">
-                                      <button class="item" data-toggle="tooltip" data-placement="top" title="">
+                                      <a href="{{ route('student.assignClassForm', { id: classe.id }) }}" class="item" data-toggle="tooltip" data-placement="top" title="Ajouter des étudiants">
                                           <i class="zmdi zmdi-mail-send"></i>
-                                      </button>
+                                      </a>
                                       <a href="{{ route('classe.edit', { id: classe.id }) }}" class="item" data-toggle="tooltip" data-placement="top" title="Modifier">
                                           <i class="zmdi zmdi-edit"></i>
                                       </a>

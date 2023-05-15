@@ -1,0 +1,19 @@
+@layout('layouts.base')
+
+@section('content')
+  <div class="container">
+    <h3>Assigner des étudiants à la classe {{ classe.name }}</h3>
+
+    <form action="{{ route('student.assignToClass', { classId: classe.id }) }}" method="post">
+      <div class="form-group">
+        <label for="students">Sélectionner les étudiants</label>
+        <select name="students[]" id="students" class="form-control" multiple>
+          @each(student in students)
+            <option value="{{ student.id }}">{{ student.name }} ({{ student.email }})</option>
+          @endeach
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Assigner</button>
+    </form>
+  </div>
+@endsection

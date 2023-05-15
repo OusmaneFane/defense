@@ -1,32 +1,16 @@
-// Importation des modules nécessaires
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
-// Définition de la classe User
-export default class User extends BaseModel {
+export default class Student extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
   public name: string
-
   @column()
   public email: string
-
-  @column()
-  public password: string // ne pas utiliser hash.make()
-
-  @column()
-  public role: string
-
-
   @column()
   public class_id: number
-
-  public async getRole(): Promise<string> {
-    const user = await User.find(this.id)
-    return user ? user.role : ''
-  }
 
   // Méthode pour assigner l'étudiant à une classe
   public async assignToClass(classId: number) {
@@ -37,6 +21,6 @@ export default class User extends BaseModel {
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
-  @column.dateTime({ autoUpdate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 }
