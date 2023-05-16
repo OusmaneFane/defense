@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-
+import { BaseModel, column, belongsTo, BelongsTo, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm'
+import Group from './Group'
 export default class Student extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -17,6 +17,16 @@ export default class Student extends BaseModel {
     this.class_id = classId;
     await this.save();
   }
+  @belongsTo(() => Group)
+  public group: BelongsTo<typeof Group>
+
+  @manyToMany(() => Group, {
+    pivotTable: 'group_student',
+    pivotForeignKey: 'student_id',
+    pivotRelatedForeignKey: 'group_id',
+    pivotColumns: ['created_at', 'updated_at']
+  })
+  public groups: ManyToMany<typeof Group>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

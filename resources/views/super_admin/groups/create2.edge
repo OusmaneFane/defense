@@ -24,7 +24,7 @@
 
       <div class="form-group">
         <label for="students">Étudiants</label>
-        <select name="students[]" id="students" class="form-control" multiple required>
+        <select name="studentIds[]" id="students" class="form-control" multiple required>
           @each (etudiant in etudiants)
             <option value="{{ etudiant.id }}">{{ etudiant.name }}</option>
           @endeach

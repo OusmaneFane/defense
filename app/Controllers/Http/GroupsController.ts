@@ -2,12 +2,12 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
 import Group from 'App/Models/Group'
 import Classe from 'App/Models/Classe'
-
+import Student from 'App/Models/Student'
 export default class GroupsController {
 
   public async index({view}: HttpContextContract){
-
-    return view.render('super_admin.groups.index')
+    const groups = await Group.query().preload('supervisor').preload('students').paginate(1, 10)
+    return view.render('super_admin.groups.index', { groups: groups })
 
   }
 
@@ -60,13 +60,41 @@ export default class GroupsController {
     // Charge la classe correspondante
     const classe = await Classe.findOrFail(classeId)
     // recuperer les etudiants de la classe
-  //  const etudiants = await User.query().where('role', 'student').where('classe_id', classeId).exec()
+    const etudiants = await Student.query().where('class_id', classeId).exec()
     // recuperer tous les superviseurs
     const superviseurs = await User.query().where('role', 'supervisor').exec()
 
 
-    return view.render('super_admin.groups.create2', { classe,  superviseurs })
+    return view.render('super_admin.groups.create2', { classe,  superviseurs, etudiants })
   }
+
+  public async store_group({ request, response, params }) {
+
+    try {
+      // Récupérer les données du formulaire
+      const { name, supervisor, studentIds } = request.all()
+
+      // Créer un nouveau groupe
+      const group = new Group()
+      group.name = name
+      group.supervisor_id = supervisor
+
+      // Sauvegarder le groupe en base de données
+      await group.save()
+
+      // Attacher les étudiants au groupe
+      await group.related('students').attach(studentIds)
+
+      // Rediriger vers la liste des groupes ou une autre page appropriée
+      return response.redirect().toRoute('superadmin.manage_groups')
+    } catch (error) {
+      // Gérer les erreurs
+      console.error(error)
+      return response.status(500).send('Une erreur est survenue lors de la création du groupe.')
+    }
+
+  }
+
   }
 
 

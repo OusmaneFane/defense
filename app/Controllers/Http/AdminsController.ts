@@ -2,6 +2,8 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
 import Role from 'App/Models/Role'
 import Hash from '@ioc:Adonis/Core/Hash'
+import Student from 'App/Models/Student'
+import Group from 'App/Models/Group'
 export default class AdminsController {
 
   public async dashboard({ view, auth }: HttpContextContract) {
@@ -37,6 +39,11 @@ export default class AdminsController {
     user.password = hashedPassword
     await user.save()
 
+    const student = new Student()
+    student.name = name
+    student.email = email
+    await student.save()
+
     session.flash({ success: 'L\'employé a été ajouté avec succès !' })
     return response.redirect().back()
 
@@ -64,5 +71,7 @@ const password = user.password.split('$')[2]
 
     return response.redirect().toRoute('superadmin.manage_users');
   }
+
+
 
 }
