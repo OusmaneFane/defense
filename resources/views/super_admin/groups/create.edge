@@ -1,22 +1,28 @@
 @layout('layouts.base')
 
 @section('content')
-
 <div class="row justify-content-center">
-  <div class="col-md-6">
-    <form action="{{ route('superadmin.create_group_view', { id: ':class_id' }) }}" method="get">
-
-      <div class="mb-3">
-        <label for="class_id" class="form-label">Sélectionner une classe</label>
-        <select name="class_id" id="class_id" class="form-control" onchange="this.form.submit();">
-          @each(classe in classes)
-            <option value="{{ classe.id }}">{{ classe.name }}</option>
-          @endeach
-        </select>
+  <div class="col-md-8">
+    <form action="{{ route('superadmin.create_group_view') }}" method="get">
+      <div class="row">
+        @each(classe in classes)
+        <div class="col-md-6">
+          <div class="card mb-3 class-card class-color-{{ classe.id }}">
+            <div class="card-body">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="class_ids[]" value="{{ classe.id }}">
+                <label class="form-check-label">{{ classe.name }} ({{ classe.description }})</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        @endeach
       </div>
-
+      <button type="submit" class="btn btn-primary">Créer le groupe</button>
     </form>
   </div>
 </div>
+<style>
 
+</style>
 @endsection

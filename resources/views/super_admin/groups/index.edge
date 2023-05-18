@@ -48,7 +48,7 @@
                             <th>Nom du groupe</th>
                             <th>Encadrant</th>
                             <th>Etudiants</th>
-                            <th>Date</th>
+                            <th>Classe</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -70,7 +70,11 @@
                                 <span class="role user">{{ student.name }}</span>
                               @endeach
                             </td>
-                            <td>{{ group.updated_at }}</td>
+                            <td>
+                              @each(classe in group.classes)
+                                <span class="role user">{{ classe.name }}</span>
+                              @endeach
+                            </td>
                             <td>
                                 <div class="table-data-feature">
                                     <button class="item" data-toggle="tooltip" data-placement="top" title="">

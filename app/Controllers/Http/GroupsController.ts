@@ -6,7 +6,8 @@ import Student from 'App/Models/Student'
 export default class GroupsController {
 
   public async index({view}: HttpContextContract){
-    const groups = await Group.query().preload('supervisor').preload('students').paginate(1, 10)
+    const groups = await Group.query().preload('supervisor').preload('students').preload('classes')
+
     return view.render('super_admin.groups.index', { groups: groups })
 
   }
@@ -21,25 +22,7 @@ export default class GroupsController {
 
   }
 
-  public async store({ request, response }) {
-    const data = request.only(['name', 'supervisor', 'students'])
 
-    // Créer un nouveau groupe
-    const group = new Group()
-    group.name = data.name
-    group.supervisorId = data.supervisor
-
-    // Ajouter les étudiants au groupe
-    const studentIds = data.students
-    console.log(studentIds)
-    const students = await User.query().whereIn('id', studentIds).exec()
-    console.log(group)
-    await group.related('students').attach(students)
-
-    // Sauvegarder le groupe
-    await group.save()
-    return response.route('groups.index')
-  }
 
   public async store_class({ request, response, params }) {
 
@@ -53,27 +36,29 @@ export default class GroupsController {
 
   }
 
- public async view({ view, request }: HttpContextContract) {
-    // Récupère l'id de la classe
-    const classeId = request.input('class_id')
+  public async view({ view, request }: HttpContextContract) {
+    // Récupère les ids des classes sélectionnées
+    const classIds = request.input('class_ids', [])
+    console.log(classIds)
+    // Charge les classes correspondantes
+    const classes = await Classe.query().whereIn('id', classIds).exec()
 
-    // Charge la classe correspondante
-    const classe = await Classe.findOrFail(classeId)
-    // recuperer les etudiants de la classe
-    const etudiants = await Student.query().where('class_id', classeId).exec()
-    // recuperer tous les superviseurs
+    // Récupérer les étudiants des classes sélectionnées
+    const etudiants = await Student.query().whereIn('class_id', classIds).exec()
+
+    // Récupérer tous les superviseurs
     const superviseurs = await User.query().where('role', 'supervisor').exec()
 
-
-    return view.render('super_admin.groups.create2', { classe,  superviseurs, etudiants })
+    return view.render('super_admin.groups.create2', { classes, superviseurs, etudiants, classIds })
   }
 
-  public async store_group({ request, response, params }) {
+  public async store_group({ request, response }) {
 
     try {
       // Récupérer les données du formulaire
-      const { name, supervisor, studentIds } = request.all()
-
+      const { name, supervisor, studentIds, class_ids  } = request.all()
+      const classIds = request.input('class_ids', [])
+      console.log(request.all())
       // Créer un nouveau groupe
       const group = new Group()
       group.name = name
@@ -84,8 +69,8 @@ export default class GroupsController {
 
       // Attacher les étudiants au groupe
       await group.related('students').attach(studentIds)
+      await group.related('classes').attach(classIds)
 
-      // Rediriger vers la liste des groupes ou une autre page appropriée
       return response.redirect().toRoute('superadmin.manage_groups')
     } catch (error) {
       // Gérer les erreurs

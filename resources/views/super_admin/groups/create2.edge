@@ -16,6 +16,7 @@
       <div class="form-group">
         <label for="supervisor">Encadrant</label>
         <select name="supervisor" id="supervisor" class="form-control" required>
+          <option value="" selected>Choisir l'encadrant</option>
           @each (superviseur in superviseurs)
             <option value="{{ superviseur.id }}">{{ superviseur.name }}</option>
           @endeach
@@ -30,6 +31,17 @@
           @endeach
         </select>
       </div>
+      @each(id in classIds)
+        <div class="col-md-6  d-none">
+          <div class="card mb-3 class-card class-color-{{ id }}">
+            <div class="card-body">
+              <div class="form-check">
+                <input class="form-check-input" checked hidden type="checkbox" name="class_ids[]" value="{{ id }}">
+              </div>
+            </div>
+          </div>
+        </div>
+        @endeach
 
       <button type="submit" class="btn btn-primary">Créer le groupe</button>
     </form>

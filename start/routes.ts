@@ -19,7 +19,9 @@ Route.group(() => {
   Route.get('/manage_groups', 'GroupsController.index').as('superadmin.manage_groups')
   Route.get('/create_group', 'GroupsController.create').as('superadmin.create_group')
   // route pour récuperer la classe selectionner
-  Route.get('/groups/create/:id', 'GroupsController.view').as('superadmin.create_group_view')
+ // Route.get('/groups/create/:id', 'GroupsController.view').as('superadmin.create_group_view')
+ Route.get('/create-group-view', 'GroupsController.view').as('superadmin.create_group_view');
+
 
   Route.post('/groups', 'GroupsController.store_group').as('superadmin.groups.store')
   // create classe
