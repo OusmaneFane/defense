@@ -39,12 +39,12 @@ export default class GroupsController {
   public async view({ view, request }: HttpContextContract) {
     // Récupère les ids des classes sélectionnées
     const classIds = request.input('class_ids', [])
-    console.log(classIds)
+
     // Charge les classes correspondantes
     const classes = await Classe.query().whereIn('id', classIds).exec()
 
     // Récupérer les étudiants des classes sélectionnées
-    const etudiants = await Student.query().whereIn('class_id', classIds).exec()
+    const etudiants = await Student.query().whereIn('class_id', classIds).preload('classe').exec()
 
     // Récupérer tous les superviseurs
     const superviseurs = await User.query().where('role', 'supervisor').exec()
@@ -58,7 +58,7 @@ export default class GroupsController {
       // Récupérer les données du formulaire
       const { name, supervisor, studentIds, class_ids  } = request.all()
       const classIds = request.input('class_ids', [])
-      console.log(request.all())
+
       // Créer un nouveau groupe
       const group = new Group()
       group.name = name

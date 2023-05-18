@@ -14,7 +14,7 @@
       </div>
 
       <div class="form-group">
-        <label for="supervisor">Encadrant</label>
+        <label for="supervisor">Encadrant:</label>
         <select name="supervisor" id="supervisor" class="form-control" required>
           <option value="" selected>Choisir l'encadrant</option>
           @each (superviseur in superviseurs)
@@ -24,12 +24,25 @@
       </div>
 
       <div class="form-group">
-        <label for="students">Étudiants</label>
-        <select name="studentIds[]" id="students" class="form-control" multiple required>
+        <label for="students">Selectionner les  Étudiants:</label>
+        {{--  <select name="studentIds[]" id="students" class="form-control" multiple required>
           @each (etudiant in etudiants)
             <option value="{{ etudiant.id }}">{{ etudiant.name }}</option>
           @endeach
-        </select>
+        </select>  --}}
+        <div class="row">
+        @each (etudiant in etudiants)
+        <div class="col-md-3">
+          <div class="card mb-3 class-card class-color-{{ etudiant.class_id }}">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="studentIds[]" value="{{ etudiant.id }}">
+                <label class="form-check-label">{{ etudiant.name }} ({{ etudiant.classe.name }})</label>
+               </div>
+          </div>
+
+      </div>
+        @endeach
+        </div>
       </div>
       @each(id in classIds)
         <div class="col-md-6  d-none">
