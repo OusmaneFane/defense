@@ -4,6 +4,7 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', 'LoginController.index').as('login');
 Route.post('/login', 'LoginController.check').as('CheckLogin');
+Route.get('/logout', 'LoginController.logout').as('logout');
 
 
 Route.group(() => {

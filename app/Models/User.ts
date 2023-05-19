@@ -1,6 +1,7 @@
 // Importation des modules nécessaires
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import Student from './Student'
 
 // Définition de la classe User
 export default class User extends BaseModel {
@@ -18,6 +19,9 @@ export default class User extends BaseModel {
 
   @column()
   public role: string
+
+  @belongsTo(() => Student)
+  public student: BelongsTo<typeof Student>;
 
 
   @column()

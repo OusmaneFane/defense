@@ -2,11 +2,38 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Student from 'App/Models/Student'
 import Classe from 'App/Models/Classe'
 import User from 'App/Models/User'
+import Database from '@ioc:Adonis/Lucid/Database'
 export default class StudentsController {
 
   public async dashboard({view, auth}: HttpContextContract){
     await auth.use('web').authenticate()
-    return view.render('student.dashboard')
+
+    // recupérer l'étudiant connecté
+    const student = await Student.findByOrFail('email', auth.user?.email)
+    const group = await Database.from('group_student').where('student_id', student.id).first()
+
+      // recuperer les membres du groupe
+      const members = await Database.from('group_student')
+      .join('students', 'group_student.student_id', 'students.id')
+
+      .where('group_id', group.group_id)
+      .select('*')
+
+      // recuperer l'encadrant du groupe avec la jointure de la table groups
+      const supervisor = await Database.from('groups')
+      .join('group_student', 'groups.id', 'group_student.group_id')
+      .where('group_id', group.group_id)
+      .select('*')
+      console.log('Supervisor: ', supervisor)
+
+
+      const classes = await Classe.all()
+     // console.log('Membres: ', members)
+
+
+
+
+    return view.render('student.dashboard', {student: student, group: group, members: members, classes: classes, supervisor: supervisor})
   }
 
 

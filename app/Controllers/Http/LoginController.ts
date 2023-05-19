@@ -1,7 +1,9 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User';
 import Hash from '@ioc:Adonis/Core/Hash'
-
+import Student from 'App/Models/Student';
+import Group from 'App/Models/Group';
+import Database from '@ioc:Adonis/Lucid/Database';
 
 export default class LoginController {
 
@@ -27,11 +29,22 @@ public async check({ request, auth, response, session }) {
       return response.redirect().back()
     }
 
-
-
     if (user.role === 'student') {
+      // Récupérer l'étudiant dans la table users
+      const student = await Student.findBy('id', user.id)
+      // récuperer l'étudiant dans la table students
 
-      return response.redirect().toRoute('student.dashboard');
+      // recuperer l'id de l'étudiant
+      //console.log('Id de letudiant: ', student.id)
+
+      // récuperer le groupe de l'étudiant à partier de la table group_student
+      const group = await Database.from('group_student').where('student_id', student.id).first()
+
+      // recuperer les membres du groupe
+      const members = await Database.from('group_student').where('group_id', group.group_id).exec()
+      //console.log('Membres: ', members.length)
+
+      return response.redirect().toRoute('student.dashboard', { student,  group, members })
     } else if (user.role === 'supervisor') {
 
       return response.redirect().toRoute('supervisor.dashboard');
@@ -39,6 +52,14 @@ public async check({ request, auth, response, session }) {
 
       return response.redirect().toRoute('superadmin.dashboard');
     }
+
+
+
+}
+
+public async logout({ auth, response }) {
+  await auth.logout()
+  return response.redirect().toRoute('login');
 
 }
 

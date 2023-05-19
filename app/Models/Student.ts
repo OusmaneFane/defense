@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, belongsTo, BelongsTo, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm'
 import Group from './Group'
 import Classe from './Classe'
+import User from './User'
 export default class Student extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -18,8 +19,7 @@ export default class Student extends BaseModel {
     this.class_id = classId;
     await this.save();
   }
-  @belongsTo(() => Group)
-  public group: BelongsTo<typeof Group>
+
 
   @belongsTo(() => Classe, {
     foreignKey: 'class_id',

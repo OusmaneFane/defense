@@ -1,5 +1,66 @@
 @layout('layouts.base')
 
 @section('content')
+  <div>
+    <h1>Dashboard de l'étudiant</h1>
+    <p>Bienvenue sur votre dashboard, {{ student.name }}.</p>
 
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card mb-4">
+          <div class="card-body">
+            {{-- Afficher les membres du groupe --}}
+            <h2>Membres du groupe</h2>
+            <ul class="list-group">
+              @each (memb in members)
+                <li class="list-group-item">
+                  {{ memb.name }}
+                  @if (memb.id == student.id)
+                    (vous)
+                  @endif
+                  {{-- Afficher la classe du membre --}}
+                  @each(classe in classes)
+                    @if (classe.id == memb.class_id)
+                      <span class="badge badge-info ml-2">{{ classe.name }}</span>
+                    @endif
+                  @endeach
+                </li>
+              @endeach
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            {{-- Afficher le minichat (discussion) --}}
+            <h2>Minichat</h2>
+            <div class="chat-container">
+              {{-- Afficher les messages du minichat --}}
+              @each (message in messages)
+                <div class="message">
+                  <div class="message-sender">{{ message.sender }}</div>
+                  <div class="message-content">{{ message.content }}</div>
+                </div>
+              @endeach
+            </div>
+          </div>
+
+          <div class="card-footer">
+            {{-- Formulaire d'envoi de messages --}}
+            <form method="POST" action="" class="message-form">
+
+              <div class="input-group">
+                <input type="text" name="message" id="message" class="form-control" required>
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-primary">Envoyer</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
