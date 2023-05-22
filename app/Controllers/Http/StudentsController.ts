@@ -2,6 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Student from 'App/Models/Student'
 import Classe from 'App/Models/Classe'
 import User from 'App/Models/User'
+import Group from 'App/Models/Group'
 import Database from '@ioc:Adonis/Lucid/Database'
 export default class StudentsController {
 
@@ -24,7 +25,14 @@ export default class StudentsController {
       .join('group_student', 'groups.id', 'group_student.group_id')
       .where('group_id', group.group_id)
       .select('*')
-      console.log('Supervisor: ', supervisor)
+
+
+      const group2 = await Group.query().where('id', group.group_id).preload('supervisor').firstOrFail()
+    const supervisor2 = group2.supervisor_id
+  //  console.log('Supervisor2: ', supervisor2)
+    // recuperer l'encadrant du groupe avec la jointure de la table users
+    const supervisor3 = await User.query().where('id', supervisor2).firstOrFail()
+    //console.log('Supervisor3: ', supervisor3)
 
 
       const classes = await Classe.all()
@@ -33,7 +41,7 @@ export default class StudentsController {
 
 
 
-    return view.render('student.dashboard', {student: student, group: group, members: members, classes: classes, supervisor: supervisor})
+    return view.render('student.dashboard', {student: student, group: group, members: members, classes: classes, supervisor: supervisor, supervisor3: supervisor3})
   }
 
 
