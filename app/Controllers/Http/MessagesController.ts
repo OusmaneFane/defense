@@ -14,8 +14,9 @@ export default class MessagesController {
     message.content = content
     message.sender_id = user.id // Utilisez l'ID de l'utilisateur connecté comme senderId
     message.groupId = groupId // Définissez l'ID du groupe auquel le message est destiné
-    console.log('Message: ', message)
+   // console.log('Message: ', message)
     await message.save() // Enregistrez le message dans la base de données
+
 
     return response.redirect().back()
 

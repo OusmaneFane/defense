@@ -35,17 +35,17 @@ export default class StudentsController {
     const supervisor3 = await User.query().where('id', supervisor2).firstOrFail()
     //console.log('Supervisor3: ', supervisor3)
 
+      const users = await User.all()
 
       const classes = await Classe.all()
      // console.log('Membres: ', members)
 
      // recuperer tous les messages par le dernier message au premier
-     const messages = await Message.all()
-
+      const messages = await Message.query().where('group_id', group.group_id).orderBy('id', 'asc')
      // recuperer le nom de l'utilisateur connecté
       const username = await User.findByOrFail('email', auth.user?.email)
 
-    return view.render('student.dashboard', {student: student, group: group, members: members, classes: classes, supervisor: supervisor, supervisor3: supervisor3, messages: messages, username: username.name})
+    return view.render('student.dashboard', {student: student, group: group, members: members, classes: classes, supervisor: supervisor, supervisor3: supervisor3, messages: messages, username: username.name, users: users})
   }
 
 
