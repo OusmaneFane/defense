@@ -1,3 +1,4 @@
+import  Message  from 'App/Models/Message';
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Student from 'App/Models/Student'
 import Classe from 'App/Models/Classe'
@@ -38,10 +39,13 @@ export default class StudentsController {
       const classes = await Classe.all()
      // console.log('Membres: ', members)
 
+     // recuperer tous les messages par le dernier message au premier
+     const messages = await Message.all()
 
+     // recuperer le nom de l'utilisateur connecté
+      const username = await User.findByOrFail('email', auth.user?.email)
 
-
-    return view.render('student.dashboard', {student: student, group: group, members: members, classes: classes, supervisor: supervisor, supervisor3: supervisor3})
+    return view.render('student.dashboard', {student: student, group: group, members: members, classes: classes, supervisor: supervisor, supervisor3: supervisor3, messages: messages, username: username.name})
   }
 
 

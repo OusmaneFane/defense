@@ -36,6 +36,9 @@ Route.group(() => {
   Route.get('/student/assignClass/:id', 'StudentsController.showAssignClassForm').as('student.assignClassForm');
   Route.post('student/assign/:classId', 'StudentsController.assignToClass').as('student.assignToClass');
 
+  // route pour les messages
+  Route.post('/messages', 'MessagesController.store').as('messages.store')
+
 
 }).middleware('auth')
 
