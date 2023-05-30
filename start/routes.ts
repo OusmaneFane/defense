@@ -2,6 +2,7 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 
+
 Route.get('/', 'LoginController.index').as('login');
 Route.post('/login', 'LoginController.check').as('CheckLogin');
 Route.get('/logout', 'LoginController.logout').as('logout');
@@ -38,6 +39,18 @@ Route.group(() => {
 
   // route pour les messages
   Route.post('/messages', 'MessagesController.store').as('messages.store')
+  // uploads files
+  Route.post('/upload', 'DocumentsController.store').as('uploads.store')
+// route pour les documents
+  Route.get('/documents', 'AdminsController.document_index').as('manage_documents')
+  // route pour telecharger les documents
+  Route.get('uploads/:filename', async ({ response, params }) => {
+    const filePath = `uploads/${params.filename}`
+    return response.download(Helpers.publicPath(filePath))
+  }).as('file.download')
+
+  // start/routes.js
+//Route.get('uploads/:filename', 'FilesController.download').as('file.download')
 
 
 }).middleware('auth')

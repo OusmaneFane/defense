@@ -1,6 +1,14 @@
 @if(flashMessages.has('success'))
     <div class="alert alert-success">
-        {{ flashMessages.get('success') }}
+        <script>
+            Swal.fire({
+      icon: 'success',
+      title: 'Succès',
+      text: 'Message envoyé avec succès',
+      showConfirmButton: false,
+      timer: 3000
+    })
+        </script>
     </div>
 @endif
 

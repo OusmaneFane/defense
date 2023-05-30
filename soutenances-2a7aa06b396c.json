@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "soutenances",
+  "private_key_id": "2a7aa06b396c912871c712899753ad0eca66c023",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCDGJTXA5aKWcpK\nUgvmJX2NZ7KLHssCYD05Xb6xWhOXPx6NrN0b1FLz3QUC/yyjGZcJIx0HJ4YkAPkP\nNq9v+dckHaq6DpL8UJc0dnWYvvRdan8+H5zpvryywb52jnFO58RXNmmvgSm7ZMWx\n7O23ZFXy7FxdkyY6e4MckRFdKQeHlbwOViRjBREVwOP8Uu9YX2IVyuKLYW5zgyB6\nnhmn105ZyzNoG6JCXHPPpq9pR0v1KcGBfRkdcsjtpb1bYs/wI191krSSP94aZYws\nXq67pJgB0YBqZwVBQ1Bz9CllIUivgq5ShFE06nJ7WbcIjvmu/XuA78kjmQAX1Avv\nz7JErGZZAgMBAAECggEAA15d+PVwndKK5N1kd5qvLuxDI8QU4YcN1XhXAuMmkuOO\nTBIQihtVlR//GVUypxMI5sNmP6L0HInJFXl3kFLKRLVIVijBi98vDM+W/30M4JsU\nUVdtq92f/IJ5JnchY4PrRL02up8kWS+7WxXin/rMPyZXvgl7MhPnlKlPS5vI4DgU\ncCm8GoHbfEW4/kFRJYRTkl/3pp9Sj8m3tu++c3mYj77IlOfNQMSdYftO+qa+sKbv\nwb6r1K2Ar/1tr1jot38HPDEqVc22eLNEuM/Hun3csE8d1O893NyDs9cXISonv9Ah\ny79Fw7pXq4YUZZlbrl8azC6kNsAjtwyY0d2bvu9HJQKBgQC44Cz2ZBl0MLXydquZ\nL17RLkRn2RvgsTLN8Gg/Mhp9nT8MweQ1Ga/F0ozIwGbrwZT7pM7XEIZIawROm4uI\nZOJYnnvv14Fus1vxWsE1YKCnJZE7fJXKUIH3MkaL4+YYHFEusjZJ4gkAflhTGI4a\nOntjb2UowY0IG0Vx/Jvyh8N41QKBgQC1h9DcG0cCehWbif1Zwf+NQUSpIdjvcUFE\np0TKB6uj8gJQsgHO3HED/XGWMsjjVNUYDNA0j5T9lCiAkti+Uj15XA0KHOJlW3b1\na89p72l14NqUEAxAfG4+uwxjtDkleWGaiNqzgfj8PxyN5X4NyhnGzCR/+B86ttbw\nXDSuoBP5dQKBgQC123b/LDpJrDzedFOaTRm1JREPImck4Mn8AHdbatraI9tInlXw\n0gKw0svAEltrn7IA0/7PWabuB69l7+YS1kI9MDD0HgZpMa/IvCCAdDu0D+VMIeJq\n8ETYODFjHFxT7U8CYzW5+conHSGfI/Fs5YhIqORWcgZcKg9m8DkrGtdyvQKBgDaN\nlT/AVsuwwrOWeXOy8EiT971YNahngbTPC8YnHfbL8NQtWou/BZusW6lGo8ZlpRBw\nMVXKXH0EPFO/TbGMZ3sEJcsHOSY6oXpJpvBwCWJqa2WZmQT8H+lsLuH7tDzFyIY3\nYHoXsiqkEMG32PTt6mcqzEFE4KW1csyS+SYNZ1NNAoGAQfAuVLEEu2Wu3FzykdUY\nkVtZt/4TREQrzoc71OIWUeQPUkgK8DxVl4SZx1GHSnLhvBvQbN8iXuNM3qrYmAiC\nv8CoBAgQnZMJn+TtY6OnReH/JP5lq4/xapq5prSQvTS6zUECoYmQxhyxUN77ssaA\ni2yZBGXyywcVIOVxV/jzvw8=\n-----END PRIVATE KEY-----\n",
+  "client_email": "soutenance-app@soutenances.iam.gserviceaccount.com",
+  "client_id": "117725926438351925878",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/soutenance-app%40soutenances.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

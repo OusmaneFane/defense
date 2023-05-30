@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import Document from './Document'
 
 export default class Message extends BaseModel {
   @column({ isPrimary: true })
@@ -14,6 +15,14 @@ export default class Message extends BaseModel {
 
   @column()
   public content: string
+
+  @column()
+  public document_id: number
+
+  @belongsTo(() => Document,{
+    foreignKey: 'document_id'
+  })
+  public document: BelongsTo<typeof Document>
 
   @column.dateTime({ autoCreate: true })
   public created_at: DateTime

@@ -1,9 +1,12 @@
+
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
 import Role from 'App/Models/Role'
 import Hash from '@ioc:Adonis/Core/Hash'
 import Student from 'App/Models/Student'
 import Group from 'App/Models/Group'
+import Document from 'App/Models/Document'
+
 
 export default class AdminsController {
 
@@ -72,6 +75,15 @@ const password = user.password.split('$')[2]
 
     return response.redirect().toRoute('superadmin.manage_users');
   }
+
+  public async document_index({ view }: HttpContextContract) {
+
+    const documents = await Document.all()
+
+    return view.render('super_admin.documents.index', { documents: documents })
+
+  }
+
 
 
 

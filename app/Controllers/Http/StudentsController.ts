@@ -5,6 +5,7 @@ import Classe from 'App/Models/Classe'
 import User from 'App/Models/User'
 import Group from 'App/Models/Group'
 import Database from '@ioc:Adonis/Lucid/Database'
+import Document from 'App/Models/Document';
 export default class StudentsController {
 
   public async dashboard({view, auth}: HttpContextContract){
@@ -17,7 +18,6 @@ export default class StudentsController {
       // recuperer les membres du groupe
       const members = await Database.from('group_student')
       .join('students', 'group_student.student_id', 'students.id')
-
       .where('group_id', group.group_id)
       .select('*')
 
@@ -27,25 +27,32 @@ export default class StudentsController {
       .where('group_id', group.group_id)
       .select('*')
 
-
       const group2 = await Group.query().where('id', group.group_id).preload('supervisor').firstOrFail()
     const supervisor2 = group2.supervisor_id
-  //  console.log('Supervisor2: ', supervisor2)
+
     // recuperer l'encadrant du groupe avec la jointure de la table users
     const supervisor3 = await User.query().where('id', supervisor2).firstOrFail()
     //console.log('Supervisor3: ', supervisor3)
 
       const users = await User.all()
+      const infoGroup = await Group.query().where('id', group.group_id).firstOrFail()
 
       const classes = await Classe.all()
      // console.log('Membres: ', members)
 
      // recuperer tous les messages par le dernier message au premier
-      const messages = await Message.query().where('group_id', group.group_id).orderBy('id', 'asc')
+     const messages = await Message.query()
+     .where('group_id', group.group_id)
+     .preload('document') // Charger la relation "document"
+     .orderBy('id', 'asc')
+     .exec()
+
      // recuperer le nom de l'utilisateur connecté
       const username = await User.findByOrFail('email', auth.user?.email)
 
-    return view.render('student.dashboard', {student: student, group: group, members: members, classes: classes, supervisor: supervisor, supervisor3: supervisor3, messages: messages, username: username.name, users: users})
+      const documents = await Document.query().where('group_id', group.group_id)
+
+    return view.render('student.dashboard', {student: student, group: group, members: members, classes: classes, supervisor: supervisor, supervisor3: supervisor3, messages: messages, username: username.name, users: users, infoGroup: infoGroup, documents: documents})
   }
 
 
