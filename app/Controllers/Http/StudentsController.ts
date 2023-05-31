@@ -18,7 +18,7 @@ export default class StudentsController {
       // recuperer les membres du groupe
       const members = await Database.from('group_student')
       .join('students', 'group_student.student_id', 'students.id')
-      .where('group_id', group.group_id)
+      .where('group_student.group_id', group.group_id)
       .select('*')
 
       // recuperer l'encadrant du groupe avec la jointure de la table groups

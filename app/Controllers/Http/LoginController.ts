@@ -31,14 +31,17 @@ public async check({ request, auth, response, session }) {
 
     if (user.role === 'student') {
       // Récupérer l'étudiant dans la table users
-      const student = await Student.findBy('id', user.id)
+      console.log('user_id: ', user.id)
+      const student = await Student.findBy('user_id', user.id)
+      console.log('Etudiant: ', student)
       // récuperer l'étudiant dans la table students
 
       // recuperer l'id de l'étudiant
       //console.log('Id de letudiant: ', student.id)
 
-      // récuperer le groupe de l'étudiant à partier de la table group_student
-      const group = await Database.from('group_student').where('student_id', student.id).first()
+      // récuperer le groupe de l'étudiant à partir de la table group_student
+     const group = await Database.from('group_student').where('student_id', student.id).first()
+
 
       // recuperer les membres du groupe
       const members = await Database.from('group_student').where('group_id', group.group_id).exec()

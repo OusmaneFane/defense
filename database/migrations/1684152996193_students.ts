@@ -9,14 +9,8 @@ export default class extends BaseSchema {
       table.string('name', 255).notNullable();
       table.string('email', 150).notNullable();
       table.integer('class_id').unsigned().references('id').inTable('classes');
-      // Copier les données des étudiants existants de la table "users" vers la table "students"
-      this.schema.raw(`
-        INSERT INTO ${this.tableName} (name, email)
-        SELECT name, email
-        FROM users
-        WHERE role = 'student'
-      `);
-
+      table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
+      table.integer('group_id').unsigned().references('id').inTable('groups').onDelete('CASCADE');
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })
@@ -26,5 +20,6 @@ export default class extends BaseSchema {
     this.schema.dropTable(this.tableName)
   }
 }
+
 
 

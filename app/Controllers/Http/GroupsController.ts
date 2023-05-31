@@ -14,7 +14,10 @@ export default class GroupsController {
 
   public async create({view}: HttpContextContract){
 
+
     const etudiants = await User.query().where('role', 'student').exec()
+    // recuperer les étudiants qui ne sont pas encore dans un groupe
+   // const etudiants = await Student.query().whereNull('group_id').preload('classe').exec()
     const superviseurs = await User.query().where('role', 'supervisor').exec()
 
     const classes = await Classe.all()
@@ -44,7 +47,10 @@ export default class GroupsController {
     const classes = await Classe.query().whereIn('id', classIds).exec()
 
     // Récupérer les étudiants des classes sélectionnées
-    const etudiants = await Student.query().whereIn('class_id', classIds).preload('classe').exec()
+    const etudiants = await Student.query()
+    .whereIn('class_id', classIds)
+    .whereNull('group_id')
+    .preload('classe').exec()
 
     // Récupérer tous les superviseurs
     const superviseurs = await User.query().where('role', 'supervisor').exec()
@@ -57,7 +63,9 @@ export default class GroupsController {
     try {
       // Récupérer les données du formulaire
       const { name, supervisor, studentIds, class_ids  } = request.all()
+      console.log('StudentIDS', studentIds)
       const classIds = request.input('class_ids', [])
+
 
       // Créer un nouveau groupe
       const group = new Group()
@@ -66,6 +74,13 @@ export default class GroupsController {
 
       // Sauvegarder le groupe en base de données
       await group.save()
+      // recuperer l'id du groupe et le mettre dans la table students
+      const groupId = group.id
+      console.log('GroupID', groupId)
+      // assigner l'id du groupe aux étudiants
+      await Student.query().whereIn('id', studentIds).update({ group_id: groupId })
+
+
 
       // Attacher les étudiants au groupe
       await group.related('students').attach(studentIds)

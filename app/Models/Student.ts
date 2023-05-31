@@ -13,6 +13,10 @@ export default class Student extends BaseModel {
   public email: string
   @column()
   public class_id: number
+  @column()
+  public group_id: number
+  @column()
+  public user_id: number
 
   // Méthode pour assigner l'étudiant à une classe
   public async assignToClass(classId: number) {
@@ -25,6 +29,12 @@ export default class Student extends BaseModel {
     foreignKey: 'class_id',
   })
   public classe: BelongsTo<typeof Classe>
+
+
+  @belongsTo(() => Group, {
+    foreignKey: 'group_id',
+  })
+  public group: BelongsTo<typeof Group>
 
   @manyToMany(() => Group, {
     pivotTable: 'group_student',

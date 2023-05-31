@@ -46,6 +46,7 @@ export default class AdminsController {
     const student = new Student()
     student.name = name
     student.email = email
+    student.user_id = user.id
     await student.save()
 
     session.flash({ success: 'L\'employé a été ajouté avec succès !' })
