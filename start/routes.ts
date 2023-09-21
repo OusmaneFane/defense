@@ -11,6 +11,8 @@ Route.get('/logout', 'LoginController.logout').as('logout');
 Route.group(() => {
   Route.get('/dashboard', 'AdminsController.dashboard').as('superadmin.dashboard');
   Route.get('/student_dashboard', 'StudentsController.dashboard').as('student.dashboard');
+  Route.get('/upload-files', 'StudentsController.upload').as('student.upload_file');
+
   Route.get('/supervisor_dashboard', 'SupervisorsController.dashboard').as('supervisor.dashboard');
 
   Route.get('/manage_users', 'AdminsController.manage_users').as('superadmin.manage_users')

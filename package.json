@@ -34,6 +34,7 @@
     "@adonisjs/websocket": "^1.0.12",
     "adonis-datatable": "^1.0.1",
     "adonis-pusher": "^1.0.4",
+    "axios": "^1.5.0",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "googleapis": "^118.0.0",

@@ -1,0 +1,77 @@
+@layout('layouts.base')
+
+@section('content')
+<section class="p-t-20">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-12">
+            @!component('components/flash')
+              <h3 class="title-5 m-b-35">Déposer un document</h3>
+              <div class="table-data__tool">
+
+                  <div class="table-data__tool-right">
+
+                          {{--  <a href="{{ route('superadmin.create_classe') }}" class="au-btn au-btn-icon au-btn--blue au-btn--small">
+                          <i class="zmdi zmdi-plus"></i>Nouvelle classe</a>  --}}
+                          <input type="file" class="form-label" name="file">
+                          <button class="btn btn-primary" type="submit">Envoyer</button>
+                  </div>
+              </div>
+              <div class="table-responsive table-responsive-data2">
+                <h3 class="title-5 m-b-35">Gérer les Documents</h3>
+                  <table class="table table-data2">
+                      <thead>
+                          <tr>
+                              <th>
+                                  <label class="au-checkbox">
+                                      <input type="checkbox">
+                                      <span class="au-checkmark"></span>
+                                  </label>
+                              </th>
+                              <th>Nom du document</th>
+                              <th>Description</th>
+                              <th>Date du dépôt</th>
+                              <th>Action</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        @each(classe in classes)
+                          <tr class="tr-shadow">
+                              <td>
+                                  <label class="au-checkbox">
+                                      <input type="checkbox">
+                                      <span class="au-checkmark"></span>
+                                  </label>
+                              </td>
+                              <td>{{ classe.name }}</td>
+                              <td>
+                                  <span class="block-email">{{ classe.description }}</span>
+                              </td>
+
+                              <td>
+                                  <div class="table-data-feature">
+                                      <a href="{{ route('student.assignClassForm', { id: classe.id }) }}" class="item" data-toggle="tooltip" data-placement="top" title="Ajouter des étudiants">
+                                          <i class="zmdi zmdi-mail-send"></i>
+                                      </a>
+                                      <a href="{{ route('classe.edit', { id: classe.id }) }}" class="item" data-toggle="tooltip" data-placement="top" title="Modifier">
+                                          <i class="zmdi zmdi-edit"></i>
+                                      </a>
+                                      <button class="item" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                                          <i class="zmdi zmdi-delete"></i>
+                                      </button>
+                                      <button class="item" data-toggle="tooltip" data-placement="top" title="plus">
+                                          <i class="zmdi zmdi-more"></i>
+                                      </button>
+                                  </div>
+                              </td>
+                              <tr class="spacer"></tr>
+                          </tr>
+                         @endeach
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+@endsection

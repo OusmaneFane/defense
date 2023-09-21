@@ -90,4 +90,9 @@ export default class StudentsController {
     // Redirection vers une autre page ou affichage d'un message de succès
     return response.redirect().toRoute('superadmin.manage_classe');
   }
+  public async upload({ view, auth }: HttpContextContract) {
+    await auth.use('web').authenticate()
+
+    return view.render('student.upload')
+  }
 }

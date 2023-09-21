@@ -6,12 +6,26 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import Student from 'App/Models/Student'
 import Group from 'App/Models/Group'
 import Document from 'App/Models/Document'
+const ExternalApiService = require('../../Services/ExternalApiService');
+const apiBaseUrl = 'https://api-staging.supmanagement.ml'; // Remplacez par l'URL de l'API externe
+const token = '0000-8432-3244-0923';
 
 
 export default class AdminsController {
 
   public async dashboard({ view, auth }: HttpContextContract) {
     await auth.use('web').authenticate()
+    const externalApiService = new ExternalApiService(apiBaseUrl, token);
+
+
+    try {
+      const students = await externalApiService.getAllStudents();
+      console.log(students);
+
+    }catch (error) {
+      console.log(error);
+    }
+
 
     return view.render('super_admin.dashboard')
   }

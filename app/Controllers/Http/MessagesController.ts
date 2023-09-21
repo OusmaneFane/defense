@@ -5,6 +5,7 @@ import { google } from 'googleapis'
 import fs from 'fs'
 const path = require('path')
 const mime = require('mime')
+import Ws from 'App/Services/Ws'
 
 
 // Function to upload a file to Google Drive
@@ -47,14 +48,27 @@ export default class MessagesController {
 
     const groupId = request.input('group_id')
     const content = request.input('content')
-
+    const file = request.file('file')
+    console.log(file)
     const message = new Message()
-    message.content = content
+    if(!content){
+      message.content = file.clientName
+    }else{
+      message.content = content
+    }
+
     message.sender_id = user.id
     message.groupId = groupId
     await message.save()
 
-    const file = request.file('file')
+
+
+    //verifier si file est nul
+
+      // if(!file){
+      //   session.flash({ success: 'Message enregistré avec succès' });
+      //   Ws.io.emit('new:message:*', "New message")
+
 
     if (file) {
       const fileName = file.clientName
@@ -67,11 +81,11 @@ export default class MessagesController {
       const document = new Document()
       document.user_id = user.id
       document.group_id = groupId
-      document.fileName = fileName
-      document.filePath = filePath
-      document.fileType = mimeType
-      document.fileSize = fileSize
-      document.fileExtension = fileExtension
+      document.file_name = fileName
+      document.file_path = filePath
+      document.file_type = mimeType
+      document.file_size = fileSize
+      document.file_extension = fileExtension
       await document.save()
 
       // Associer l'ID du document au message
@@ -93,10 +107,12 @@ export default class MessagesController {
       session.flash({ success: 'Courrier enregistré avec succès' });
     }
 
+    Ws.io.emit('new:message:*', "New message")
     return response.redirect().back();
 
 
   }
+
 
 
 }

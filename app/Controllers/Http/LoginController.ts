@@ -31,9 +31,9 @@ public async check({ request, auth, response, session }) {
 
     if (user.role === 'student') {
       // Récupérer l'étudiant dans la table users
-      console.log('user_id: ', user.id)
+      // console.log('user_id: ', user.id)
       const student = await Student.findBy('user_id', user.id)
-      console.log('Etudiant: ', student)
+      // console.log('Etudiant: ', student)
       // récuperer l'étudiant dans la table students
 
       // recuperer l'id de l'étudiant
