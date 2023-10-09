@@ -6,6 +6,38 @@ import User from 'App/Models/User'
 import Group from 'App/Models/Group'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Document from 'App/Models/Document';
+import { google } from 'googleapis'
+const path = require('path');
+const mime = require('mime');
+import fs from 'fs';
+
+async function uploadFileToDrive(auth, filePath, folderId, mimeType) {
+  const drive = google.drive({ version: 'v3', auth });
+
+  const fileName = path.basename(filePath);
+
+  const media = {
+    mimeType: "application/"+mimeType,
+    body: fs.createReadStream(filePath),
+  };
+
+  const fileMetadata = {
+    name: fileName,
+    parents: [folderId],
+  };
+
+  try {
+    const response = await drive.files.create({
+      resource: fileMetadata,
+      media: media,
+      fields: 'id',
+    });
+
+    console.log('File uploaded. File ID:', response.data.id);
+  } catch (error) {
+    console.error('Error uploading file:', error.message);
+  }
+}
 export default class StudentsController {
 
   public async dashboard({view, auth}: HttpContextContract){
@@ -95,4 +127,28 @@ export default class StudentsController {
 
     return view.render('student.upload')
   }
-}
+  public async upload_file({ view, auth }: HttpContextContract) {
+
+    const credentials = require('../../../memoires-388217-ff7fa116af5e.json');
+    // Create an OAuth2 client using the service account credentials
+
+    const auth = new google.auth.GoogleAuth({
+
+      credentials,
+
+      scopes: ['https://www.googleapis.com/auth/drive'],
+
+    });
+
+
+    // Upload the file to Google Drive
+    uploadFileToDrive(auth, file?.filePath, "1mtU6gyJzHY_WG37Hi4XugA4nLuQxJA-w", file?.extname as string)
+    // afficher un message de succes avec sweetalert2
+
+    if (courrier) {
+      session.flash({ success: 'Courrier enregistré avec succès' })
+    }
+
+  }
+
+  }
