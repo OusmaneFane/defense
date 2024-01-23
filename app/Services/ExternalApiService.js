@@ -10,57 +10,30 @@ class ExternalApiService {
 
   }
 
-  async createCourrier(courrierData) {
-    console.log("******************************** ----------------------- *********************************************************");
-    const endpoint = '/courriers/new';
-    const url = `${this.apiBaseUrl}${endpoint}`;
-
-    console.log('URL', url);
-    const headers = {
-      'Authorization': `Bearer ${this.token}`,
-    };
-    console.log('COURRIERS DATAS ', courrierData)
-    try {
-      const response = await axios.post(url, courrierData,{ headers: {
-        'Authorization': `Bearer ${this.token}`
-      } }, );
-      return response.data;
-    } catch (error) {
-      console.log(error)
-      throw new Error('Erreur lors de la création du courrier.');
-    }
+async getAllClasses(schoolYear) {
+  if (!this.token) {
+    throw new Error('Le token d\'accès est manquant. Veuillez vous authentifier d\'abord.');
   }
 
-  async updateCourrierById(courrierId, courrierData) {
-    const endpoint = `/courriers/${courrierId}`;
-    const url = `${this.apiBaseUrl}${endpoint}`;
-    const headers = {
-   //   'Authorization': `Basic ${Buffer.from(`${this.username}:${this.password}`).toString('base64')}`,
-      'x-access-token': this.token,
-    };
+  const endpoint = '/classes/all';
+  const url = `${this.apiBaseUrl}${endpoint}`;
+  const headers = {
+    'Authorization': `Bearer ${this.token}`,
+  };
 
-    try {
-      const response = await axios.patch(url, courrierData, { headers });
-      return response.data;
-    } catch (error) {
-      throw new Error('Erreur lors de la mise à jour du courrier.');
-    }
+  // Ajouter le paramètre school_year à la requête
+  const params = { school_year: schoolYear };
+
+  try {
+    const response = await axios.get(url, { headers, params });
+    console.log(response.data)
+    return response.data;
+    
+  } catch (error) {
+    throw new Error('Erreur lors de la récupération des classes.');
   }
+}
 
-  async deleteCourrierById(courrierId) {
-    const endpoint = `/courriers/${courrierId}`;
-    const url = `${this.apiBaseUrl}${endpoint}`;
-    const headers = {
-      // 'Authorization': `Basic ${Buffer.from(`${this.username}:${this.password}`).toString('base64')}`,
-      'x-access-token': this.token,
-    };
-
-    try {
-      await axios.delete(url, { headers });
-    } catch (error) {
-      throw new Error('Erreur lors de la suppression du courrier.');
-    }
-  }
 
 
   async getCourrierById(courrierId) {

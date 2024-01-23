@@ -1,51 +1,67 @@
 @layout('layouts.base')
 
 @section('content')
- <!-- WELCOME-->
- <section class="welcome p-t-10">
-  <div class="container">
-      <div class="row">
-          <div class="col-md-12">
-              <h1 class="title-4">Modifier l'utilisateur: {{ auth.user.name }}
-              </h1>
-              <hr class="line-seprate">
-          </div>
-      </div>
-  </div>
-</section>
-<!-- END WELCOME-->
+<div class="card mb-3">
+            <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../assets/img/illustrations/corner-4.png);">
+            </div>
+            <!--/.bg-holder-->
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-8">
+                  <h3 class="mb-0">Modifier Utilisateur</h3>
+                  <p class="mt-2">Modifier les champs ci-dessous pour modifier les informations de l'Utilisateur</p><a class="btn btn-link pl-0 btn-sm" href="https://getbootstrap.com/docs/4.6/components/forms/" target="_blank"> {{ user.name }}<span class="fas fa-chevron-right ml-1 fs--2"></span></a>
+                </div>
+              </div>
+            </div>
+</div>
+<div class="card mb-3">
+            <div class="card-header">
+              <h5 class="mb-0">Ajouter un Utilisateur</h5>
+            </div>
+            <div class="card-body bg-light">
+              <div class="row">
+                <div class="col-12">
+                  <form action="{{ route('users.update', {id:user.id}) }}" method="POST">
+                    <div class="form-group">
+
+                      <label for="name">Nom</label>
+
+                      <input name="name" class="form-control" id="name" type="text" placeholder="Nom" value="{{ user.name }}">
+
+                    </div>
+                    
+                    <div class="form-group">
+
+                      <label for="email1">Email</label>
+
+                      <input name="email" class="form-control" id="email1" type="email" placeholder="Email" value="{{ user.email }}">
+
+                    </div>
+                    
+
+                    <div class="form-group">
+
+                      <label for="exampleFormControlSelect1">Type de compte</label>
+                        
+                      <select class="form-control" id="exampleFormControlSelect1" name="role">
+                        <option aria-checked="true">{{ user.role }}</option>
+                        @each(role in roles)
+                            <option value="{{ role.role_name }}">{{ role.role_name }}</option>
+                        @endeach
+                      </select>
+
+                    </div>
+                   
+                  <button class="btn btn-primary mb-3" type="submit">Modifier</button>
+
+                  </form>
+                </div>
+               
+              </div>
+            </div>
+</div>
 
 
-<form action="{{ route('users.update', {id:user.id}) }}" method="POST" >
-<div class="container-fluid">
-  <div class="row">
-      <div class="col-lg-12">
-
-      <div class="row">
-        <div class="col">
-          <input type="text" class="form-control" placeholder="Name" name="name" value="{{ user.name }}">
-        </div>
-        <div class="col">
-          <input type="text" class="form-control" placeholder="Email" name="email" value="{{ user.email }}">
-        </div>
-      </div><br>
-      <div class="row">
-        <div class="col">
-          <select class="form-control" id="department" name="role" value="{{ user.role }}">
-            <option value="">selectionner le type de compte</option>
-          @each(role in roles)
-            <option value="{{ role.role_name }}">{{ role.role_name }}</option>
-          @endeach
-          </select>
-        </div>
-        <div class="col">
-          <input type="password" class="form-control" placeholder="password" name="password" value="{{ user.password }}" >
-        </div>
-      </div><br>
-      <button type="submit" class="btn btn-primary text-align center">Modifier</button>
-      </div>
-      </div>
-  </div>
-</form>
 
 @endsection

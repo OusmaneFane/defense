@@ -1,28 +1,124 @@
 @layout('layouts.base')
 
 @section('content')
-<div class="row justify-content-center">
-  <div class="col-md-8">
-    <form action="{{ route('superadmin.create_group_view') }}" method="get">
-      <div class="row">
-        @each(classe in classes)
-        <div class="col-md-6">
-          <div class="card mb-3 class-card class-color-{{ classe.id }}">
+<div class="card mb-3">
+            <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(assets/img/illustrations/corner-4.png);">
+            </div>
+            <!--/.bg-holder-->
+
             <div class="card-body">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="class_ids[]" value="{{ classe.id }}">
-                <label class="form-check-label">{{ classe.name }} ({{ classe.description }})</label>
+              <div class="row">
+                <div class="col-lg-8">
+                  <h3 class="mb-0">Ajouter un Groupe</h3>
+                  <p class="mt-2">Cocher la ou les classe(s) à partie de laquelle ou desquelles vous voulez Créer le groupe</p><a class="btn btn-link pl-0 btn-sm" href="" target="_blank">
+                     @each(classe in classes) 
+                     {{ classe.name }} 
+                     @endeach
+                     <span class="fas fa-chevron-right ml-1 fs--2"></span></a>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        @endeach
-      </div>
-      <button type="submit" class="btn btn-primary">Créer le groupe</button>
-    </form>
-  </div>
 </div>
-<style>
 
-</style>
+<form action="{{ route('superadmin.create_group_view') }}" method="get">
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5 class="mb-0">Liste des classes</h5>
+        </div>
+        <div class="card-body bg-light px-0">
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
+                        <thead class="bg-200">
+                            <tr>
+                                <th class="sort">select</th>
+                                <th class="sort">Nom</th>
+                                <th class="sort">Description</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                            @each(classe in classes)
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="{{ 'checkbox-' + classe.id }}" name="class_ids[]" value="{{ classe.id }}" />
+                                        <label class="custom-control-label" for="{{ 'checkbox-' + classe.id }}"></label>
+                                    </div>
+                                </td>
+                                <td>{{ classe.name }}</td>
+                                <td>{{ classe.description }}</td>
+                              
+                            </tr>
+                            @endeach
+                        </tbody>
+                        <tfoot class="bg-200">
+                            <tr>
+                                <th>select</th>
+                                <th>Nom</th>
+                                <th>Description</th>
+                               
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Suivant</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<form action="{{ route('superadmin.create_group_view') }}" method="get">
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5 class="mb-0">Liste des classes</h5>
+        </div>
+        <div class="card-body bg-light px-0">
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
+                        <thead class="bg-200">
+                            <tr>
+                                <th class="sort">select</th>
+                                <th class="sort">Nom</th>
+                                <th class="sort">Description</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                            @each(classe in allClasses)
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="{{ 'checkbox-' + classe.id }}" name="class_ids[]" value="{{ classe.id }}" />
+                                        <label class="custom-control-label" for="{{ 'checkbox-' + classe.id }}"></label>
+                                    </div>
+                                </td>
+                                <td>{{ classe.libelle }}</td>
+                                <td>{{ classe.niveau_programme.programme.libelle }}</td>
+                              
+                            </tr>
+                            @endeach
+                        </tbody>
+                        <tfoot class="bg-200">
+                            <tr>
+                                <th>select</th>
+                                <th>Nom</th>
+                                <th>Description</th>
+                               
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Suivant</button>
+            </div>
+        </div>
+    </div>
+</form>
 @endsection

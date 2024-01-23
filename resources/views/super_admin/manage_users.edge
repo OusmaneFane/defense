@@ -1,106 +1,181 @@
 @layout('layouts.base')
 
 @section('content')
-<section class="p-t-20">
-  <div class="container">
-      <div class="row">
-          <div class="col-md-12">
-            @!component('components/flash')
-              <h3 class="title-5 m-b-35">Gérer les utilisateurs</h3>
-              <div class="table-data__tool">
-                  <div class="table-data__tool-left">
-                      {{--  <div class="rs-select2--light rs-select2--md">
-                          <select class="js-select2" name="property">
-                              <option selected="selected">All Properties</option>
-                              <option value="">Option 1</option>
-                              <option value="">Option 2</option>
-                          </select>
-                          <div class="dropDownSelect2"></div>
-                      </div>
-                      <div class="rs-select2--light rs-select2--sm">
-                          <select class="js-select2" name="time">
-                              <option selected="selected">Today</option>
-                              <option value="">3 Days</option>
-                              <option value="">1 Week</option>
-                          </select>
-                          <div class="dropDownSelect2"></div>
-                      </div>
-                      <button class="au-btn-filter">
-                          <i class="zmdi zmdi-filter-list"></i>filters</button>  --}}
-                  </div>
-                  <div class="table-data__tool-right">
-                      <a href="{{ route('superadmin.user.create') }}" class="au-btn au-btn-icon au-btn--green au-btn--small">
-                          <i class="zmdi zmdi-plus"></i>Nouveau Utilisateur</a>
-                      {{--  <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
-                          <select class="js-select2" name="type">
-                              <option selected="selected">Export</option>
-                              <option value="">Option 1</option>
-                              <option value="">Option 2</option>
-                          </select>
-                          <div class="dropDownSelect2"></div>
-                      </div>  --}}
-                  </div>
-              </div>
-              <div class="table-responsive table-responsive-data2">
-                  <table id="myTable" class="table table-data2">
-                      <thead>
-                          <tr>
-                              <th>
-                                  <label class="au-checkbox">
-                                      <input type="checkbox">
-                                      <span class="au-checkmark"></span>
-                                  </label>
-                              </th>
-                              <th>name</th>
-                              <th>email</th>
-                              <th>Status</th>
-                              <th>date</th>
-                              <th>Action</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                        @each(user in users)
-                          <tr class="tr-shadow">
-                              <td>
-                                  <label class="au-checkbox">
-                                      <input type="checkbox">
-                                      <span class="au-checkmark"></span>
-                                  </label>
-                              </td>
-                              <td>{{ user.name }}</td>
-                              <td>
-                                  <span class="block-email">{{ user.email }}</span>
-                              </td>
-                              <td class="desc" ><span class="role {{ user.role === 'student' ? 'user' : 'admin' }}">{{ user.role }}</span>
-                              </td>
-                              <td>{{ user.updated_at }}</td>
 
-                              <td>
-                                  <div class="table-data-feature">
-                                      <button class="item" data-toggle="tooltip" data-placement="top" title="">
-                                          <i class="zmdi zmdi-mail-send"></i>
-                                      </button>
-                                      <a href="{{ route('user.edit', { id: user.id }) }}" class="item" data-toggle="tooltip" data-placement="top" title="Modifier">
-                                          <i class="zmdi zmdi-edit"></i>
-                                      </a>
-                                      <button class="item" data-toggle="tooltip" data-placement="top" title="Supprimer">
-                                          <i class="zmdi zmdi-delete"></i>
-                                      </button>
-                                      <button class="item" data-toggle="tooltip" data-placement="top" title="plus">
-                                          <i class="zmdi zmdi-more"></i>
-                                      </button>
-                                  </div>
-                              </td>
-                              <tr class="spacer"></tr>
-                          </tr>
-                         @endeach
-                      </tbody>
-                  </table>
-              </div>
-          </div>
+<!-- Button trigger modal-->
+<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal">Nouveau
+    Utilisateur</button>
+<hr>
+<!-- Modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Créer un Utilisateur</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
+                        class="font-weight-light" aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('users.store') }}" method="POST">
+                    <div class="container-fluid">
+                        
+                            
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nom</label>
+                                    <input type="text" name="name" id="name" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Email</label>
+                                    <input name="email" id="description" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <select class="form-control" id="department" name="role">
+                                        <option value="">selectionner le type de compte</option>
+                                        @each(role in roles)
+                                        <option value="{{ role.role_name }}">{{ role.role_name }}</option>
+                                        @endeach
+                                    </select> 
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Email</label>
+                                  <input type="password" class="form-control" placeholder="Mot de passe"
+                                            name="password">
+                                </div>
+                              <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Annuler</button>
+        <button class="btn btn-primary btn-sm" type="submit">Créer</button>
       </div>
-  </div>
-</section>
+                        
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-4 col-sm-auto d-flex align-items-center pr-0">
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Liste des classes</h5>
+                @!component('components/flash')
+            </div>
+            <div class="col-8 col-sm-auto text-right pl-2">
+                <div class="d-none" id="customers-actions">
+                    <div class="input-group input-group-sm">
+                        <select class="custom-select cus" aria-label="Bulk actions">
+                            <option selected="">Bulk actions</option>
+                            <option value="Delete">Delete</option>
+                            <option value="Archive">Archive</option>
+                        </select>
+                        <button class="btn btn-falcon-default btn-sm ml-2" type="button">Apply</button>
+                    </div>
+                </div>
+                <div id="customer-table-actions">
+                    <button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-plus"
+                            data-fa-transform="shrink-3 down-2"></span><span
+                            class="d-none d-sm-inline-block ml-1">New</span></button>
+                    <button class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-filter"
+                            data-fa-transform="shrink-3 down-2"></span><span
+                            class="d-none d-sm-inline-block ml-1">Filter</span></button>
+                    <button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-external-link-alt"
+                            data-fa-transform="shrink-3 down-2"></span><span
+                            class="d-none d-sm-inline-block ml-1">Export</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="falcon-data-table">
+            <table class="table table-sm mb-0 table-striped table-dashboard fs--1 data-table border-bottom border-200"
+                data-options='{"searching":false,"responsive":false,"pageLength":12,"info":false,"lengthChange":false,"sWrapper":"falcon-data-table-wrapper","dom":"<&#39;row mx-1&#39;<&#39;col-sm-12 col-md-6&#39;l><&#39;col-sm-12 col-md-6&#39;f>><&#39;table-responsive&#39;tr><&#39;row no-gutters px-1 py-3 align-items-center justify-content-center&#39;<&#39;col-auto&#39;p>>","language":{"paginate":{"next":"<span class=\"fas fa-chevron-right\"></span>","previous":"<span class=\"fas fa-chevron-left\"></span>"}}}'>
+                <thead class="bg-200 text-900">
+                    <tr>
+                        <th class="align-middle no-sort pr-3">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input checkbox-bulk-select"
+                                    id="checkbox-bulk-customers-select" type="checkbox" data-checkbox-body="#customers"
+                                    data-checkbox-actions="#customers-actions"
+                                    data-checkbox-replaced-element="#customer-table-actions" />
+                                <label class="custom-control-label" for="checkbox-bulk-customers-select"></label>
+                            </div>
+                        </th>
+                        <th class="align-middle sort">Photo </th>
+                        <th class="align-middle sort">Nom </th>
+                        <th class="align-middle sort">Email</th>
+                        <th class="align-middle sort">Statut</th>
+                        <th class="align-middle sort">Action</th>
 
+                    </tr>
+                </thead>
+                <tbody id="customers">
+                    @each(user in users)
+                    <tr class="btn-reveal-trigger">
+                        <td class="py-2 align-middle white-space-nowrap">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox"
+                                    id="customer-checkbox-0" />
+                                <label class="custom-control-label" for="customer-checkbox-0"></label>
+                            </div>
+                        </td>
+                        <td class="py-2 align-middle white-space-nowrap customer-name-column"><a
+                                href="pages/customer-details.html">
+                                <div class="media d-flex align-items-center">
+                                    <div class="avatar avatar-xl mr-2">
+                                        <div class="avatar-name rounded-circle"><span>{{ user.id }}</span></div>
+                                    </div>
+
+                                </div>
+                            </a></td>
+                        <td class="py-2 align-middle white-space-nowrap customer-name-column"><a
+                                href="pages/customer-details.html">
+                                <div class="media d-flex align-items-center">
+
+                                    <div class="media-body">
+                                        <h5 class="mb-0 fs--1">{{ user.name }}
+                                    </div>
+                            </a></td>
+                        <td class="py-2 align-middle white-space-nowrap customer-name-column"><a
+                                href="pages/customer-details.html">
+                                <div class="media d-flex align-items-center">
+
+                                    <div class="media-body">
+                                        <h5 class="mb-0 fs--1">{{ user.email }}
+                                    </div>
+                            </a></td>
+                        <td class="py-2 align-middle white-space-nowrap customer-name-column"><a
+                                href="pages/customer-details.html">
+                                <div class="media d-flex align-items-center">
+
+                                    <div class="media-body">
+                                        <h5 class="mb-0 fs--1">{{ user.role }}
+                                    </div>
+                            </a></td>
+
+                        <td class="py-2 align-middle white-space-nowrap">
+                            <div class="dropdown text-sans-serif">
+                                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3"
+                                    type="button" id="customer-dropdown-0" data-toggle="dropdown"
+                                    data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span
+                                        class="fas fa-ellipsis-h fs--1"></span></button>
+                                <div class="dropdown-menu dropdown-menu-right border py-0"
+                                    aria-labelledby="customer-dropdown-0">
+                                    <div class="bg-white py-2"><a class="dropdown-item"
+                                            href="{{ route('user.edit', { id: user.id }) }}">Modifier</a>
+                                            <a class="dropdown-item"
+                                            href="{{ route('user.profil', { id: user.id }) }}">Voir le profil</a>
+                                            <a
+                                            class="dropdown-item text-danger" href="#!">Supprimer</a></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    @endeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 @endsection
