@@ -102,7 +102,7 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white">
-                            @each(etudiant in etudiants)
+                            @each(etudiant in etudiantsDataBASE)
                             <tr>
                                 <td class="align-middle">
                                     <div class="custom-control custom-checkbox">
@@ -119,11 +119,13 @@
                             @endeach
                         </tbody>
                         <tfoot class="bg-200">
-                            <tr>
-                                <th>select</th>
-                                <th>Nom</th>
-                                <th>Description</th>
-                               
+                             <tr>
+                                <th class="sort">select</th>
+                                <th class="sort">Matricule</th>
+                                <th class="sort">Nom</th>
+                                <th class="sort">Prénom</th>
+                                <th class="sort">Adresse E-mail</th>
+                                
                             </tr>
                         </tfoot>
                     </table>

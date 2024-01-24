@@ -26,7 +26,7 @@ async getAllClasses(schoolYear) {
 
   try {
     const response = await axios.get(url, { headers, params });
-    console.log(response.data)
+    //console.log(response.data)
     return response.data;
     
   } catch (error) {
@@ -52,7 +52,7 @@ async getStudentsInClass(classId, schoolYear) {
 
   try {
     const response = await axios.get(url, { headers, params });
-   // console.log(response.data);
+   console.log(response.data);
     return response.data;
   } catch (error) {
     throw new Error('Erreur lors de la récupération des étudiants de la classe.');

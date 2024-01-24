@@ -4,6 +4,8 @@ import Group from "App/Models/Group";
 import Classe from "App/Models/Classe";
 import Student from "App/Models/Student";
 import Hash from "@ioc:Adonis/Core/Hash";
+import Database from "@ioc:Adonis/Lucid/Database";
+import db from "@adonisjs/lucid/services/db";
 
 const ExternalApiService = require("../../Services/ExternalApiService");
 const apiBaseUrl = "https://api-staging.supmanagement.ml"; // Remplacez par l'URL de l'API externe
@@ -18,17 +20,28 @@ export default class GroupsController {
       .preload("supervisor")
       .preload("students")
       .preload("classes");
-    // Récupérez les ID des classes à partir des groupes
-    const classIds = groups.flatMap((group) =>
-      group.classes.map((classe) => classe.id)
+    // requête SQL pour récuperer tous les id dans la table group.classe
+    const classes = await Database.rawQuery(
+      "SELECT  classe_id FROM group_classe"
     );
-    console.log("groups", groups);
+    console.log("classes", classes);
 
     // Utilisez le service externe pour obtenir les informations sur les classes
     const classesInfo = await externalApiService.getAllClasses(schoolYear);
+    console.log(classesInfo);
+
+    // Extraction des classe_id de la structure imbriquée
+    const flatClasses = classes
+      .filter(Array.isArray) // Filtrer les sous-tableaux
+      .flatMap((groupClasses) =>
+        groupClasses
+          .filter((cls) => cls.classe_id) // Filtrer les objets sans classe_id
+          .map((cls) => cls.classe_id)
+      );
+    console.log("flatClasses", flatClasses);
 
     const filteredClassesInfo = classesInfo.filter((classInfo) =>
-      classIds.includes(classInfo.id)
+      flatClasses.includes(classInfo.id.toString())
     );
 
     console.log("filteredClassesInfo", filteredClassesInfo);
@@ -80,16 +93,22 @@ export default class GroupsController {
       const classes = await Classe.query().whereIn("id", classIds).exec();
 
       // Utilisez le service de l'API externe pour récupérer les étudiants
-      const etudiants = await externalApiService.getStudentsInClass(
-        classIds,
-        schoolYear
-      );
-      // Récupérer les étudiants des classes sélectionnées
-      const etudiantsDataBASE = await Student.query()
-        .whereIn("class_id", classIds)
-        .whereNull("group_id")
-        .preload("classe")
-        .exec();
+      const etudiantsDataBASE = [];
+
+      for (const classId of classIds) {
+        try {
+          const etudiants = await externalApiService.getStudentsInClass(
+            [classId],
+            schoolYear
+          );
+          etudiantsDataBASE.push(...etudiants);
+        } catch (error) {
+          console.error(
+            `Erreur lors de la récupération des étudiants pour la classe ${classId}:`,
+            error
+          );
+        }
+      }
 
       // Récupérer tous les superviseurs
       const superviseurs = await User.query()
@@ -99,7 +118,7 @@ export default class GroupsController {
       return view.render("super_admin.groups.create2", {
         classes,
         superviseurs,
-        etudiants,
+
         classIds,
         etudiantsDataBASE,
       });
