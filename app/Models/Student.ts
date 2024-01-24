@@ -1,22 +1,29 @@
-import { DateTime } from 'luxon'
-import { BaseModel, column, belongsTo, BelongsTo, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm'
-import Group from './Group'
-import Classe from './Classe'
-import User from './User'
+import { DateTime } from "luxon";
+import {
+  BaseModel,
+  column,
+  belongsTo,
+  BelongsTo,
+  manyToMany,
+  ManyToMany,
+} from "@ioc:Adonis/Lucid/Orm";
+import Group from "./Group";
+import Classe from "./Classe";
+import User from "./User";
 export default class Student extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: number;
 
   @column()
-  public name: string
+  public name: string;
   @column()
-  public email: string
+  public email: string;
   @column()
-  public class_id: number
+  public class_id: number;
   @column()
-  public group_id: number
+  public group_id: number;
   @column()
-  public user_id: number
+  public user_id: number;
 
   // Méthode pour assigner l'étudiant à une classe
   public async assignToClass(classId: number) {
@@ -24,31 +31,27 @@ export default class Student extends BaseModel {
     await this.save();
   }
 
-
   @belongsTo(() => Classe, {
-    foreignKey: 'class_id',
+    foreignKey: "class_id",
   })
-  public classe: BelongsTo<typeof Classe>
-
+  public classe: BelongsTo<typeof Classe>;
 
   @belongsTo(() => Group, {
-    foreignKey: 'group_id',
+    foreignKey: "group_id",
   })
-  public group: BelongsTo<typeof Group>
+  public group: BelongsTo<typeof Group>;
 
   @manyToMany(() => Group, {
-    pivotTable: 'group_student',
-    pivotForeignKey: 'student_id',
-    pivotRelatedForeignKey: 'group_id',
-    pivotColumns: ['created_at', 'updated_at']
+    pivotTable: "group_student",
+    pivotForeignKey: "student_id",
+    pivotRelatedForeignKey: "group_id",
+    pivotColumns: ["created_at", "updated_at"],
   })
-  public groups: ManyToMany<typeof Group>
-
-
+  public groups: ManyToMany<typeof Group>;
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public createdAt: DateTime;
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  public updatedAt: DateTime;
 }

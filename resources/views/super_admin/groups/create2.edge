@@ -1,7 +1,7 @@
 @layout('layouts.base')
 
 @section('content')
-<div class="card mb-3">
+<div class="card mb-3 bg-secondary text-white">
             <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(assets/img/illustrations/corner-4.png);">
             </div>
             <!--/.bg-holder-->
@@ -9,7 +9,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-8">
-                  <h3 class="mb-0">Créer un Groupe</h3>
+                  <h3 class="mb-0 text-white">Créer un Groupe</h3>
                   <p class="mt-2">Renseignez les champs ci-dessous pour créer le groupe</p><a class="btn btn-link pl-0 btn-sm" href="" target="_blank">
                      
                      <span class="fas fa-chevron-right ml-1 fs--2"></span></a>
@@ -25,7 +25,7 @@
            
             <div class="col-lg-6 pr-lg-2">
               <div class="card mb-3">
-                <div class="card-header">
+                <div class="card-header bg-warning">
                   <h5 class="mb-0">Nom du Groupe</h5>
                 </div>
                 <div class="card-body bg-light">
@@ -46,7 +46,7 @@
             </div>
             <div class="col-lg-6 pl-lg-2">
               <div class="card mb-3">
-                <div class="card-header">
+                <div class="card-header bg-primary">
                   <h5 class="mb-0">Encadrant</h5>
                 </div>
                 <div class="card-body bg-light">
@@ -94,8 +94,10 @@
                         <thead class="bg-200">
                             <tr>
                                 <th class="sort">select</th>
+                                <th class="sort">Matricule</th>
                                 <th class="sort">Nom</th>
-                                <th class="sort">Description</th>
+                                <th class="sort">Prénom</th>
+                                <th class="sort">Adresse E-mail</th>
                                 
                             </tr>
                         </thead>
@@ -104,12 +106,14 @@
                             <tr>
                                 <td class="align-middle">
                                     <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="{{ 'checkbox-' + etudiant.id }}" name="studentIds[]" value="{{ etudiant.id }}" />
+                                        <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="{{ 'checkbox-' + etudiant.id }}" name="studentIds[]" value="{{ etudiant.user.username }}" />
                                         <label class="custom-control-label" for="{{ 'checkbox-' + etudiant.id }}"></label>
                                     </div>
                                 </td>
-                                <td>{{ etudiant.name }}</td>
-                                <td>{{ etudiant.email }}</td>
+                                <td>{{ etudiant.user.username }}</td>
+                                <td>{{ etudiant.user.nom }}</td>
+                                <td>{{ etudiant.user.prenom }}</td>
+                                <td>{{ etudiant.user.email }}</td>
                               
                             </tr>
                             @endeach
@@ -132,4 +136,5 @@
     </div>
   </div>   
 </form>
+
 @endsection

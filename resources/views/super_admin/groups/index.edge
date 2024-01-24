@@ -150,7 +150,7 @@
                   <div class="media-body">
                     <h5 class="mb-0 fs--1">
                          @each (student in group.students)
-                       {{ student.name }}
+                       <span class="badge badge-info">{{ student.name }}</span>
                         @endeach
                   </div>
               </a></td>
@@ -160,7 +160,7 @@
                   <div class="media-body">
                     <h5 class="mb-0 fs--1 ">
                          @each(classe in group.classes)
-                       <span class="badge badge-primary" >{{ classe.name }}</span>
+                       <span class="badge badge-primary" >{{ classe.id }}</span>
                         @endeach
                   </div>
               </a></td>

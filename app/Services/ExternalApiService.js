@@ -33,6 +33,59 @@ async getAllClasses(schoolYear) {
     throw new Error('Erreur lors de la récupération des classes.');
   }
 }
+async getStudentsInClass(classId, schoolYear) {
+  if (!this.token) {
+    throw new Error('Le token d\'accès est manquant. Veuillez vous authentifier d\'abord.');
+  }
+
+  const endpoint = '/student';
+  const url = `${this.apiBaseUrl}${endpoint}`;
+  const headers = {
+    'Authorization': `Bearer ${this.token}`,
+    'Accept': 'application/json',
+  };
+
+  const params = {
+    school_year: schoolYear,
+    class_id: classId,
+  };
+
+  try {
+    const response = await axios.get(url, { headers, params });
+   // console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw new Error('Erreur lors de la récupération des étudiants de la classe.');
+  }
+}
+  // Ajoutez une méthode à votre service externe
+async getClassesByIds(classIds) {
+  if (!this.token) {
+    throw new Error('Le token d\'accès est manquant. Veuillez vous authentifier d\'abord.');
+  }
+
+  const endpoint = '/classes';  // Assurez-vous d'utiliser le bon endpoint
+  const url = `${this.apiBaseUrl}${endpoint}`;
+  const headers = {
+    'Authorization': `Bearer ${this.token}`,
+    'Accept': 'application/json',
+  };
+
+  const params = {
+    class_ids: classIds.join(','),  // Convertir le tableau d'identifiants en une chaîne de texte
+  };
+
+  try {
+    const response = await axios.get(url, { headers, params });
+    return response.data;
+  } catch (error) {
+    throw new Error('Erreur lors de la récupération des classes.');
+  }
+}
+
+
+
+
 
 
 
