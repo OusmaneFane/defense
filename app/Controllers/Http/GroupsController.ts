@@ -150,29 +150,34 @@ export default class GroupsController {
         studentIds.includes(studentInfo.user.username)
       );
       console.log("filteredStudentsInfo", filteredStudentsInfo);
+
       // Créer les utilisateurs et étudiants correspondants à partir des informations obtenues
       for (const studentInfo of filteredStudentsInfo) {
-        const hashedPassword = await Hash.make("student");
-        const user = await User.create({
-          name: studentInfo.user.username,
-          email: studentInfo.user.email,
-          role: "student",
-          password: hashedPassword,
-        });
+        try {
+          const hashedPassword = await Hash.make("student");
+          const user = await User.create({
+            name: studentInfo.user.username,
+            email: studentInfo.user.email,
+            role: "student",
+            password: hashedPassword,
+          });
 
-        const student = new Student();
-        student.name = studentInfo.user.username;
-        student.email = studentInfo.user.email;
-        student.user_id = user.id;
-        student.group_id = group.id;
-        await student.save();
+          const student = new Student();
+          student.name = studentInfo.user.username;
+          student.email = studentInfo.user.email;
+          student.user_id = user.id;
+          student.group_id = group.id;
+          await student.save();
+        } catch (error) {
+          console.error(
+            `Erreur lors de la création de l'étudiant ${studentInfo.user.username}:`,
+            error
+          );
+        }
       }
+
       const groupId = group.id;
       console.log("GroupID", groupId);
-      // assigner l'id du groupe aux étudiants
-      //await Student.query()
-      //  .whereIn("name", studentIds)
-      // .update({ group_id: groupId });
 
       // Attacher les étudiants au groupe
       for (const studentInfo of filteredStudentsInfo) {
@@ -190,15 +195,16 @@ export default class GroupsController {
           );
         }
       }
+
       // Récupérer les informations de toutes les classes à partir de l'API
       const allClassesInfo = await externalApiService.getAllClasses(schoolYear);
 
       // Créer et attacher les nouvelles classes au groupe
       for (const classId of classIds) {
-        // Rechercher la classe correspondant à l'ID dans les informations de toutes les classes
-        const classInfo = allClassesInfo.find((info) => info.id === classId);
-        if (classInfo) {
-          try {
+        try {
+          // Rechercher la classe correspondant à l'ID dans les informations de toutes les classes
+          const classInfo = allClassesInfo.find((info) => info.id === classId);
+          if (classInfo) {
             // Vérifier si la classe existe déjà dans la base de données
             let classe = await Classe.findBy("id", classInfo.id);
             if (!classe) {
@@ -212,14 +218,14 @@ export default class GroupsController {
 
             // Attacher la classe au groupe
             await group.related("classes").attach([classe.id]);
-          } catch (error) {
-            console.error(
-              `Erreur lors de la récupération des informations pour la classe ${classId}:`,
-              error
-            );
+          } else {
+            console.error(`Classe non trouvée pour l'ID ${classId}`);
           }
-        } else {
-          console.error(`Classe non trouvée pour l'ID ${classId}`);
+        } catch (error) {
+          console.error(
+            `Erreur lors de la récupération des informations pour la classe ${classId}:`,
+            error
+          );
         }
       }
 
