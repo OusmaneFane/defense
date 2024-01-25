@@ -14,37 +14,11 @@ const schoolYear = "2023-2024";
 
 export default class GroupsController {
   public async index({ view }: HttpContextContract) {
-    const externalApiService = new ExternalApiService(apiBaseUrl, token);
-
     const groups = await Group.query()
       .preload("supervisor")
       .preload("students")
       .preload("classes");
-    // requête SQL pour récuperer tous les id dans la table group.classe
-    const classes = await Database.rawQuery(
-      "SELECT  classe_id FROM group_classe"
-    );
-    console.log("classes", classes);
-
-    // Utilisez le service externe pour obtenir les informations sur les classes
-    const classesInfo = await externalApiService.getAllClasses(schoolYear);
-    console.log(classesInfo);
-
-    // Extraction des classe_id de la structure imbriquée
-    const flatClasses = classes
-      .filter(Array.isArray) // Filtrer les sous-tableaux
-      .flatMap((groupClasses) =>
-        groupClasses
-          .filter((cls) => cls.classe_id) // Filtrer les objets sans classe_id
-          .map((cls) => cls.classe_id)
-      );
-    console.log("flatClasses", flatClasses);
-
-    const filteredClassesInfo = classesInfo.filter((classInfo) =>
-      flatClasses.includes(classInfo.id.toString())
-    );
-
-    console.log("filteredClassesInfo", filteredClassesInfo);
+    console.log(groups);
 
     return view.render("super_admin.groups.index", { groups: groups });
   }
@@ -134,7 +108,7 @@ export default class GroupsController {
     const externalApiService = new ExternalApiService(apiBaseUrl, token);
     try {
       // Récupérer les données du formulaire
-      const { name, supervisor, studentIds, class_ids } = request.all();
+      const { name, supervisor, studentIds } = request.all();
       console.log("StudentIDS", studentIds);
       const classIds = request.input("class_ids", []);
 
@@ -147,13 +121,29 @@ export default class GroupsController {
       await group.save();
       console.log(group);
 
-      // recuperer l'id du groupe et le mettre dans la table students
-      // Récupérer les informations des étudiants via l'API externe
-      // Récupérer les informations des étudiants via l'API externe
-      const allStudentsInfo = await externalApiService.getStudentsInClass(
-        classIds,
-        schoolYear
-      );
+      let allStudentsInfo = [];
+
+      // Boucle à travers chaque identifiant de classe
+      for (const classId of classIds) {
+        try {
+          // Appel de la fonction getStudentsInClass pour chaque classe
+          const studentsInfo = await externalApiService.getStudentsInClass(
+            classId,
+            schoolYear
+          );
+
+          // Ajout des informations des étudiants de cette classe à la liste
+          allStudentsInfo = allStudentsInfo.concat(studentsInfo);
+        } catch (error) {
+          console.error(
+            `Erreur lors de la récupération des étudiants pour la classe ${classId}:`,
+            error
+          );
+        }
+      }
+
+      // Maintenant, allStudentsInfo contient les informations des étudiants de toutes les classes sélectionnées
+      console.log("Informations de tous les étudiants :", allStudentsInfo);
 
       // Filtrer les étudiants en fonction de studentIds
       const filteredStudentsInfo = allStudentsInfo.filter((studentInfo) =>
@@ -162,7 +152,7 @@ export default class GroupsController {
       console.log("filteredStudentsInfo", filteredStudentsInfo);
       // Créer les utilisateurs et étudiants correspondants à partir des informations obtenues
       for (const studentInfo of filteredStudentsInfo) {
-        const hashedPassword = await Hash.make("student"); // Utilisez un champ unique comme le nom d'utilisateur
+        const hashedPassword = await Hash.make("student");
         const user = await User.create({
           name: studentInfo.user.username,
           email: studentInfo.user.email,
@@ -200,7 +190,38 @@ export default class GroupsController {
           );
         }
       }
-      await group.related("classes").attach(classIds);
+      // Récupérer les informations de toutes les classes à partir de l'API
+      const allClassesInfo = await externalApiService.getAllClasses(schoolYear);
+
+      // Créer et attacher les nouvelles classes au groupe
+      for (const classId of classIds) {
+        // Rechercher la classe correspondant à l'ID dans les informations de toutes les classes
+        const classInfo = allClassesInfo.find((info) => info.id === classId);
+        if (classInfo) {
+          try {
+            // Vérifier si la classe existe déjà dans la base de données
+            let classe = await Classe.findBy("id", classInfo.id);
+            if (!classe) {
+              // Si la classe n'existe pas, la créer avec les informations de l'API
+              classe = await Classe.create({
+                id: classInfo.id,
+                name: classInfo.libelle,
+                description: classInfo.niveau_programme.programme.libelle,
+              });
+            }
+
+            // Attacher la classe au groupe
+            await group.related("classes").attach([classe.id]);
+          } catch (error) {
+            console.error(
+              `Erreur lors de la récupération des informations pour la classe ${classId}:`,
+              error
+            );
+          }
+        } else {
+          console.error(`Classe non trouvée pour l'ID ${classId}`);
+        }
+      }
 
       return response.redirect().toRoute("superadmin.manage_groups");
     } catch (error) {

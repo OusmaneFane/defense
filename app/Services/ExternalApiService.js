@@ -42,7 +42,6 @@ async getStudentsInClass(classId, schoolYear) {
   const url = `${this.apiBaseUrl}${endpoint}`;
   const headers = {
     'Authorization': `Bearer ${this.token}`,
-    'Accept': 'application/json',
   };
 
   const params = {
