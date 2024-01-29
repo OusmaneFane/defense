@@ -232,8 +232,8 @@
               
                 <form class="chat-editor-area" action="{{ route('messages.store') }}" method="POST" enctype="multipart/form-data">
                   <input type="hidden" name="group_id" value="{{ group.group_id }}">
-                  <input class="d-none" type="file" name="file" id="chat-file-upload">
-                  <label class="mb-0 p-1 chat-file-upload cursor-pointer" for="chat-file-upload"><span class="fas fa-paperclip"></span></label>
+                  <input class="d-none" type="file" name="file" id="fileInput">
+                  <label class="mb-0 p-1 chat-file-upload cursor-pointer" for="fileInput"><span class="fas fa-paperclip"></span></label>
                   <textarea name="content" class="emojiarea border-0 outline-none shadow-none" data-options='{"placeholder":"Ecrivez votre message","emojiPlaceholder":":smile_cat:","search":false,"tones":false,"filtersPosition":"bottom","recentEmojis":false}'></textarea>
                    <script>
                 function handleFileClick() {
