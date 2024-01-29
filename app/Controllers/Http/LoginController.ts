@@ -4,6 +4,7 @@ import Hash from "@ioc:Adonis/Core/Hash";
 import Student from "App/Models/Student";
 import Group from "App/Models/Group";
 import Database from "@ioc:Adonis/Lucid/Database";
+const axios = require("axios");
 
 export default class LoginController {
   public async index({ view }: HttpContextContract) {
@@ -14,29 +15,41 @@ export default class LoginController {
     const { email, password } = request.all();
 
     const user = await User.findBy("email", email);
-    await auth.use("web").attempt(email, password);
+
     if (!user) {
       session.flash({ error: "Adresse e-mail incorrect" });
       return response.redirect().back();
     }
 
-    const isPasswordValid = await Hash.verify(user.password, password);
+    //const isPasswordValid = await Hash.verify(user.password, password);
+    const apiResponse = await axios.post(
+      "https://api-staging.supmanagement.ml/auth/login",
+      {
+        username: user.name,
+        password: password,
+        rememberMe: true,
+      }
+    );
 
-    if (!isPasswordValid) {
-      session.flash({ error: "mot de passe incorrect" });
+    const data = apiResponse.data;
+    if (data === null) {
+      session.flash({ error: "Une erreur s'est produite" });
+      console.log("11111111");
+      return response.redirect().back();
+    } else if (data.message === "Invalid credentials") {
+      session.flash({ error: "Mot de passe incorrect" });
+      console.log("22222222");
+
       return response.redirect().back();
     }
 
-    if (user.role === "student") {
+    // Authentification réussie, connectez l'utilisateur
+    await auth.use("web").login(user);
+    console.log("yooooooooo");
+
+    if (user.role == "student") {
       // Récupérer l'étudiant dans la table users
-      // console.log('user_id: ', user.id)
       const student = await Student.findBy("user_id", user.id);
-      // console.log('Etudiant: ', student)
-      // récuperer l'étudiant dans la table students
-
-      // recuperer l'id de l'étudiant
-      //console.log('Id de letudiant: ', student.id)
-
       // récuperer le groupe de l'étudiant à partir de la table group_student
       const group = await Database.from("group_student")
         .where("student_id", student.id)

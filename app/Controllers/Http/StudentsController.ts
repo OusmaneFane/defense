@@ -53,6 +53,7 @@ export default class StudentsController {
       .join("students", "group_student.student_id", "students.id")
       .where("group_student.group_id", group.group_id)
       .select("*");
+    console.log(members);
 
     // recuperer l'encadrant du groupe avec la jointure de la table groups
     const supervisor = await Database.from("groups")
@@ -148,6 +149,7 @@ export default class StudentsController {
 
     return view.render("student.upload");
   }
+  public async upload_file({ view }: HttpContextContract) {
     const credentials = require("../../../memoires-388217-ff7fa116af5e.json");
     // Create an OAuth2 client using the service account credentials
 
