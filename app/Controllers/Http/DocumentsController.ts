@@ -90,7 +90,7 @@ export default class DocumentsController {
       console.log("création document");
 
       // Déplacer le fichier vers le répertoire public dans uploads sous son nom
-      const data = await file.move(Application.tmpPath("uploads"));
+      const data = await file.move(Application.publicPath("uploads"));
 
       console.log("fichier uploadé avec succès");
       session.flash({ success: "Classe créee avec succès" });

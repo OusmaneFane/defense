@@ -10,7 +10,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Falcon | Dashboard &amp; WebApp Template</title>
+    <title>Sup'Sout | Déposer un memoire</title>
 
 
     <!-- ===============================================-->
@@ -36,6 +36,7 @@
     <link href="/assets/css/theme.css" rel="stylesheet">
     <link href="/assets/lib/datatables-bs4/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="/assets/lib/datatables.net-responsive-bs4/responsive.bootstrap4.css" rel="stylesheet">
+    <link href="/assets/lib/fancybox/jquery.fancybox.min.css" rel="stylesheet">
 
   </head>
 
@@ -64,7 +65,7 @@
             <div class="navbar-vertical-content perfect-scrollbar scrollbar">
               <ul class="navbar-nav flex-column" id="home">
 
-                <li class="nav-item "><a class="nav-link" href="{{ route('superadmin.manage_groups') }}">
+                <li class="nav-item "><a class="nav-link" href="{{ route('student.dashboard') }}">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-comments"></span></span><span class="nav-link-text"> Chats</span>
                     </div>
                   </a></li>
@@ -475,7 +476,7 @@
                 <label class="custom-control-label" for="customer-checkbox-0"></label>
               </div>
             </td>
-            <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="pages/customer-details.html">
+            <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="pages/customer-details.html" data-fancybox>
                 <div class="media-body">
                     <h5 class="mb-0 fs--1">{{ doc.file_name }}
                   </div>
@@ -508,10 +509,10 @@
                   aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
                 <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="customer-dropdown-0">
                   <div class="bg-white py-2"><a class="dropdown-item"
-                      href="">Modifier</a><a
+                      href="/uploads/{{ doc.file_name }}" data-fancybox >Visualiser</a><a
                       class="dropdown-item text-danger" href="#!">Supprimer</a>
                     <a class="dropdown-item"
-                      href="">Assigner des etudiants</a></div>
+                      href="/uploads/{{ doc.file_name }}" download>Télécharger</a></div>
                       
                 </div>
               </div>
@@ -565,6 +566,7 @@
     <script src="/assets/lib/datatables-bs4/dataTables.bootstrap4.min.js"></script>
     <script src="/assets/lib/datatables.net-responsive/dataTables.responsive.js"></script>
     <script src="/assets/lib/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+    <script src="/assets/lib/fancybox/jquery.fancybox.min.js"></script>
 
   </body>
 
