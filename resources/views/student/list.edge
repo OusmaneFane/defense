@@ -1,0 +1,185 @@
+@layout('layouts.studentBase')
+
+@section('content')
+
+<!-- Button trigger modal-->
+<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal">Nouvelle Classe</button>
+<hr>
+<!-- Modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">List des memoires</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span class="font-weight-light"
+            aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+         <form action="{{ route('uploads.store')}}" method="post" enctype="multipart/form-data">
+                <div class="card mb-3">
+                    <div class="card-header">
+                    <h5>Uploder votre mémoire</h5>
+                    <p> <code>Dropzone </code>Cliquez sur la zone en surbrillance ou glisser Déposer</p>
+                    <pre class="mb-2"><code class="lang-html">{{infoGroup.name}}</code></pre>
+                    </div>
+                    <div class="card-body bg-light">
+                    <div class="row">
+
+                        <div class="col-12">
+                            <div class="card">
+
+<div class="dropzone dropzone-multiple p-0" data-dropzone data-options='{"url":"{{ route('uploads.store') }}"}'>
+  <div class="fallback">
+    <input type="file" name="file">
+  </div>
+  <div class="dz-message" data-dz-message> <img class="mr-2" src="../assets/img/icons/cloud-upload.svg" width="25" alt="">Drop your files here</div>
+  <div class="dz-preview dz-preview-multiple m-0 d-flex flex-column">
+    <div class="media align-items-center mb-3 pb-3 border-bottom btn-reveal-trigger"><img class="dz-image" src="..." alt="..." data-dz-thumbnail>
+      <div class="media-body d-flex flex-between-center">
+        <div>
+          <h6 data-dz-name></h6>
+          <div class="d-flex align-items-center">
+            <p class="mb-0 fs--1 text-400 line-height-1" data-dz-size></p>
+            <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress=""></span></div>
+          </div>
+        </div>
+        <div class="dropdown text-sans-serif">
+          <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal dropdown-caret-none" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h"></span></button>
+          <div class="dropdown-menu dropdown-menu-right border py-0">
+            <div class="bg-white py-2"><a class="dropdown-item" href="#!" data-dz-remove>Remove File </a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+                    <div class="card-footer d-flex justify-content-center bg-light text-center pt-4">
+                    <div class="col-10">
+                        <h4 class="font-weight-normal mb-3 fs-1 fs-md-2">More ways to invite your friends</h4>
+                        <div class="form-row my-4">
+                        <div class="col-xl-6">
+                            <button class="btn btn-falcon-default btn-block mb-2 mb-xl-0"><img src="../assets/img/logos/gmail.png" width="20" alt="" /><span class="font-weight-medium ml-2">Voir les memoires</span></button>
+                        </div>
+                        <div class="col-xl-6">
+                            <button class="btn btn-falcon-success btn-block mb-2 mb-xl-0" type="submit"><img src="../assets/img/logos/gmail.png" width="20" alt="" /><span class="font-weight-medium ml-2">Envoyer</span></button>
+                        </div>
+                        
+                        
+                        </div>
+                        <p class="mb-2 fs--1">Once you’ve invited friends, you can <a href="#!">view the status of your referrals</a><br class="d-none d-xl-block d-xxl-none" /> or visit our <a href="#!">Help Center </a>if you have any questions. </p>
+                    </div>
+                    </div>
+                </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+          </form>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-4 col-sm-auto d-flex align-items-center pr-0">
+        <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Liste des classes</h5>
+      </div>
+      <div class="col-8 col-sm-auto text-right pl-2">
+        <div class="d-none" id="customers-actions">
+          <div class="input-group input-group-sm">
+            <select class="custom-select cus" aria-label="Bulk actions">
+              <option selected="">Bulk actions</option>
+              <option value="Delete">Delete</option>
+              <option value="Archive">Archive</option>
+            </select>
+            <button class="btn btn-falcon-default btn-sm ml-2" type="button">Apply</button>
+          </div>
+        </div>
+        <div id="customer-table-actions">
+          <button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-plus"
+              data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ml-1">New</span></button>
+          <button class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-filter"
+              data-fa-transform="shrink-3 down-2"></span><span
+              class="d-none d-sm-inline-block ml-1">Filter</span></button>
+          <button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-external-link-alt"
+              data-fa-transform="shrink-3 down-2"></span><span
+              class="d-none d-sm-inline-block ml-1">Export</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <div class="falcon-data-table">
+      <table class="table table-sm mb-0 table-striped table-dashboard fs--1 data-table border-bottom border-200"
+        data-options='{"searching":false,"responsive":false,"pageLength":12,"info":false,"lengthChange":false,"sWrapper":"falcon-data-table-wrapper","dom":"<&#39;row mx-1&#39;<&#39;col-sm-12 col-md-6&#39;l><&#39;col-sm-12 col-md-6&#39;f>><&#39;table-responsive&#39;tr><&#39;row no-gutters px-1 py-3 align-items-center justify-content-center&#39;<&#39;col-auto&#39;p>>","language":{"paginate":{"next":"<span class=\"fas fa-chevron-right\"></span>","previous":"<span class=\"fas fa-chevron-left\"></span>"}}}'>
+        <thead class="bg-200 text-900">
+          <tr>
+            <th class="align-middle no-sort pr-3">
+              <div class="custom-control custom-checkbox">
+                <input class="custom-control-input checkbox-bulk-select" id="checkbox-bulk-customers-select"
+                  type="checkbox" data-checkbox-body="#customers" data-checkbox-actions="#customers-actions"
+                  data-checkbox-replaced-element="#customer-table-actions" />
+                <label class="custom-control-label" for="checkbox-bulk-customers-select"></label>
+              </div>
+            </th>
+            <th class="align-middle sort">Nom du document </th>
+            <th class="align-middle sort">Groupe</th>
+            <th class="align-middle sort">Déposer par</th>
+            <th class="align-middle sort">Déposer par</th>
+
+          </tr>
+        </thead>
+        <tbody id="customers">
+          @each(doc in documents)
+          <tr class="btn-reveal-trigger">
+            <td class="py-2 align-middle white-space-nowrap">
+              <div class="custom-control custom-checkbox">
+                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox"
+                  id="customer-checkbox-0" />
+                <label class="custom-control-label" for="customer-checkbox-0"></label>
+              </div>
+            </td>
+            <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="pages/customer-details.html">
+                <div class="media d-flex align-items-center">
+                  <div class="avatar avatar-xl mr-2">
+                    <div class="avatar-name rounded-circle"><span>{{ doc.file_name }}</span></div>
+                  </div>
+
+                </div>
+              </a></td>
+            <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="pages/customer-details.html">
+                <div class="media d-flex align-items-center">
+
+                  <div class="media-body">
+                    <h5 class="mb-0 fs--1">{{ doc.group_id }}
+                  </div>
+              </a></td>
+
+            <td class="py-2 align-middle white-space-nowrap">
+              <div class="dropdown text-sans-serif">
+                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
+                  id="customer-dropdown-0" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true"
+                  aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="customer-dropdown-0">
+                  <div class="bg-white py-2"><a class="dropdown-item"
+                      href="">Modifier</a><a
+                      class="dropdown-item text-danger" href="#!">Supprimer</a>
+                    <a class="dropdown-item"
+                      href="">Assigner des etudiants</a></div>
+                      
+                </div>
+              </div>
+            </td>
+          </tr>
+          @endeach
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+@endsection

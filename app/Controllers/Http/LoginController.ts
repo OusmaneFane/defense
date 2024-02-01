@@ -21,33 +21,32 @@ export default class LoginController {
       return response.redirect().back();
     }
 
-    //const isPasswordValid = await Hash.verify(user.password, password);
-    const apiResponse = await axios.post(
-      "https://api-staging.supmanagement.ml/auth/login",
-      {
-        username: user.name,
-        password: password,
-        rememberMe: true,
-      }
-    );
-
-    const data = apiResponse.data;
-    if (data === null) {
-      session.flash({ error: "Une erreur s'est produite" });
-      console.log("11111111");
-      return response.redirect().back();
-    } else if (data.message === "Invalid credentials") {
-      session.flash({ error: "Mot de passe incorrect" });
-      console.log("22222222");
-
-      return response.redirect().back();
-    }
-
-    // Authentification réussie, connectez l'utilisateur
-    await auth.use("web").login(user);
-    console.log("yooooooooo");
-
     if (user.role == "student") {
+      const apiResponse = await axios.post(
+        "https://api-staging.supmanagement.ml/auth/login",
+        {
+          username: user.name,
+          password: password,
+          rememberMe: true,
+        }
+      );
+
+      const data = apiResponse.data;
+      if (data === null) {
+        session.flash({ error: "Une erreur s'est produite" });
+        console.log("11111111");
+        return response.redirect().back();
+      } else if (data.message === "Invalid credentials") {
+        session.flash({ error: "Mot de passe incorrect" });
+        console.log("22222222");
+
+        return response.redirect().back();
+      }
+
+      // Authentification réussie, connectez l'utilisateur
+      await auth.use("web").login(user);
+      console.log("yooooooooo");
+
       // Récupérer l'étudiant dans la table users
       const student = await Student.findBy("user_id", user.id);
       // récuperer le groupe de l'étudiant à partir de la table group_student
@@ -67,7 +66,16 @@ export default class LoginController {
     } else if (user.role === "supervisor") {
       return response.redirect().toRoute("supervisor.dashboard");
     } else if (user.role === "super_admin") {
-      return response.redirect().toRoute("superadmin.dashboard");
+      const isPasswordValid = await Hash.verify(user.password, password);
+      if (!isPasswordValid) {
+        session.flash({ error: "Mot de passe incorrect" });
+        console.log("22222222");
+
+        return response.redirect().back();
+      } else {
+        await auth.use("web").login(user);
+        return response.redirect().toRoute("superadmin.dashboard");
+      }
     }
   }
 
