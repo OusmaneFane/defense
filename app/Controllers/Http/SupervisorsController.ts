@@ -37,8 +37,6 @@ export default class SupervisorsController {
     // studentsName.push(members[i].name);
     // }
 
-    console.log("members: ", members);
-
     // recuperer l'encadrant du groupe avec la jointure de la table groups
     const supervisorWithGroupStudentInfo = await Database.from("groups")
       .join("group_student", "groups.id", "group_student.group_id")
