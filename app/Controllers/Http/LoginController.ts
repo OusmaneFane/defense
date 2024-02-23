@@ -64,6 +64,9 @@ export default class LoginController {
         .redirect()
         .toRoute("student.dashboard", { student, group, members });
     } else if (user.role === "supervisor") {
+      await auth.use("web").login(user);
+      console.log("1234");
+
       return response.redirect().toRoute("supervisor.dashboard");
     } else if (user.role === "super_admin") {
       const isPasswordValid = await Hash.verify(user.password, password);

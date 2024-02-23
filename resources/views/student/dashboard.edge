@@ -195,7 +195,7 @@
                               <div class="bg-primary text-white p-2 rounded-soft chat-message">{{ message.content }}
                               </div>
                             </div>
-                            <div class="text-400 fs--2 text-right">11:54 am<span class="fas fa-check ml-2 text-success"></span>
+                            <div class="text-400 fs--2 text-right">{{ message.time }}<span class="fas fa-check ml-2 text-success"></span>
                             </div>
                           </div>
                         </div>
@@ -209,7 +209,10 @@
                         <div class="media-body">
                           <div class="w-xxl-75">
                             <div class="hover-actions-trigger d-flex align-items-center">
-                              <div class="chat-message bg-200 p-2 rounded-soft">Yes, in an organization stature, this is a must. Besides, we need to quickly establish all other professional appearances, e.g., having a website where members’ profile will be displayed along with additional organizational information. Providing services to existing members is more important than attracting new members at this moment, in my opinion..</div>
+                              <div class="chat-message bg-200 p-2 rounded-soft">
+                                {{ message.content }}
+                                
+                              </div>
                               <ul class="hover-actions position-relative list-inline mb-0 text-400 ml-2">
                                 <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip" data-placement="top" title="Forward"><span class="fas fa-share"></span></a></li>
                                 <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip" data-placement="top" title="Archive"><span class="fas fa-archive"></span></a></li>
@@ -217,7 +220,7 @@
                                 <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip" data-placement="top" title="Remove"><span class="fas fa-trash-alt"></span></a></li>
                               </ul>
                             </div>
-                            <div class="text-400 fs--2"><span>11:54 am</span>
+                            <div class="text-400 fs--2"><span>{{ message.time }}</span>
                             </div>
                           </div>
                         </div>

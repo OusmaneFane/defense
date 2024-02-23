@@ -87,6 +87,15 @@ export default class StudentsController {
       .preload("document") // Charger la relation "document"
       .orderBy("id", "asc")
       .exec();
+    for (let i = 0; i < messages.length; i++) {
+      let currentDate = new Date(messages[i].created_at as string);
+      var hours = currentDate.getHours().toString();
+      var minutes = currentDate.getMinutes().toString();
+
+      if (hours.length == 1) hours = "0" + hours;
+      if (minutes.length == 1) minutes = "0" + minutes;
+      messages[i].time = `${hours}:${minutes}`;
+    }
 
     // recuperer le nom de l'utilisateur connecté
     const username = await User.findByOrFail("email", auth.user?.email);
