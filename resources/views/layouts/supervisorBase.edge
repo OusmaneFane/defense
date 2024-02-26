@@ -10,7 +10,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Sup'Sout | Déposer un memoire</title>
+    <title>Sup'Soutenance</title>
 
 
     <!-- ===============================================-->
@@ -32,16 +32,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
     <link href="/assets/lib/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet">
     <link href="/assets/lib/prismjs/prism-okaidia.css" rel="stylesheet">
-    <link href="/assets/lib/dropzone/dropzone.min.css" rel="stylesheet">
+    <link href="/assets/lib/emojionearea/emojionearea.min.css" rel="stylesheet">
+    <link href="/assets/lib/fancybox/jquery.fancybox.min.css" rel="stylesheet">
     <link href="/assets/css/theme.css" rel="stylesheet">
     <link href="/assets/lib/datatables-bs4/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="/assets/lib/datatables.net-responsive-bs4/responsive.bootstrap4.css" rel="stylesheet">
-    <link href="/assets/lib/fancybox/jquery.fancybox.min.css" rel="stylesheet">
 
   </head>
 
 
-  <body>
+  <body class="overflow-hidden">
 
     <!-- ===============================================-->
     <!--    Main Content-->
@@ -65,11 +65,11 @@
             <div class="navbar-vertical-content perfect-scrollbar scrollbar">
               <ul class="navbar-nav flex-column" id="home">
 
-                <li class="nav-item "><a class="nav-link" href="{{ route('student.dashboard') }}">
+                <li class="nav-item active"><a class="nav-link" href="{{route('supervisor.dashboard')}}">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-comments"></span></span><span class="nav-link-text"> Chats</span>
                     </div>
                   </a></li>
-                <li class="nav-item active"><a class="nav-link" href="{{ route('student.upload_file') }}">
+                <li class="nav-item"><a class="nav-link" href="{{ route('supervisor.view_file') }}">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-book"></span></span><span class="nav-link-text"> Gestion des documents</span>
                     </div>
                   </a></li>
@@ -98,7 +98,7 @@
               </div>
             </div>
           </div>
-        </nav>        
+        </nav>
         <div class="content">
           <nav class="navbar navbar-light navbar-glass navbar-top sticky-kit navbar-expand">
 
@@ -221,7 +221,7 @@
             </ul>
             <ul class="navbar-nav navbar-nav-icons ml-auto flex-row align-items-center">
               <li class="nav-item d-none d-md-block">
-                <a class="nav-link px-3 py-0" href="https://prium.github.io/falcon/v3.0.0-beta6/" target="_blank"><img src="/assets/img/logos/bootstrap-5.png" alt="" height="35" /></a>
+                <a class="nav-link px-3 py-0" href="https://prium.github.io/falcon/v3.0.0-beta6/" target="_blank">Gestion de Soutenance</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link settings-popover" href="#settings-modal" data-toggle="modal"><span class="ripple"></span><span class="fa-spin position-absolute a-0 d-flex flex-center"><span class="icon-spin position-absolute a-0 d-flex flex-center">
@@ -230,78 +230,7 @@
                       </svg></span></span></a>
 
               </li>
-              <li class="nav-item">
-                <a class="nav-link px-0 notification-indicator notification-indicator-warning notification-indicator-fill icon-indicator" href="e-commerce/shopping-cart.html"><span class="fas fa-shopping-cart fs-4" data-fa-transform="shrink-7"></span><span class="notification-indicator-number">1</span></a>
-
-              </li>
-              <li class="nav-item dropdown dropdown-on-hover">
-                <a class="nav-link notification-indicator notification-indicator-primary px-0 icon-indicator" id="navbarDropdownNotification" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-bell fs-4" data-fa-transform="shrink-6"></span></a>
-                <div class="dropdown-menu dropdown-menu-right dropdown-menu-card" aria-labelledby="navbarDropdownNotification">
-                  <div class="card card-notification shadow-none" style="max-width: 20rem">
-                    <div class="card-header">
-                      <div class="row justify-content-between align-items-center">
-                        <div class="col-auto">
-                          <h6 class="card-header-title mb-0">Notifications</h6>
-                        </div>
-                        <div class="col-auto"><a class="card-link font-weight-normal" href="#">Mark all as read</a></div>
-                      </div>
-                    </div>
-                    <div class="list-group list-group-flush font-weight-normal fs--1">
-                      <div class="list-group-title border-bottom">NEW</div>
-                      <div class="list-group-item">
-                        <a class="notification notification-flush bg-200" href="#!">
-                          <div class="notification-avatar">
-                            <div class="avatar avatar-2xl mr-3">
-                              <img class="rounded-circle" src="/assets/img/team/1-thumb.png" alt="" />
-
-                            </div>
-                          </div>
-                          <div class="notification-body">
-                            <p class="mb-1"><strong>Emma Watson</strong> replied to your comment : "Hello world 😍"</p>
-                            <span class="notification-time"><span class="mr-1" role="img" aria-label="Emoji">💬</span>Just now</span>
-
-                          </div>
-                        </a>
-
-                      </div>
-                      <div class="list-group-item">
-                        <a class="notification notification-flush bg-200" href="#!">
-                          <div class="notification-avatar">
-                            <div class="avatar avatar-2xl mr-3">
-                              <div class="avatar-name rounded-circle"><span>AB</span></div>
-                            </div>
-                          </div>
-                          <div class="notification-body">
-                            <p class="mb-1"><strong>Albert Brooks</strong> reacted to <strong>Mia Khalifa's</strong> status</p>
-                            <span class="notification-time"><span class="mr-1 fab fa-gratipay text-danger"></span>9hr</span>
-
-                          </div>
-                        </a>
-
-                      </div>
-                      <div class="list-group-title">EARLIER</div>
-                      <div class="list-group-item">
-                        <a class="notification notification-flush" href="#!">
-                          <div class="notification-avatar">
-                            <div class="avatar avatar-2xl mr-3">
-                              <img class="rounded-circle" src="/assets/img/icons/weather-sm.jpg" alt="" />
-
-                            </div>
-                          </div>
-                          <div class="notification-body">
-                            <p class="mb-1">The forecast today shows a low of 20&#8451; in California. See today's weather.</p>
-                            <span class="notification-time"><span class="mr-1" role="img" aria-label="Emoji">🌤️</span>1d</span>
-
-                          </div>
-                        </a>
-
-                      </div>
-                    </div>
-                    <div class="card-footer text-center border-top"><a class="card-link d-block" href="pages/notifications.html">View all</a></div>
-                  </div>
-                </div>
-
-              </li>
+             
               <li class="nav-item dropdown dropdown-on-hover"><a class="nav-link pr-0" id="navbarDropdownUser" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <div class="avatar avatar-xl">
                     <img class="rounded-circle" src="/assets/img/team/3-thumb.png" alt="" />
@@ -310,233 +239,13 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right py-0" aria-labelledby="navbarDropdownUser">
                   <div class="bg-white rounded-soft py-2">
-                    <a class="dropdown-item font-weight-bold text-warning" href="#!"><span class="fas fa-crown mr-1"></span><span>Go Pro</span></a>
-
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#!">Set status</a>
-                    <a class="dropdown-item" href="pages/profile.html">Profile &amp; account</a>
-                    <a class="dropdown-item" href="#!">Feedback</a>
-
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="pages/settings.html">Settings</a>
-                    <a class="dropdown-item" href="authentication/basic/logout.html">Logout</a>
+                    <a class="dropdown-item" href="/logout">Déconnexion</a>
                   </div>
                 </div>
               </li>
             </ul>
           </nav>
-          <div class="card mb-3">
-            <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../assets/img/illustrations/corner-4.png);">
-            </div>
-            <!--/.bg-holder-->
-
-            <div class="card-body">
-              <div class="row">
-                <div class="col-lg-8">
-                  <h3 class="mb-0">Gestion de document</h3>
-                  <p class="mt-2">DropzoneJS is an open-source library that provides drag & drop file uploads with image previews.</p><a class="btn btn-link pl-0 btn-sm" href="https://www.dropzonejs.com/" target="_blank"> <span class="fas fa-chevron-right ml-1 fs--2"></span></a>
-                <!-- Button trigger modal-->
-<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal">Déposer un memoire</button>
-<hr>
-<!-- Modal-->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">List des memoires</h5>
-        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span class="font-weight-light"
-            aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
-         <form action="{{ route('uploads.store')}}" method="post" enctype="multipart/form-data">
-                <div class="card mb-3">
-                    <div class="card-header">
-                    <h5>Uploder votre mémoire</h5>
-                    <p> Cliquez sur la zone en surbrillance ou glisser Déposer</p>
-                    <pre class="mb-2"><code class="lang-html">{{infoGroup.name}}</code></pre>
-                    </div>
-                    <div class="card-body bg-light">
-                    <div class="row">
-
-                        <div class="col-12">
-                            <div class="card">
-
-<div class="dropzone dropzone-multiple p-0" data-dropzone data-options='{"url":"{{ route('uploads.store') }}"}'>
-  <div class="fallback">
-    <input type="file" name="file">
-  </div>
-  <div class="dz-message" data-dz-message> <img class="mr-2" src="../assets/img/icons/cloud-upload.svg" width="25" alt="">Glissez déposer ou Cliquez ici</div>
-  <div class="dz-preview dz-preview-multiple m-0 d-flex flex-column">
-    <div class="media align-items-center mb-3 pb-3 border-bottom btn-reveal-trigger"><img class="dz-image" src="..." alt="..." data-dz-thumbnail>
-      <div class="media-body d-flex flex-between-center">
-        <div>
-          <h6 data-dz-name></h6>
-          <div class="d-flex align-items-center">
-            <p class="mb-0 fs--1 text-400 line-height-1" data-dz-size></p>
-            <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress=""></span></div>
-          </div>
-        </div>
-        <div class="dropdown text-sans-serif">
-          <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal dropdown-caret-none" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h"></span></button>
-          <div class="dropdown-menu dropdown-menu-right border py-0">
-            <div class="bg-white py-2"><a class="dropdown-item" href="#!" data-dz-remove>Supprimer ce document</a></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-                    <div class="card-footer d-flex justify-content-center bg-light text-center pt-4">
-                    <div class="col-10">
-                        <div class="form-row my-4">
-                       
-                        <div class="col-xl-12">
-                            <button class="btn btn-falcon-success btn-block mb-2 mb-xl-0" type="submit"><img src="../assets/img/logos/gmail.png" width="20" alt="" /><span class="font-weight-medium ml-2">Déposer</span></button>
-                        </div>
-                        
-                        
-                        </div>
-                        <p class="mb-2 fs--1">Once you’ve invited friends, you can <a href="#!">view the status of your referrals</a><br class="d-none d-xl-block d-xxl-none" /> or visit our <a href="#!">Help Center </a>if you have any questions. </p>
-                    </div>
-                    </div>
-                </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-          </form>
-    </div>
-  </div>
-</div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
-          <div class="card mb-3">
-  <div class="card-header">
-    <div class="row align-items-center justify-content-between">
-      <div class="col-4 col-sm-auto d-flex align-items-center pr-0">
-        <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Liste des memoires déposés</h5>
-      </div>
-      <div class="col-8 col-sm-auto text-right pl-2">
-        <div class="d-none" id="customers-actions">
-          <div class="input-group input-group-sm">
-            <select class="custom-select cus" aria-label="Bulk actions">
-              <option selected="">Bulk actions</option>
-              <option value="Delete">Delete</option>
-              <option value="Archive">Archive</option>
-            </select>
-            <button class="btn btn-falcon-default btn-sm ml-2" type="button">Apply</button>
-          </div>
-        </div>
-        <div id="customer-table-actions">
-          <button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-plus"
-              data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ml-1">New</span></button>
-          <button class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-filter"
-              data-fa-transform="shrink-3 down-2"></span><span
-              class="d-none d-sm-inline-block ml-1">Filter</span></button>
-          <button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-external-link-alt"
-              data-fa-transform="shrink-3 down-2"></span><span
-              class="d-none d-sm-inline-block ml-1">Export</span></button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="card-body p-0">
-    <div class="falcon-data-table">
-      <table class="table table-sm mb-0 table-striped table-dashboard fs--1 data-table border-bottom border-200"
-        data-options='{"searching":false,"responsive":false,"pageLength":12,"info":false,"lengthChange":false,"sWrapper":"falcon-data-table-wrapper","dom":"<&#39;row mx-1&#39;<&#39;col-sm-12 col-md-6&#39;l><&#39;col-sm-12 col-md-6&#39;f>><&#39;table-responsive&#39;tr><&#39;row no-gutters px-1 py-3 align-items-center justify-content-center&#39;<&#39;col-auto&#39;p>>","language":{"paginate":{"next":"<span class=\"fas fa-chevron-right\"></span>","previous":"<span class=\"fas fa-chevron-left\"></span>"}}}'>
-        <thead class="bg-200 text-900">
-          <tr>
-            <th class="align-middle no-sort pr-3">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input checkbox-bulk-select" id="checkbox-bulk-customers-select"
-                  type="checkbox" data-checkbox-body="#customers" data-checkbox-actions="#customers-actions"
-                  data-checkbox-replaced-element="#customer-table-actions" />
-                <label class="custom-control-label" for="checkbox-bulk-customers-select"></label>
-              </div>
-            </th>
-            <th class="align-middle sort">Nom du document </th>
-            <th class="align-middle sort">Groupe</th>
-            <th class="align-middle sort">Déposer par</th>
-            <th class="align-middle ">Commentaire de l'Encadrant</th>
-            <th class="align-middle sort">Action</th>
-
-          </tr>
-        </thead>
-        <tbody id="customers">
-          @each(doc in documents)
-          <tr class="btn-reveal-trigger">
-            <td class="py-2 align-middle white-space-nowrap">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox"
-                  id="customer-checkbox-0" />
-                <label class="custom-control-label" for="customer-checkbox-0"></label>
-              </div>
-            </td>
-            <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="/uploads/{{ doc.file_name }}" data-fancybox>
-                <div class="media-body">
-                    <h5 class="mb-0 fs--1">
-                        
-                        <span class="fas fa-book"></span>
-                        {{ doc.file_name }}
-                  </div>
-              </a></td>
-            <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="/uploads/{{ doc.file_name }}">
-                <div class="media d-flex align-items-center">
-
-                  <div class="media-body">
-                    <h5 class="mb-0 fs--1">{{ doc.group_id }}
-                  </div>
-              </a></td>
-              <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="/uploads/{{ doc.file_name }}">
-                <div class="media d-flex align-items-center">
-
-                  <div class="media-body">
-                    <h5 class="mb-0 fs--1">
-                        @each(user in users)
-                            @if(user.id == doc.user_id)
-                                {{ user.name }}   
-                            @endif
-                        @endeach
-                    </h5>
-                  </div>
-              </a></td>
-              <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="/uploads/{{ doc.file_name }}">
-                <div class="media d-flex align-items-center">
-
-                  <div class="media-body">
-                    <h5 class="mb-0 fs--1">
-                      
-                    </h5>
-                  </div>
-              </a></td>
-
-            <td class="py-2 align-middle white-space-nowrap">
-              <div class="dropdown text-sans-serif">
-                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
-                  id="customer-dropdown-0" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true"
-                  aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="customer-dropdown-0">
-                  <div class="bg-white py-2"><a class="dropdown-item"
-                      href="/uploads/{{ doc.file_name }}" data-fancybox >Visualiser</a><a
-                      class="dropdown-item text-danger" href="#!">Supprimer</a>
-                    <a class="dropdown-item"
-                      href="/uploads/{{ doc.file_name }}" download>Télécharger</a></div>
-                      
-                </div>
-              </div>
-            </td>
-          </tr>
-          @endeach
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+          @!section('content')
           <footer>
             <div class="row no-gutters justify-content-between fs--1 mt-4 mb-3">
               <div class="col-12 col-sm-auto text-center">
@@ -548,7 +257,7 @@
             </div>
           </footer>
         </div>
-       
+        
       </div>
     </main>
     <!-- ===============================================-->
@@ -572,14 +281,14 @@
     <script src="/assets/lib/perfect-scrollbar/perfect-scrollbar.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:100,200,300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
     <script src="/assets/lib/prismjs/prism.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.8.7/polyfill.min.js"></script>
-    <script src="/assets/lib/dropzone/dropzone.min.js"></script>
+    <script src="/assets/lib/emojionearea/emojionearea.min.js"></script>
+    <script src="/assets/lib/fancybox/jquery.fancybox.min.js"></script>
     <script src="/assets/js/theme.js"></script>
     <script src="/assets/lib/datatables/js/jquery.dataTables.min.js"></script>
     <script src="/assets/lib/datatables-bs4/dataTables.bootstrap4.min.js"></script>
     <script src="/assets/lib/datatables.net-responsive/dataTables.responsive.js"></script>
     <script src="/assets/lib/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
-    <script src="/assets/lib/fancybox/jquery.fancybox.min.js"></script>
+
 
   </body>
 

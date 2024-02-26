@@ -54,6 +54,8 @@ export default class SupervisorsController {
       .preload("document")
       .orderBy("id", "asc")
       .exec();
+    console.log("Messages : ", messages);
+
     // convertir la date à laquelle le message a été envoyé sous forme 13:24
     for (let i = 0; i < messages.length; i++) {
       let currentDate = new Date(messages[i].created_at as string);
@@ -101,6 +103,62 @@ export default class SupervisorsController {
       messages: messages,
       users: users,
       groupInfo: groupInfo,
+      documents: documents,
+    });
+  }
+  public async viewFile({ view, auth }: HttpContextContract) {
+    await auth.use("web").authenticate();
+
+    // recupérer l'étudiant connecté
+    const student = await User.findByOrFail("email", auth.user?.email);
+    const group = await Database.from("group_student")
+      .where("student_id", student.id)
+      .first();
+
+    // recuperer les membres du groupe
+    const members = await Database.from("group_student")
+      .join("students", "group_student.student_id", "students.id")
+      .where("group_student.group_id", group.group_id)
+      .select("*");
+
+    // recuperer l'encadrant du groupe avec la jointure de la table groups
+    const supervisor = await Database.from("groups")
+      .join("group_student", "groups.id", "group_student.group_id")
+      .where("group_id", group.group_id)
+      .select("*");
+
+    const group2 = await Group.query()
+      .where("id", group.group_id)
+      .preload("supervisor")
+      .firstOrFail();
+    const supervisor2 = group2.supervisor_id;
+
+    // recuperer l'encadrant du groupe avec la jointure de la table users
+    const supervisor3 = await User.query()
+      .where("id", supervisor2)
+      .firstOrFail();
+    //console.log('Supervisor3: ', supervisor3)
+
+    const users = await User.all();
+    const infoGroup = await Group.query()
+      .where("id", group.group_id)
+      .firstOrFail();
+    const documents = await Database.from("documents")
+      .where("group_id", group.group_id)
+      .exec();
+    // filter document par ordre plus grand id
+
+    // voir tous les documents dans la console
+    console.log(documents);
+
+    return view.render("supervisor.files", {
+      student: student,
+      group: group,
+      members: members,
+      supervisor: supervisor,
+      supervisor3: supervisor3,
+      users: users,
+      infoGroup: infoGroup,
       documents: documents,
     });
   }

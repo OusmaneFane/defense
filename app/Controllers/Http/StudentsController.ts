@@ -47,6 +47,7 @@ export default class StudentsController {
     const group = await Database.from("group_student")
       .where("student_id", student.id)
       .first();
+    console.log("GROUP : ", group);
 
     // recuperer les membres du groupe
     const members = await Database.from("group_student")

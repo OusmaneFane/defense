@@ -1,4 +1,4 @@
-@layout('layouts.studentBase')
+@layout('layouts.supervisorBase')
 
 
 
@@ -71,7 +71,8 @@
   @each(memb in members)
                     <div class="media chat-contact hover-actions-trigger w-100 unread-message" id="chat-link-3" data-toggle="tab" data-target="#chat-3" role="tab" aria-controls="chat-3" aria-selected="true">
                       <div class="avatar avatar-xl status-online">
-                       <i class="rounded-circle far fa-user-circle fs-4"></i>
+                      
+                       <img class="rounded-circle img-fluid" src="assets/img/team/2.jpg">
 
                       </div>
                       <div class="media-body chat-contact-body ml-2 d-md-none d-lg-block">
@@ -201,15 +202,23 @@
                         </div>
                       </div>
                       @else
-                         <div class="media p-3">
+                         <div class="media p-2">
                         <div class="avatar avatar-l mr-2">
-                          <i class="rounded-circle far fa-user-circle fs-4"></i>
-
+                          <img class="rounded-circle " src="assets/img/team/3.jpg"/>
                         </div>
                         <div class="media-body">
                           <div class="w-xxl-75">
+                            <span class="text-400 fs--2">
+                              @each(user in users)
+                                @if(user.id == message.sender_id)
+                                    {{ user.name }}
+                                @endif
+                              @end
+                             
+                            </span>
                             <div class="hover-actions-trigger d-flex align-items-center">
                               <div class="chat-message bg-200 p-2 rounded-soft">
+                                
                                 {{ message.content }}
                                 
                                 

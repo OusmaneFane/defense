@@ -18,6 +18,9 @@ Route.group(() => {
   Route.get("/supervisor_dashboard", "SupervisorsController.dashboard").as(
     "supervisor.dashboard"
   );
+  Route.get("/view-files", "SupervisorsController.viewFile").as(
+    "supervisor.view_file"
+  );
 
   Route.get("/manage_users", "AdminsController.manage_users").as(
     "superadmin.manage_users"
@@ -80,6 +83,7 @@ Route.group(() => {
     const filePath = `uploads/${params.filename}`;
     return response.download(Helpers.publicPath(filePath));
   }).as("file.download");
+  Route.post("/comment/:id", "AdminsController.update").as("users.update");
 
   // start/routes.js
   //Route.get('uploads/:filename', 'FilesController.download').as('file.download')

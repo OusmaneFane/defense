@@ -201,13 +201,21 @@
                         </div>
                       </div>
                       @else
-                         <div class="media p-3">
+                         <div class="media p-2">
                         <div class="avatar avatar-l mr-2">
                           <img class="rounded-circle" src="assets/img/team/2.jpg" alt="" />
 
                         </div>
                         <div class="media-body">
                           <div class="w-xxl-75">
+                            <span class="text-400 fs--2">
+                              @each(user in users)
+                                @if(user.id == message.sender_id)
+                                    {{ user.name }}
+                                @endif
+                              @end
+                             
+                            </span>
                             <div class="hover-actions-trigger d-flex align-items-center">
                               <div class="chat-message bg-200 p-2 rounded-soft">
                                 {{ message.content }}

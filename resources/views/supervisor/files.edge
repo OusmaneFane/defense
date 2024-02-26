@@ -325,7 +325,7 @@
               </li>
             </ul>
           </nav>
-          <div class="card mb-3">
+          <div class="card mb-3 bg-warning text-white">
             <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../assets/img/illustrations/corner-4.png);">
             </div>
             <!--/.bg-holder-->
@@ -462,7 +462,7 @@
             <th class="align-middle sort">Nom du document </th>
             <th class="align-middle sort">Groupe</th>
             <th class="align-middle sort">Déposer par</th>
-            <th class="align-middle ">Commentaire de l'Encadrant</th>
+            <th class="align-middle sort">Faire un commentaire</th>
             <th class="align-middle sort">Action</th>
 
           </tr>
@@ -477,7 +477,7 @@
                 <label class="custom-control-label" for="customer-checkbox-0"></label>
               </div>
             </td>
-            <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="/uploads/{{ doc.file_name }}" data-fancybox>
+            <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="pages/customer-details.html" data-fancybox>
                 <div class="media-body">
                     <h5 class="mb-0 fs--1">
                         
@@ -485,14 +485,14 @@
                         {{ doc.file_name }}
                   </div>
               </a></td>
-            <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="/uploads/{{ doc.file_name }}">
+            <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="pages/customer-details.html">
                 <div class="media d-flex align-items-center">
 
                   <div class="media-body">
                     <h5 class="mb-0 fs--1">{{ doc.group_id }}
                   </div>
               </a></td>
-              <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="/uploads/{{ doc.file_name }}">
+              <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="pages/customer-details.html">
                 <div class="media d-flex align-items-center">
 
                   <div class="media-body">
@@ -505,12 +505,13 @@
                     </h5>
                   </div>
               </a></td>
-              <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="/uploads/{{ doc.file_name }}">
+               <td class="py-2 align-middle white-space-nowrap customer-name-column"><a href="pages/customer-details.html">
                 <div class="media d-flex align-items-center">
 
                   <div class="media-body">
                     <h5 class="mb-0 fs--1">
-                      
+                      <a class="dropdown-item"
+                      href="/comment/{{ doc.id }}" ></a>
                     </h5>
                   </div>
               </a></td>
@@ -525,7 +526,9 @@
                       href="/uploads/{{ doc.file_name }}" data-fancybox >Visualiser</a><a
                       class="dropdown-item text-danger" href="#!">Supprimer</a>
                     <a class="dropdown-item"
-                      href="/uploads/{{ doc.file_name }}" download>Télécharger</a></div>
+                      href="/uploads/{{ doc.file_name }}" download>Télécharger</a>
+                     <a class="dropdown-item"
+                      href="/comment/{{ doc.id }}" ></a>Commenter</div>
                       
                 </div>
               </div>
