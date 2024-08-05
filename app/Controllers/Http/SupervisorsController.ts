@@ -6,17 +6,17 @@ import Group from "App/Models/Group";
 import Classe from "App/Models/Classe";
 import Document from "App/Models/Document";
 import Message from "App/Models/Message";
+import Comment from "App/Models/Comment";
 const ExternalApiService = require("../../Services/ExternalApiService");
 const apiBaseUrl = "https://api-staging.supmanagement.ml"; // Remplacez par l'URL de l'API externe
 const token = "0000-8432-3244-0923";
 const schoolYear = "2023-2024";
-const incl_students_photo = true;
 
 export default class SupervisorsController {
   public async dashboard({ view, auth }: HttpContextContract) {
-    const externalApiService = new ExternalApiService(apiBaseUrl, token);
-
     await auth.use("web").authenticate();
+
+    const externalApiService = new ExternalApiService(apiBaseUrl, token);
 
     // recupérer l'étudiant connecté
     const supervisor = await User.findByOrFail("email", auth.user?.email);
@@ -95,6 +95,31 @@ export default class SupervisorsController {
     );
     console.log("filteredStudentsInfo", filteredStudentsInfo);
 */
+    // Mapper les résultats pour extraire uniquement les noms
+    const memberNames = members.map((member) => member.name);
+    //voir le name des membres dans la console
+    const include_photo = true;
+    const membersPhotos = [];
+    for (const username of memberNames) {
+      try {
+        const studentsInfo = await externalApiService.getStudentsPhoto(
+          username,
+          include_photo
+        );
+        const memberPhoto = studentsInfo.map(
+          (studentInfo) => studentInfo.user_photo.base64
+        );
+        membersPhotos.push(...memberPhoto);
+      } catch (error) {
+        console.error(
+          `Erreur lors de la récupération des informations pour l'utilisateur ${username}:`,
+          error
+        );
+      }
+    }
+    members.forEach((member, index) => {
+      member.photo = membersPhotos[index]; // Ajoutez une propriété 'photo' à chaque membre
+    });
     return view.render("supervisor.dashboard", {
       supervisor: supervisor,
       supervisorWithGroupStudentInfo: supervisorWithGroupStudentInfo,
@@ -150,6 +175,10 @@ export default class SupervisorsController {
 
     // voir tous les documents dans la console
     console.log(documents);
+    const commentData = await Database.from("comments")
+      .where("group_id", group.group_id)
+      .exec();
+    console.log("commentData : ", commentData);
 
     return view.render("supervisor.files", {
       student: student,
@@ -160,6 +189,7 @@ export default class SupervisorsController {
       users: users,
       infoGroup: infoGroup,
       documents: documents,
+      commentData: commentData,
     });
   }
 }

@@ -14,6 +14,9 @@ Route.group(() => {
   Route.get("/upload-files", "StudentsController.upload").as(
     "student.upload_file"
   );
+  Route.get("/student/view-comment/:id", "StudentsController.viewComment").as(
+    "student.view-comment"
+  );
 
   Route.get("/supervisor_dashboard", "SupervisorsController.dashboard").as(
     "supervisor.dashboard"
@@ -83,7 +86,18 @@ Route.group(() => {
     const filePath = `uploads/${params.filename}`;
     return response.download(Helpers.publicPath(filePath));
   }).as("file.download");
-  Route.post("/comment/:id", "AdminsController.update").as("users.update");
+  Route.get("/comment/:id", "DocumentsController.comment_file").as(
+    "comments.file"
+  );
+  Route.get("/comment/:id/edit", "DocumentsController.edit").as(
+    "comments.edit"
+  );
+  Route.post("/comment/:id", "DocumentsController.update").as(
+    "comments.update"
+  );
+  Route.post("/store/comment", "DocumentsController.store_comment").as(
+    "store.comments"
+  );
 
   // start/routes.js
   //Route.get('uploads/:filename', 'FilesController.download').as('file.download')

@@ -4,11 +4,12 @@ import Hash from "@ioc:Adonis/Core/Hash";
 import Student from "App/Models/Student";
 import Group from "App/Models/Group";
 import Database from "@ioc:Adonis/Lucid/Database";
+import Swal from "sweetalert2";
 const axios = require("axios");
 
 export default class LoginController {
   public async index({ view }: HttpContextContract) {
-    return view.render("login.index");
+    return view.render("login.index2");
   }
 
   public async check({ request, auth, response, session }) {
@@ -34,18 +35,15 @@ export default class LoginController {
       const data = apiResponse.data;
       if (data === null) {
         session.flash({ error: "Une erreur s'est produite" });
-        console.log("11111111");
         return response.redirect().back();
       } else if (data.message === "Invalid credentials") {
-        session.flash({ error: "Mot de passe incorrect" });
-        console.log("22222222");
+        session.flash({ InvalidCredentials: "Mot de passe incorrect" });
 
         return response.redirect().back();
       }
 
       // Authentification réussie, connectez l'utilisateur
       await auth.use("web").login(user);
-      console.log("yooooooooo");
 
       // Récupérer l'étudiant dans la table users
       const student = await Student.findBy("user_id", user.id);
@@ -59,24 +57,32 @@ export default class LoginController {
         .where("group_id", group.group_id)
         .exec();
       //console.log('Membres: ', members.length)
+      session.flash({ connected: "Vous êtes connectés !" });
 
       return response
         .redirect()
         .toRoute("student.dashboard", { student, group, members });
     } else if (user.role === "supervisor") {
       await auth.use("web").login(user);
-      console.log("1234");
 
       return response.redirect().toRoute("supervisor.dashboard");
     } else if (user.role === "super_admin") {
       const isPasswordValid = await Hash.verify(user.password, password);
       if (!isPasswordValid) {
-        session.flash({ error: "Mot de passe incorrect" });
+        session.flash({ InvalidCredentials: "Mot de passe incorrect" });
+        Swal.fire({
+          title: "Error!",
+          text: "Do you want to continue",
+          icon: "error",
+          confirmButtonText: "Cool",
+        });
         console.log("22222222");
 
         return response.redirect().back();
       } else {
         await auth.use("web").login(user);
+        session.flash({ connected: "Vous êtes connectés !" });
+
         return response.redirect().toRoute("superadmin.dashboard");
       }
     }

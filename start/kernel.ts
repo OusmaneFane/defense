@@ -1,16 +1,6 @@
-/*
-|--------------------------------------------------------------------------
-| Application middleware
-|--------------------------------------------------------------------------
-|
-| This file is used to define middleware for HTTP requests. You can register
-| middleware as a `closure` or an IoC container binding. The bindings are
-| preferred, since they keep this file clean.
-|
-*/
-
-import Server from '@ioc:Adonis/Core/Server'
-import CheckUserRole from 'App/Middleware/CheckUserRole'
+import Server from "@ioc:Adonis/Core/Server";
+import CheckUserRole from "App/Middleware/CheckUserRole";
+import GlobalMiddleware from "App/Middleware/ViewGlobal";
 
 /*
 |--------------------------------------------------------------------------
@@ -22,27 +12,17 @@ import CheckUserRole from 'App/Middleware/CheckUserRole'
 |
 */
 Server.middleware.register([
-  () => import('@ioc:Adonis/Core/BodyParser'),
-  () => import('App/Middleware/LogRequest')
-])
+  () => import("@ioc:Adonis/Core/BodyParser"),
+  () => import("App/Middleware/LogRequest"),
+]);
+const globalMiddleware = [
+  // ...
+  "Adonis/Core/BodyParserMiddleware",
+  "Adonis/Core/SessionMiddleware",
+  GlobalMiddleware, // Ajout du middleware ViewGlobal
+];
 
-/*
-|--------------------------------------------------------------------------
-| Named middleware
-|--------------------------------------------------------------------------
-|
-| Named middleware are defined as key-value pair. The value is the namespace
-| or middleware function and key is the alias. Later you can use these
-| alias on individual routes. For example:
-|
-| { auth: () => import('App/Middleware/Auth') }
-|
-| and then use it as follows
-|
-| Route.get('dashboard', 'UserController.dashboard').middleware('auth')
-|
-*/
 Server.middleware.registerNamed({
-  auth: () => import('App/Middleware/Auth'),
-
-})
+  auth: () => import("App/Middleware/Auth"),
+});
+export { globalMiddleware };

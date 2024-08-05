@@ -57,24 +57,23 @@ async getStudentsInClass(classId, schoolYear) {
     throw new Error('Erreur lors de la récupération des étudiants de la classe.');
   }
 }
-async getStudentsPhoto( schoolYear, incl_students_photo,) {
+async getStudentsPhoto( username, include_photo=true,) {
   if (!this.token) {
     throw new Error('Le token d\'accès est manquant. Veuillez vous authentifier d\'abord.');
   }
 
-  const endpoint = '/student';
+  const endpoint = '/users';
   const url = `${this.apiBaseUrl}${endpoint}`;
   const headers = {
     'Authorization': `Bearer ${this.token}`,
   };
 
   const params = {
-    school_year: schoolYear,
-    incl_students_photo: incl_students_photo,
+    username,
+    include_photo: include_photo,
   };
   try {
     const response = await axios.get(url, { headers, params });
-   console.log(response.data);
     return response.data;
   } catch (error) {
     throw new Error('Erreur lors de la récupération des étudiants de la classe.');

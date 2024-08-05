@@ -1,20 +1,94 @@
 @if(flashMessages.has('success'))
-    <div class="alert alert-success">
-        <script>
-            Swal.fire({
-      icon: 'success',
-      title: 'Succès',
-      text: 'Message envoyé avec succès',
-      showConfirmButton: false,
-      timer: 3000
-    })
-        </script>
-    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toastr-top-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr.success("Ajouté avec succès", "success");
+    });
+</script>
 @endif
-
+@if(flashMessages.has('connected'))
+<script>
+    import Swal from 'sweetalert2'
+    Swal.fire({
+        title: "Custom animation with Animate.css",
+        showClass: {
+            popup: `
+      animate__animated
+      animate__fadeInUp
+      animate__faster
+    `
+        },
+        hideClass: {
+            popup: `
+      animate__animated
+      animate__fadeOutDown
+      animate__faster
+    `
+        }
+    });
+</script>
+@endif
+@if(flashMessages.has('InvalidCredentials'))
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toastr-top-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr.error("Identifiants incorrects...", "InvalidCredentials");
+    });
+</script>
+@endif
 @if(flashMessages.has('error'))
-    <div class="alert alert-danger">
-        {{ flashMessages.get('error') }}
-    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toastr-top-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr.error("Une erreur s'est produite", "erreur");
+    });
+</script>
 @endif
-

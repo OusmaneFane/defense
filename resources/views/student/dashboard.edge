@@ -17,15 +17,15 @@
             <li class="list-inline-item seprate">
               <span></span>
             </li>
-            {{--  <h2 class="list-inline-item">Bienvenue: {{ auth.user.name }} !</h2>  --}}
+            {{-- <h2 class="list-inline-item">Bienvenue: {{ auth.user.name }} !</h2> --}}
             <div class="table-data__tool-right">
 
-                  <a href="{{ route('student.upload_file') }}" class="au-btn au-btn-icon au-btn--blue au-btn--small">
-                  <i class="zmdi zmdi-plus"></i>Déposer un Projet/Memoire</a>
-                  {{--  <button type="button" class="btn btn-primary mb-1" data-toggle="modal" data-target="#mediumModal">
-                    Déposer un Projet/Memoire
-                  </button>  --}}
-          </div>
+              <a href="{{ route('student.upload_file') }}" class="au-btn au-btn-icon au-btn--blue au-btn--small">
+                <i class="zmdi zmdi-plus"></i>Déposer un Projet/Memoire</a>
+              {{-- <button type="button" class="btn btn-primary mb-1" data-toggle="modal" data-target="#mediumModal">
+                Déposer un Projet/Memoire
+              </button> --}}
+            </div>
           </ul>
         </div>
       </div>
@@ -37,424 +37,289 @@
 @section('content')
 
 @!component('components/flash')
-          <div class="card overflow-hidden card-chat">
-            <div class="card-body d-flex p-0 h-100">
-              <div class="chat-sidebar">
-                <div class="contacts-list bg-white scrollbar perfect-scrollbar">
-                  <div class="nav nav-tabs border-0 flex-column" role="tablist" aria-orientation="vertical">
+<div class="card overflow-hidden card-chat">
+  <div class="card-body d-flex p-0 h-100">
+    <div class="chat-sidebar">
+      <div class="contacts-list bg-white scrollbar perfect-scrollbar">
+        <div class="nav nav-tabs border-0 flex-column" role="tablist" aria-orientation="vertical">
 
-                    <div class="media chat-contact hover-actions-trigger w-100 active" id="chat-link-0" data-toggle="tab" data-target="#chat-0" role="tab" aria-controls="chat-0" aria-selected="true">
-                      <div class="avatar avatar-xl status-online">
-                        <img class="rounded-circle" src="assets/img/team/2.jpg" alt="" />
+          <div class="media chat-contact hover-actions-trigger w-100 active" id="chat-link-0" data-toggle="tab"
+            data-target="#chat-0" role="tab" aria-controls="chat-0" aria-selected="true">
+            <div class="avatar avatar-xl status-online">
+              <img class="rounded-circle" src="assets/img/LV.jpg" alt="" />
 
-                      </div>
-                      <div class="media-body chat-contact-body ml-2 d-md-none d-lg-block">
-                        <div class="d-flex justify-content-between">
-                          <h6 class="mb-0 chat-contact-title">{{ supervisor3.name }}</h6><span class="message-time fs--2">Tue</span>
-                        </div>
-                        <div class="min-w-0">
-                          <div class="chat-contact-content pr-3">Encadrant
-                          </div>
-                          <div class="dropdown dropdown-active-trigger position-absolute b-0 r-0 hover-actions">
-                            <button class="btn btn-link btn-sm text-400 dropdown-toggle dropdown-caret-none p-0 fs-0" type="button" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fas fa-cog" data-fa-transform="shrink-3 down-4"></span></button>
-                            <div class="dropdown-menu dropdown-menu-right border py-2 rounded-soft"><a class="dropdown-item" href="#!">Mute</a>
-                              <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Archive</a><a class="dropdown-item" href="#!">Delete</a>
-                              <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Mark as Unread</a><a class="dropdown-item" href="#!">Something's Wrong</a><a class="dropdown-item" href="#!">Ignore Messsages</a><a class="dropdown-item" href="#!">Block Messages</a>
-                            </div>
-                          </div>
-                          <div class="position-absolute b-0 r-0 hover-hide">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-  @each(memb in members)
-                    <div class="media chat-contact hover-actions-trigger w-100 unread-message" id="chat-link-3" data-toggle="tab" data-target="#chat-3" role="tab" aria-controls="chat-3" aria-selected="true">
-                      <div class="avatar avatar-xl status-online">
-                        <img class="rounded-circle" src="assets/img/team/13.jpg" alt="" />
-
-                      </div>
-                      <div class="media-body chat-contact-body ml-2 d-md-none d-lg-block">
-                        <div class="d-flex justify-content-between">
-                          <h6 class="mb-0 chat-contact-title">
-                            {{ memb.name }}
-                            @if (memb.id === student.id)
-                            (vous)
-                            @endif
-                          </h6><span class="message-time fs--2">Sat</span>
-                        </div>
-                        <div class="min-w-0">
-                          <div class="chat-contact-content pr-3">{{ memb.email }}
-                          </div>
-                          <div class="dropdown dropdown-active-trigger position-absolute b-0 r-0 hover-actions">
-                            <button class="btn btn-link btn-sm text-400 dropdown-toggle dropdown-caret-none p-0 fs-0" type="button" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fas fa-cog" data-fa-transform="shrink-3 down-4"></span></button>
-                            <div class="dropdown-menu dropdown-menu-right border py-2 rounded-soft"><a class="dropdown-item" href="#!">Mute</a>
-                              <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Archive</a><a class="dropdown-item" href="#!">Delete</a>
-                              <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Mark as Unread</a><a class="dropdown-item" href="#!">Something's Wrong</a><a class="dropdown-item" href="#!">Ignore Messsages</a><a class="dropdown-item" href="#!">Block Messages</a>
-                            </div>
-                          </div>
-                          <div class="position-absolute b-0 r-0 hover-hide">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-@endeach
+            </div>
+            <div class="media-body chat-contact-body ml-2 d-md-none d-lg-block">
+              <div class="d-flex justify-content-between">
+                <h6 class="mb-0 chat-contact-title">{{ supervisor3.name }}</h6><span
+                  class="message-time fs--2">Tue</span>
+              </div>
+              <div class="min-w-0">
+                <div class="chat-contact-content pr-3">Encadrant
+                </div>
+                <div class="dropdown dropdown-active-trigger position-absolute b-0 r-0 hover-actions">
+                  <button class="btn btn-link btn-sm text-400 dropdown-toggle dropdown-caret-none p-0 fs-0"
+                    type="button" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true"
+                    aria-expanded="false"><span class="fas fa-cog" data-fa-transform="shrink-3 down-4"></span></button>
+                  <div class="dropdown-menu dropdown-menu-right border py-2 rounded-soft"><a class="dropdown-item"
+                      href="#!">Mute</a>
+                    <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Archive</a><a
+                      class="dropdown-item" href="#!">Delete</a>
+                    <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Mark as Unread</a><a
+                      class="dropdown-item" href="#!">Something's Wrong</a><a class="dropdown-item" href="#!">Ignore
+                      Messsages</a><a class="dropdown-item" href="#!">Block Messages</a>
                   </div>
                 </div>
-                <form class="contacts-search-wrapper">
-                  <div class="form-group mb-0 position-relative d-md-none d-lg-block w-100 h-100">
-                    <input class="form-control form-control-sm chat-contacts-search border-0 h-100" type="text" placeholder="Recherche membres ..." /><span class="fas fa-search contacts-search-icon"></span>
-                  </div>
-                  <button class="btn btn-sm btn-transparent d-none d-md-inline-block d-lg-none"><span class="fas fa-search fs--1"></span></button>
-                </form>
+                <div class="position-absolute b-0 r-0 hover-hide">
+                </div>
               </div>
-              <div class="tab-content card-chat-content fs--1 position-relative">
-                <div class="tab-pane card-chat-pane active" id="chat-0" role="tabpanel" aria-labelledby="chat-link-0">
-                  <div class="chat-content-header">
-                    <div class="row justify-content-between align-items-center">
-                      <div class="col-6 col-sm-8 d-flex align-items-center"><a class="pr-3 text-700 d-md-none contacts-list-show" href="#!">
-                          <div class="fas fa-chevron-left"></div>
-                        </a>
-                        <div class="min-w-0">
-                          <h5 class="mb-0 text-truncate fs-0">{{infoGroup.name}}</h5>
-                          <div class="fs--2 text-400">Active On Chat
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-auto">
-                        <button class="btn btn-sm btn-falcon-primary mr-2" type="button" data-index="0" data-toggle="tooltip" data-placement="top" title="Start a Call"><span class="fas fa-phone"></span></button>
-                        <button class="btn btn-sm btn-falcon-primary mr-2" type="button" data-index="0" data-toggle="tooltip" data-placement="top" title="Start a Video Call"><span class="fas fa-video"></span></button>
-                        <button class="btn btn-sm btn-falcon-primary btn-info" type="button" data-index="0" data-toggle="tooltip" data-placement="top" title="Conversation Information"><span class="fas fa-info"></span></button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="chat-content-body" style="display: inherit;">
-                    <div class="conversation-info" data-index="0">
-                      <div class="h-100 overflow-auto scrollbar perfect-scrollbar">
-                        <div class="media position-relative align-items-center p-3 border-bottom">
-                          <div class="avatar avatar-xl status-online">
-                            <img class="rounded-circle" src="assets/img/team/2.jpg" alt="" />
+            </div>
+          </div>
 
-                          </div>
-                          <div class="media-body ml-2 d-flex justify-content-between align-items-center">
-                            <h6 class="mb-0"><a class="text-decoration-none stretched-link text-700" href="pages/profile.html">Antony Hopkins</a></h6>
-                            <div class="dropdown z-index-1">
-                              <button class="btn btn-link btn-sm text-400 dropdown-toggle dropdown-caret-none pr-0" type="button" id="profile-dropdown-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-cog"></span></button>
-                              <div class="dropdown-menu dropdown-menu-right border py-2" aria-labelledby="profile-dropdown-0"><a class="dropdown-item" href="#!">Mute</a>
-                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="px-3 pt-2">
-                          <div class="nav flex-column text-sans-serif font-weight-medium"><a class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!"><span class="conversation-info-icon"><span class="fas fa-search mr-1" data-fa-transform="shrink-1 down-3"></span></span>Search in Conversation</a><a class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!"><span class="conversation-info-icon"><span class="fas fa-pencil-alt mr-1" data-fa-transform="shrink-1"></span></span>Edit Nicknames</a><a class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!"><span class="conversation-info-icon"><span class="fas fa-palette mr-1" data-fa-transform="shrink-1"></span></span><span>Change Color</span></a><a class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!"><span class="conversation-info-icon"><span class="fas fa-thumbs-up mr-1" data-fa-transform="shrink-1"></span></span>Change Emoji</a><a class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!"><span class="conversation-info-icon"><span class="fas fa-bell mr-1" data-fa-transform="shrink-1"></span></span>Notifications</a></div>
-                        </div>
-                        <hr class="my-2" />
-                        <div class="px-3" id="others-info-0">
-                          <div class="title" id="shared-media-title-0"><a class="btn btn-link btn-accordion hover-text-decoration-none dropdown-indicator" href="#shared-media-0" data-toggle="collapse" aria-expanded="false" aria-controls="shared-media-0">Shared media</a></div>
-                          <div class="collapse" id="shared-media-0" aria-labelledby="shared-media-title-0" data-parent="#others-info-0">
-                            <div class="row mx-n1">
-                              <div class="col-6 col-md-4 px-1"><a href="assets/img/chat/1.jpg" data-fancybox="images"><img class="img-fluid rounded mb-2" src="assets/img/chat/1.jpg" alt="" /></a></div>
-                              <div class="col-6 col-md-4 px-1"><a href="assets/img/chat/2.jpg" data-fancybox="images"><img class="img-fluid rounded mb-2" src="assets/img/chat/2.jpg" alt="" /></a></div>
-                              <div class="col-6 col-md-4 px-1"> <a href="assets/img/chat/3.jpg" data-fancybox="images"><img class="img-fluid rounded mb-2" src="assets/img/chat/3.jpg" alt="" /></a></div>
-                              <div class="col-6 col-md-4 px-1"> <a href="assets/img/chat/4.jpg" data-fancybox="images"><img class="img-fluid rounded mb-2" src="assets/img/chat/4.jpg" alt="" /></a></div>
-                              <div class="col-6 col-md-4 px-1"> <a href="assets/img/chat/5.jpg" data-fancybox="images"><img class="img-fluid rounded mb-2" src="assets/img/chat/5.jpg" alt="" /></a></div>
-                              <div class="col-6 col-md-4 px-1"> <a href="assets/img/chat/6.jpg" data-fancybox="images"><img class="img-fluid rounded mb-2" src="assets/img/chat/6.jpg" alt="" /></a></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="chat-content-scroll-area scrollbar perfect-scrollbar">
-                      <div class="media position-relative p-3 border-bottom mb-3 align-items-center">
-                        <div class="avatar avatar-2xl status-online mr-3">
-                          <img class="rounded-circle" src="assets/img/team/2.jpg" alt="" />
+          @each(memb in members)
+          <div class="media chat-contact hover-actions-trigger w-100 unread-message" id="chat-link-3" data-toggle="tab"
+            data-target="#chat-3" role="tab" aria-controls="chat-3" aria-selected="true">
+            <div class="avatar avatar-xl status-online">
 
-                        </div>
-                        <div class="media-body">
-                          <h6 class="mb-0"><a class="text-decoration-none stretched-link text-700" href="pages/profile.html">{{infoGroup.name}}</a></h6>
-                          <p class="mb-0">Créer par Sup'Management
-                          </p>
-                        </div>
-                      </div>
-                      <div class="text-center fs--2 text-500"><span>May 5, 2019, 11:54 am</span></div>
-                      @each ( message in messages)
-                     
-                      @if(message.sender_id === auth.user.id)
-                      <div class="media p-3">
-                        <div class="media-body d-flex justify-content-end">
-                          <div class="w-100 w-xxl-75">
-                            <div class="hover-actions-trigger d-flex align-items-center justify-content-end">
-                              <ul class="hover-actions position-relative list-inline mb-0 text-400 mr-2">
-                                <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip" data-placement="top" title="Forward"><span class="fas fa-share"></span></a></li>
-                                <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip" data-placement="top" title="Archive"><span class="fas fa-archive"></span></a></li>
-                                <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip" data-placement="top" title="Edit"><span class="fas fa-edit"></span></a></li>
-                                <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip" data-placement="top" title="Remove"><span class="fas fa-trash-alt"></span></a></li>
-                              </ul>
-                              <div class="bg-primary text-white p-2 rounded-soft chat-message">{{ message.content }}
-                              </div>
-                            </div>
-                            <div class="text-400 fs--2 text-right">{{ message.time }}<span class="fas fa-check ml-2 text-success"></span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      @else
-                         <div class="media p-2">
-                        <div class="avatar avatar-l mr-2">
-                          <img class="rounded-circle" src="assets/img/team/2.jpg" alt="" />
+              <img class="rounded-circle" src="data:image/jpeg;base64,{{ memb.photo }}" alt="" />
 
-                        </div>
-                        <div class="media-body">
-                          <div class="w-xxl-75">
-                            <span class="text-400 fs--2">
-                              @each(user in users)
-                                @if(user.id == message.sender_id)
-                                    {{ user.name }}
-                                @endif
-                              @end
-                             
-                            </span>
-                            <div class="hover-actions-trigger d-flex align-items-center">
-                              <div class="chat-message bg-200 p-2 rounded-soft">
-                                {{ message.content }}
-                                
-                              </div>
-                              <ul class="hover-actions position-relative list-inline mb-0 text-400 ml-2">
-                                <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip" data-placement="top" title="Forward"><span class="fas fa-share"></span></a></li>
-                                <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip" data-placement="top" title="Archive"><span class="fas fa-archive"></span></a></li>
-                                <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip" data-placement="top" title="Edit"><span class="fas fa-edit"></span></a></li>
-                                <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip" data-placement="top" title="Remove"><span class="fas fa-trash-alt"></span></a></li>
-                              </ul>
-                            </div>
-                            <div class="text-400 fs--2"><span>{{ message.time }}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      @endif
-                      @endeach
-                      
-                    </div>
+            </div>
+            <div class="media-body chat-contact-body ml-2 d-md-none d-lg-block">
+              <div class="d-flex justify-content-between">
+                <h6 class="mb-0 chat-contact-title">
+                  {{ memb.name }}
+                  @if (memb.id === student.id)
+                  (vous)
+                  @endif
+                </h6><span class="message-time fs--2">Sat</span>
+              </div>
+              <div class="min-w-0">
+                <div class="chat-contact-content pr-3">{{ memb.email }}
+                </div>
+                <div class="dropdown dropdown-active-trigger position-absolute b-0 r-0 hover-actions">
+                  <button class="btn btn-link btn-sm text-400 dropdown-toggle dropdown-caret-none p-0 fs-0"
+                    type="button" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true"
+                    aria-expanded="false"><span class="fas fa-cog" data-fa-transform="shrink-3 down-4"></span></button>
+                  <div class="dropdown-menu dropdown-menu-right border py-2 rounded-soft"><a class="dropdown-item"
+                      href="#!">Mute</a>
+                    <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Archive</a><a
+                      class="dropdown-item" href="#!">Delete</a>
+                    <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Mark as Unread</a><a
+                      class="dropdown-item" href="#!">Something's Wrong</a><a class="dropdown-item" href="#!">Ignore
+                      Messsages</a><a class="dropdown-item" href="#!">Block Messages</a>
                   </div>
                 </div>
-              
-                <form class="chat-editor-area" action="{{ route('messages.store') }}" method="POST" enctype="multipart/form-data">
-                  <input type="hidden" name="group_id" value="{{ group.group_id }}">
-                  <input class="d-none" type="file" name="file" id="fileInput">
-                  <label class="mb-0 p-1 chat-file-upload cursor-pointer" for="fileInput"><span class="fas fa-paperclip"></span></label>
-                  <textarea name="content" class="emojiarea border-0 outline-none shadow-none" data-options='{"placeholder":"Ecrivez votre message","emojiPlaceholder":":smile_cat:","search":false,"tones":false,"filtersPosition":"bottom","recentEmojis":false}'></textarea>
-                   <script>
-                function handleFileClick() {
-                  document.getElementById('fileInput').click();
-                  document.getElementById('fileName').textContent = fileName;
-                }
-              </script>
-                  <button class="btn btn-sm btn-send outline-none ml-2" type="submit">Send</button>
-                </form>
+                <div class="position-absolute b-0 r-0 hover-hide">
+                </div>
               </div>
             </div>
           </div>
-<section style="background-color: #CDC4F9;">
-  	<!-- modal medium -->
-    <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="mediumModalLabel">Medium Modal</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>
-              There are three species of zebras: the plains zebra, the mountain zebra and the Grévy's zebra. The plains zebra and the mountain
-              zebra belong to the subgenus Hippotigris, but Grévy's zebra is the sole species of subgenus Dolichohippus. The latter
-              resembles an ass, to which it is closely related, while the former two are more horse-like. All three belong to the
-              genus Equus, along with other living equids.
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Confirm</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- end modal medium -->
-  <div class="container py-5">
-    <div class="row">
-      <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
-        <div class="card" id="chat3" style="border-radius: 15px;">
-          <div class="card-body">
-            <div class="p-3">
-              <div class="input-group rounded mb-3">
-                <h3> Membres du {{infoGroup.name}}</h3>
-              </div>
-              <div data-mdb-perfect-scrollbar="true">
-                <ul class="list-unstyled mb-0">
-                  <li class="p-2 border-bottom" style="background-color: #eee;">
-                    <a href="#!" class="d-flex justify-content-between">
-                      <div class="d-flex flex-row">
-                        <div>
-                          <img src="https://supmanagement.ml/wp-content/uploads/2021/06/Logo-Supmanagement-3-300x300.png"
-                            alt="avatar" class="d-flex align-self-center me-3" width="60">
-                          <span class="badge bg-success badge-dot"></span>
-                        </div>
-                        <div class="pt-1">
-                          <p class="fw-bold mb-0">{{ supervisor3.name }}<span
-                              class="badge badge-info ml-2">encadrant</span></p>
-                          <p class="small text-muted">{{ supervisor3.email }}</p>
-                        </div>
-                      </div>
-                      <div class="pt-1">
-                        <p class="small text-muted mb-1"></p>
-                        <span class="badge bg-danger rounded-pill float-end"></span>
-                      </div>
-                    </a>
-                  </li>
-                  @each ( memb in members)
-                  <li class="p-2 border-bottom">
-                    <a href="#!" class="d-flex justify-content-between">
-                      <div class="d-flex flex-row">
-                        <div>
-                          <img
-                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp"
-                            alt="avatar" class="d-flex align-self-center me-3" width="60">
-                          <span class="badge bg-warning badge-dot"></span>
-                        </div>
-                        <div class="pt-1">
-                          <p class="fw-bold mb-0">{{ memb.name }}
-                            @if (memb.id === student.id)
-                            (vous)
-                            @endif
-                          </p>
-                          <p class="small text-muted">{{ memb.email }}</p>
-                        </div>
-                      </div>
-                      <div class="pt-1">
-                        <p class="small text-muted mb-1">
-                          @each ( classe in classes)
-                          @if (classe.id === memb.class_id)
-                          <span class="badge badge-info ml-2">{{ classe.name }}</span>
-                          @endif
-                          @endeach
-                        </p>
-                        <span class="badge bg-danger rounded-pill float-end"></span>
-                      </div>
-                    </a>
-                  </li>
-                  @endeach
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-7 col-xl-8">
-        <div class="pt-3 pe-3" data-mdb-perfect-scrollbar="true" style="overflow-y: auto; height: 400px;">
-
-          @each ( message in messages)
-
-          @if(message.sender_id === auth.user.id)
-          <div class="d-flex flex-row justify-content-end">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
-              alt="avatar 1" style="width: 45px; height: 100%;">
-
-            <div>
-              <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary" style="background-color: #f5f6f7;">
-                 @if (message.document_id)
-                    <!-- Afficher le document -->
-                     {{--  recuperer le document dans la table documents  --}}
-                     @each ( document in documents)
-                        @if (document.id === message.document_id)
-                          <a href="{{ route('file.download', { filename: message.document.file_name }) }}"
-                          class="text-white" target="_blank"><i class="fas fa-file-word"></i> {{ document.file_name }}</a>
-                        @endif
-                     @endeach
-                      <!-- lien pour voir le document -->
-
-
-
-                    @else
-                    {{ message.content }}
-                 @endif
-              </p>
-
-
-            </div>
-          </div>
-          @else
-          <div class="d-flex flex-row justify-content-start">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-              alt="avatar 1" style="width: 45px; height: 100%;">
-
-            <div>
-              <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-secondary" style="background-color: #f5f6f7;">
-
-                @if (message.document_id)
-                    <!-- Afficher le document -->
-                     {{--  recuperer le document dans la table documents  --}}
-                     @each ( document in documents)
-                        @if (document.id === message.document_id)
-                          <a href="{{ route('file.download', { filename: message.document.file_name }) }}"
-                          class="text-white" target="_blank"><i class="fas fa-file-word"></i> {{ document.file_name }}</a>
-                        @endif
-                     @endeach
-                      <!-- lien pour voir le document -->
-
-
-                    @else
-                    {{ message.content }}
-                 @endif
-              </p>
-              <p class="small ms-3 mb-3 rounded-3 text-muted float-end">
-                @each ( memb in members)
-                @if (memb.id === message.sender_id)
-                {{ memb.name }}
-                @endif
-                @endeach
-                {{--  {{ message.sender_id }}  --}}
-              </p>
-
-            </div>
-          </div>
-          @endif
 
           @endeach
-          <div class="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
-            <img src="https://supmanagement.ml/wp-content/uploads/2021/06/Logo-Supmanagement-3-300x300.png"
-              alt="avatar 3" style="width: 40px; height: 100%;">
-
-            <form action="{{ route('messages.store') }}" method="POST" enctype="multipart/form-data"
-              class="flex-grow-1">
-              <input type="hidden" name="group_id" value="{{ group.group_id }}">
-              <textarea type="text" class="form-control form-control-lg" id="exampleFormControlInput2"
-                name="content" placeholder="Type message" style="width: 100%;"></textarea>
-
-              <script>
-                function handleFileClick() {
-                  document.getElementById('fileInput').click();
-                  document.getElementById('fileName').textContent = fileName;
-                }
-              </script>
-
-              <a class="ms-1 text-muted" href="#!" onclick="handleFileClick()">
-                <i class="fas fa-paperclip"></i>
-              </a>
-
-              <input type="file" id="fileInput" name="file" style="display: none;" />
-
-              <button type="submit" class="btn btn-primary btn-lg float-end">Envoyer</button>
-            </form>
-          </div>
-
-
         </div>
       </div>
+      <form class="contacts-search-wrapper">
+        <div class="form-group mb-0 position-relative d-md-none d-lg-block w-100 h-100">
+          <input class="form-control form-control-sm chat-contacts-search border-0 h-100" type="text"
+            placeholder="Recherche membres ..." /><span class="fas fa-search contacts-search-icon"></span>
+        </div>
+        <button class="btn btn-sm btn-transparent d-none d-md-inline-block d-lg-none"><span
+            class="fas fa-search fs--1"></span></button>
+      </form>
+    </div>
+    <div class="tab-content card-chat-content fs--1 position-relative">
+      <div class="tab-pane card-chat-pane active" id="chat-0" role="tabpanel" aria-labelledby="chat-link-0">
+        <div class="chat-content-header">
+          <div class="row justify-content-between align-items-center">
+            <div class="col-6 col-sm-8 d-flex align-items-center"><a class="pr-3 text-700 d-md-none contacts-list-show"
+                href="#!">
+                <div class="fas fa-chevron-left"></div>
+              </a>
+              <div class="min-w-0">
+                <h5 class="mb-0 text-truncate fs-0">{{infoGroup.name}}</h5>
+                <div class="fs--2 text-400">Active On Chat
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-sm btn-falcon-primary mr-2" type="button" data-index="0" data-toggle="tooltip"
+                data-placement="top" title="Start a Call"><span class="fas fa-phone"></span></button>
+              <button class="btn btn-sm btn-falcon-primary mr-2" type="button" data-index="0" data-toggle="tooltip"
+                data-placement="top" title="Start a Video Call"><span class="fas fa-video"></span></button>
+              <button class="btn btn-sm btn-falcon-primary btn-info" type="button" data-index="0" data-toggle="tooltip"
+                data-placement="top" title="Conversation Information"><span class="fas fa-info"></span></button>
+            </div>
+          </div>
+        </div>
+        <div class="chat-content-body" style="display: inherit;">
+          <div class="conversation-info" data-index="0">
+            <div class="h-100 overflow-auto scrollbar perfect-scrollbar">
+              <div class="media position-relative align-items-center p-3 border-bottom">
+                <div class="avatar avatar-xl status-online">
+                  <img class="rounded-circle" src="assets/img/team/2.jpg" alt="" />
+
+                </div>
+                <div class="media-body ml-2 d-flex justify-content-between align-items-center">
+                  <h6 class="mb-0"><a class="text-decoration-none stretched-link text-700"
+                      href="pages/profile.html">Antony Hopkins</a></h6>
+                  <div class="dropdown z-index-1">
+                    <button class="btn btn-link btn-sm text-400 dropdown-toggle dropdown-caret-none pr-0" type="button"
+                      id="profile-dropdown-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
+                        class="fas fa-cog"></span></button>
+                    <div class="dropdown-menu dropdown-menu-right border py-2" aria-labelledby="profile-dropdown-0"><a
+                        class="dropdown-item" href="#!">Mute</a>
+                      <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Archive</a><a
+                        class="dropdown-item text-danger" href="#!">Delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="px-3 pt-2">
+                <div class="nav flex-column text-sans-serif font-weight-medium"><a
+                    class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!"><span
+                      class="conversation-info-icon"><span class="fas fa-search mr-1"
+                        data-fa-transform="shrink-1 down-3"></span></span>Search in Conversation</a><a
+                    class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!"><span
+                      class="conversation-info-icon"><span class="fas fa-pencil-alt mr-1"
+                        data-fa-transform="shrink-1"></span></span>Edit Nicknames</a><a
+                    class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!"><span
+                      class="conversation-info-icon"><span class="fas fa-palette mr-1"
+                        data-fa-transform="shrink-1"></span></span><span>Change Color</span></a><a
+                    class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!"><span
+                      class="conversation-info-icon"><span class="fas fa-thumbs-up mr-1"
+                        data-fa-transform="shrink-1"></span></span>Change Emoji</a><a
+                    class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!"><span
+                      class="conversation-info-icon"><span class="fas fa-bell mr-1"
+                        data-fa-transform="shrink-1"></span></span>Notifications</a></div>
+              </div>
+              <hr class="my-2" />
+              <div class="px-3" id="others-info-0">
+                <div class="title" id="shared-media-title-0"><a
+                    class="btn btn-link btn-accordion hover-text-decoration-none dropdown-indicator"
+                    href="#shared-media-0" data-toggle="collapse" aria-expanded="false"
+                    aria-controls="shared-media-0">Shared media</a></div>
+                <div class="collapse" id="shared-media-0" aria-labelledby="shared-media-title-0"
+                  data-parent="#others-info-0">
+                  <div class="row mx-n1">
+                    <div class="col-6 col-md-4 px-1"><a href="assets/img/chat/1.jpg" data-fancybox="images"><img
+                          class="img-fluid rounded mb-2" src="assets/img/chat/1.jpg" alt="" /></a></div>
+                    <div class="col-6 col-md-4 px-1"><a href="assets/img/chat/2.jpg" data-fancybox="images"><img
+                          class="img-fluid rounded mb-2" src="assets/img/chat/2.jpg" alt="" /></a></div>
+                    <div class="col-6 col-md-4 px-1"> <a href="assets/img/chat/3.jpg" data-fancybox="images"><img
+                          class="img-fluid rounded mb-2" src="assets/img/chat/3.jpg" alt="" /></a></div>
+                    <div class="col-6 col-md-4 px-1"> <a href="assets/img/chat/4.jpg" data-fancybox="images"><img
+                          class="img-fluid rounded mb-2" src="assets/img/chat/4.jpg" alt="" /></a></div>
+                    <div class="col-6 col-md-4 px-1"> <a href="assets/img/chat/5.jpg" data-fancybox="images"><img
+                          class="img-fluid rounded mb-2" src="assets/img/chat/5.jpg" alt="" /></a></div>
+                    <div class="col-6 col-md-4 px-1"> <a href="assets/img/chat/6.jpg" data-fancybox="images"><img
+                          class="img-fluid rounded mb-2" src="assets/img/chat/6.jpg" alt="" /></a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="chat-content-scroll-area scrollbar perfect-scrollbar">
+            <div class="media position-relative p-3 border-bottom mb-3 align-items-center">
+              <div class="avatar avatar-2xl status-online mr-3">
+                <img class="rounded-circle" src="assets/img/LV.jpg" alt="" />
+
+              </div>
+              <div class="media-body">
+                <h6 class="mb-0"><a class="text-decoration-none stretched-link text-700"
+                    href="pages/profile.html">{{infoGroup.name}}</a></h6>
+                <p class="mb-0">Créer par Sup'Management
+                </p>
+              </div>
+            </div>
+            <div class="text-center fs--2 text-500"><span>May 5, 2019, 11:54 am</span></div>
+            @each ( message in messages)
+
+            @if(message.sender_id === auth.user.id)
+            <div class="media p-3">
+              <div class="media-body d-flex justify-content-end">
+                <div class="w-100 w-xxl-75">
+                  <div class="hover-actions-trigger d-flex align-items-center justify-content-end">
+                    <ul class="hover-actions position-relative list-inline mb-0 text-400 mr-2">
+                      <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip"
+                          data-placement="top" title="Forward"><span class="fas fa-share"></span></a></li>
+                      <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip"
+                          data-placement="top" title="Archive"><span class="fas fa-archive"></span></a></li>
+                      <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip"
+                          data-placement="top" title="Edit"><span class="fas fa-edit"></span></a></li>
+                      <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip"
+                          data-placement="top" title="Remove"><span class="fas fa-trash-alt"></span></a></li>
+                    </ul>
+                    <div class="bg-primary text-white p-2 rounded-soft chat-message">{{ message.content }}
+                    </div>
+                  </div>
+                  <div class="text-400 fs--2 text-right">{{ message.time }}<span
+                      class="fas fa-check ml-2 text-success"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            @else
+            <div class="media p-2">
+              <div class="avatar avatar-l mr-2">
+                <img class="rounded-circle" src="assets/img/team/2.jpg" alt="" />
+
+              </div>
+              <div class="media-body">
+                <div class="w-xxl-75">
+                  <span class="text-400 fs--2">
+                    @each(user in users)
+                    @if(user.id == message.sender_id)
+                    {{ user.name }}
+                    @endif
+                    @end
+
+                  </span>
+                  <div class="hover-actions-trigger d-flex align-items-center">
+                    <div class="chat-message bg-200 p-2 rounded-soft">
+                      {{ message.content }}
+
+                    </div>
+                    <ul class="hover-actions position-relative list-inline mb-0 text-400 ml-2">
+                      <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip"
+                          data-placement="top" title="Forward"><span class="fas fa-share"></span></a></li>
+                      <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip"
+                          data-placement="top" title="Archive"><span class="fas fa-archive"></span></a></li>
+                      <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip"
+                          data-placement="top" title="Edit"><span class="fas fa-edit"></span></a></li>
+                      <li class="list-inline-item"><a class="chat-option" href="#!" data-toggle="tooltip"
+                          data-placement="top" title="Remove"><span class="fas fa-trash-alt"></span></a></li>
+                    </ul>
+                  </div>
+                  <div class="text-400 fs--2"><span>{{ message.time }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            @endif
+            @endeach
+
+          </div>
+        </div>
+      </div>
+
+      <form class="chat-editor-area" action="{{ route('messages.store') }}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="group_id" value="{{ group.group_id }}">
+        <input class="d-none" type="file" name="file" id="fileInput">
+        <label class="mb-0 p-1 chat-file-upload cursor-pointer" for="fileInput"><span
+            class="fas fa-paperclip"></span></label>
+        <textarea name="content" class="emojiarea border-0 outline-none shadow-none"
+          data-options='{"placeholder":"Ecrivez votre message","emojiPlaceholder":":smile_cat:","search":false,"tones":false,"filtersPosition":"bottom","recentEmojis":false}'></textarea>
+        <script>
+          function handleFileClick() {
+            document.getElementById('fileInput').click();
+            document.getElementById('fileName').textContent = fileName;
+          }
+        </script>
+        <button class="btn btn-sm btn-send outline-none ml-2" type="submit">Envoyer</button>
+      </form>
     </div>
   </div>
-</section>
+</div>
+
 @endsection

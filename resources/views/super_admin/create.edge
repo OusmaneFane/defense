@@ -2,56 +2,57 @@
 
 @section('content')
 <div class="card mb-3">
-            <div class="card-header">
-              <h5 class="mb-0">Ajouter un Utilisateur</h5>
-            </div>
-            <div class="card-body bg-light">
-              <div class="row">
-                <div class="col-12">
-                  <form action="{{ route('users.store') }}" method="POST">
-                    <div class="form-group">
+  <div class="card-header">
+    <h5 class="mb-0">Ajouter un Utilisateur</h5>
+  </div>
+  <div class="card-body bg-light">
+    <div class="row">
+      <div class="col-12">
+        @!component('components/flash')
+        <form action="{{ route('users.store') }}" method="POST">
+          <div class="form-group">
 
-                      <label for="name">Nom</label>
+            <label for="name">Nom</label>
 
-                      <input name="name" class="form-control" id="name" type="text" placeholder="Nom">
+            <input name="name" class="form-control" id="name" type="text" placeholder="Nom">
 
-                    </div>
-                    
-                    <div class="form-group">
+          </div>
 
-                      <label for="email1">Email</label>
+          <div class="form-group">
 
-                      <input name="email" class="form-control" id="email1" type="email" placeholder="Email">
+            <label for="email1">Email</label>
 
-                    </div>
-                    <div class="form-group">
+            <input name="email" class="form-control" id="email1" type="email" placeholder="Email">
 
-                      <label for="password">Mot de passe</label>
+          </div>
+          <div class="form-group">
 
-                      <input name="password" class="form-control" id="password" type="password" placeholder="Mot de passe">
+            <label for="password">Mot de passe</label>
 
-                    </div>
+            <input name="password" class="form-control" id="password" type="password" placeholder="Mot de passe">
 
-                    <div class="form-group">
+          </div>
 
-                      <label for="exampleFormControlSelect1">Type de compte</label>
-                        
-                      <select class="form-control" id="exampleFormControlSelect1" name="role">
-                        <option aria-checked="true">Choisir le type de compte</option>
-                        @each(role in roles)
-                            <option value="{{ role.role_name }}">{{ role.role_name }}</option>
-                        @endeach
-                      </select>
+          <div class="form-group">
 
-                    </div>
-                   
-                  <button class="btn btn-primary mb-3" type="submit">Ajouter</button>
+            <label for="exampleFormControlSelect1">Type de compte</label>
 
-                  </form>
-                </div>
-               
-              </div>
-            </div>
+            <select class="form-control" id="exampleFormControlSelect1" name="role">
+              <option aria-checked="true">Choisir le type de compte</option>
+              @each(role in roles)
+              <option value="{{ role.role_name }}">{{ role.role_name }}</option>
+              @endeach
+            </select>
+
+          </div>
+
+          <button class="btn btn-primary mb-3" type="submit">Ajouter</button>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 

@@ -56,7 +56,7 @@ export default class AdminsController {
     student.user_id = user.id;
     await student.save();
 
-    session.flash({ success: "L'employé a été ajouté avec succès !" });
+    session.flash({ success: "L'utilisateur a été ajouté avec succès !" });
     return response.redirect().back();
   }
 
