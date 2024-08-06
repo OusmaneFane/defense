@@ -3,12 +3,15 @@ import Document from "App/Models/Document";
 import Database from "@ioc:Adonis/Lucid/Database";
 import Student from "App/Models/Student";
 const { google } = require("googleapis");
-const fs = require("fs");
 const path = require("path");
 import Application from "@ioc:Adonis/Core/Application";
 import { file } from "googleapis/build/src/apis/file";
 import Comment from "App/Models/Comment";
-
+import archiver from "archiver"; // Notez l'importation correcte
+import { createWriteStream } from "fs";
+import { join } from "path";
+import { tmpdir } from "os";
+import { promises as fs } from "fs";
 async function uploadFileToDrive(auth, groupId, filePath) {
   const drive = google.drive({ version: "v3", auth });
 
@@ -216,5 +219,49 @@ export default class DocumentsController {
 
     // Rediriger vers une autre page (par exemple, la liste des documents)
     return response.redirect().toRoute("supervisor.view_file");
+  }
+  public async downloadZip({ params, response }: HttpContextContract) {
+    const groupName = params.groupName as string;
+    const directoryPath = join(__dirname, "../../../public/uploads", groupName);
+    const zipFileName = `${groupName}.zip`;
+
+    console.log(`Starting the ZIP process for group: ${groupName}`);
+    console.log(`Directory to be zipped: ${directoryPath}`);
+
+    // Vérifiez si le répertoire existe
+    try {
+      console.log(`Checking access to directory: ${directoryPath}`);
+      await fs.access(directoryPath);
+      console.log(`Directory exists: ${directoryPath}`);
+    } catch (err) {
+      console.error("Directory not found:", directoryPath);
+      return response.status(404).send("Directory not found");
+    }
+
+    response.header(
+      "Content-Disposition",
+      `attachment; filename=${zipFileName}`
+    );
+    response.type("application/zip");
+
+    const archive = archiver("zip", { zlib: { level: 9 } });
+    archive.on("error", (err) => {
+      console.error("Archiver error:", err.message);
+      response.status(500).send(err.message);
+    });
+
+    response.implicitEnd = false; // Disable automatic response end
+    archive.pipe(response.response); // Pipe the archive to the response
+
+    console.log("Adding directory to ZIP archive...");
+    archive.directory(directoryPath, false);
+
+    try {
+      await archive.finalize();
+      console.log("Archive finalized successfully");
+    } catch (err) {
+      console.error("Error finalizing the archive:", err.message);
+      response.status(500).send("Error creating archive");
+    }
   }
 }

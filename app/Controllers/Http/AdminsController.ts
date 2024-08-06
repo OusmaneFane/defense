@@ -88,9 +88,14 @@ export default class AdminsController {
     return response.redirect().toRoute("superadmin.manage_users");
   }
 
-  public async document_index({ view }: HttpContextContract) {
+  public async document_index({ view, auth }: HttpContextContract) {
+    await auth.use("web").authenticate();
     const documents = await Document.all();
+    const groups = await Group.query()
+      .preload("supervisor")
+      .preload("students")
+      .preload("classes");
 
-    return view.render("super_admin.documents.index", { documents: documents });
+    return view.render("super_admin.documents.index", { documents, groups });
   }
 }

@@ -51,6 +51,8 @@ Route.group(() => {
   Route.post("/groups", "GroupsController.store_group").as(
     "superadmin.groups.store"
   );
+  Route.get("/groups/:id", "GroupsController.show").as("groups.show");
+
   // create classe
   Route.get("/manage_classe", "ClassesController.index").as(
     "superadmin.manage_classe"
@@ -98,7 +100,9 @@ Route.group(() => {
   Route.post("/store/comment", "DocumentsController.store_comment").as(
     "store.comments"
   );
-
+  Route.get("groups/download/:groupName", "DocumentsController.downloadZip").as(
+    "groups.download"
+  );
   // start/routes.js
   //Route.get('uploads/:filename', 'FilesController.download').as('file.download')
 }).middleware("auth");

@@ -1,0 +1,263 @@
+@layout('layouts.base')
+
+@section('content')
+<div class="card mb-3 bg-info text-white">
+    <div class="bg-holder d-none d-lg-block bg-card"
+        style="background-image:url(assets/img/illustrations/corner-4.png);">
+    </div>
+    <!--/.bg-holder-->
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="mb-0">Membres du groupe </h3>
+                <p class="mt-2">Cocher la ou les classe(s) à partie de laquelle ou desquelles vous voulez Créer le
+                    groupe</p><a class="btn btn-link pl-0 btn-sm" href="" target="_blank">
+
+                    {{ group.name }}
+
+                    <span class="fas fa-chevron-right ml-1 fs--2"></span></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <h5 class="mb-0">Membres du groupe </h5>
+    </div>
+    <div class="card-body bg-light px-0">
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
+                    <thead class="bg-200">
+                        <tr>
+                            <th class="sort">select</th>
+                            <th class="sort">Matricule</th>
+                            <th class="sort">Classe</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                        @each (student in group.students)
+                        <tr>
+                            <td class="align-middle">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input checkbox-bulk-select-target" type="checkbox"
+                                        id="{{ 'checkbox-' + student.id }}" name="class_ids[]"
+                                        value="{{ student.id }}" />
+                                    <label class="custom-control-label" for="{{ 'checkbox-' + student.id }}"></label>
+                                </div>
+                            </td>
+                            <td>{{ student.name }}</td>
+                            <td>
+                                @each(classe in group.classes)
+                                {{ classe.name }}
+                                @endeach
+                            </td>
+
+                        </tr>
+                        @endeach
+                    </tbody>
+                    <tfoot class="bg-200">
+                        <tr>
+                            <th>select</th>
+                            <th>Nom</th>
+                            <th>Description</th>
+
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Suivant</button>
+        </div>
+    </div>
+</div>
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-4 col-sm-auto d-flex align-items-center pr-0">
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Liste des memoires déposés</h5>
+            </div>
+            <div class="col-8 col-sm-auto text-right pl-2">
+                <div class="d-none" id="customers-actions">
+                    <div class="input-group input-group-sm">
+                        <select class="custom-select cus" aria-label="Bulk actions">
+                            <option selected="">Bulk actions</option>
+                            <option value="Delete">Delete</option>
+                            <option value="Archive">Archive</option>
+                        </select>
+                        <button class="btn btn-falcon-default btn-sm ml-2" type="button">Apply</button>
+                    </div>
+                </div>
+                <div id="customer-table-actions">
+                    <button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-plus"
+                            data-fa-transform="shrink-3 down-2"></span><span
+                            class="d-none d-sm-inline-block ml-1">New</span></button>
+                    <button class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-filter"
+                            data-fa-transform="shrink-3 down-2"></span><span
+                            class="d-none d-sm-inline-block ml-1">Filter</span></button>
+                    <button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-external-link-alt"
+                            data-fa-transform="shrink-3 down-2"></span><span
+                            class="d-none d-sm-inline-block ml-1">Export</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="falcon-data-table">
+            <table class="table table-sm mb-0 table-striped table-dashboard fs--1 data-table border-bottom border-200"
+                data-options='{"searching":false,"responsive":false,"pageLength":12,"info":false,"lengthChange":false,"sWrapper":"falcon-data-table-wrapper","dom":"<&#39;row mx-1&#39;<&#39;col-sm-12 col-md-6&#39;l><&#39;col-sm-12 col-md-6&#39;f>><&#39;table-responsive&#39;tr><&#39;row no-gutters px-1 py-3 align-items-center justify-content-center&#39;<&#39;col-auto&#39;p>>","language":{"paginate":{"next":"<span class=\"fas fa-chevron-right\"></span>","previous":"<span class=\"fas fa-chevron-left\"></span>"}}}'>
+                <thead class="bg-warning text-white">
+                    <tr>
+                        <th class="align-middle no-sort pr-3">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input checkbox-bulk-select"
+                                    id="checkbox-bulk-customers-select" type="checkbox" data-checkbox-body="#customers"
+                                    data-checkbox-actions="#customers-actions"
+                                    data-checkbox-replaced-element="#customer-table-actions" />
+                                <label class="custom-control-label" for="checkbox-bulk-customers-select"></label>
+                            </div>
+                        </th>
+                        <th class="align-middle sort">Nom du document </th>
+                        <th class="align-middle sort">Groupe</th>
+                        <th class="align-middle sort">Déposer par</th>
+                        <th class="align-middle ">Dernier Commentaire de l'Encadrant</th>
+                        <th class="align-middle sort">Action</th>
+
+                    </tr>
+                </thead>
+                <tbody id="customers">
+                    @each(doc in documents)
+                    <tr class="btn-reveal-trigger">
+                        <td class="py-2 align-middle white-space-nowrap">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox"
+                                    id="customer-checkbox-0" />
+                                <label class="custom-control-label" for="customer-checkbox-0"></label>
+                            </div>
+                        </td>
+                        <td class="py-2 align-middle white-space-nowrap customer-name-column">
+                            <a href="/uploads/{{ doc.file_name }}" data-fancybox>
+                                <div class="media-body">
+                                    <h5 class="mb-0 fs--1">
+                                        <span class="fas fa-book"></span>
+                                        {{ doc.file_name }}
+                                    </h5>
+                                </div>
+                            </a>
+                        </td>
+                        <td class="py-2 align-middle white-space-nowrap customer-name-column">
+                            <a href="/uploads/{{ doc.file_name }}">
+                                <div class="media d-flex align-items-center">
+                                    <div class="media-body">
+                                        <h5 class="mb-0 fs--1">{{ doc.group_id }}</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </td>
+                        <td class="py-2 align-middle white-space-nowrap customer-name-column">
+                            <a href="/uploads/{{ doc.file_name }}">
+                                <div class="media d-flex align-items-center">
+                                    <div class="media-body">
+                                        <h5 class="mb-0 fs--1">
+                                            @each(user in users)
+                                            @if(user.id == doc.user_id)
+                                            {{ user.name }}
+                                            @endif
+                                            @endeach
+                                        </h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </td>
+                        <td class="py-2 align-middle white-space-nowrap customer-name-column">
+                            <button class="btn btn-link text-danger" type="button" data-toggle="modal"
+                                data-target="#commentModal-{{ doc.id }}">
+                                Voir le commentaire
+                            </button>
+                        </td>
+                        <td class="py-2 align-middle white-space-nowrap">
+                            <div class="dropdown text-sans-serif">
+                                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3"
+                                    type="button" id="customer-dropdown-{{ doc.id }}" data-toggle="dropdown"
+                                    data-boundary="viewport" aria-haspopup="true" aria-expanded="false">
+                                    <span class="fas fa-ellipsis-h fs--1"></span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right border py-0"
+                                    aria-labelledby="customer-dropdown-{{ doc.id }}">
+                                    <div class="bg-white py-2">
+                                        <a class="dropdown-item" href="/uploads/{{ doc.file_name }}"
+                                            data-fancybox>Visualiser</a>
+                                        <a class="dropdown-item text-danger" href="#!">Supprimer</a>
+                                        <a class="dropdown-item" href="/uploads/{{ doc.file_name }}"
+                                            download>Télécharger</a>
+                                        <a class="dropdown-item"
+                                            href="{{ route('student.view-comment', { id: doc.id }) }}">Voir le
+                                            commentaire</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Modal for Comment -->
+                    <div class="modal fade" id="commentModal-{{ doc.id }}" tabindex="-1" role="dialog"
+                        aria-labelledby="commentModalLabel-{{ doc.id }}" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="commentModalLabel-{{ doc.id }}">Commentaire pour {{
+                                        doc.file_name }}
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="commentContent-{{ doc.id }}">
+                                        @if(doc.comments && doc.comments.length > 0)
+                                        @each(comment in doc.comments)
+                                        <p>{{{ comment.content }}}</p>
+                                        @endeach
+                                        @else
+                                        <p>Aucun commentaire disponible.</p>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+            modal.addEventListener('shown.bs.modal', function (event) {
+                const docId = event.target.id.split('-').pop();
+                fetch(`/student/view-comment/${docId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const contentDiv = document.getElementById(`commentContent-${docId}`);
+                        if (data.length === 0) {
+                            contentDiv.innerHTML = 'Aucun commentaire disponible.';
+                        } else {
+                            contentDiv.innerHTML = data.map(comment => `<p>${comment.content}</p>`).join('');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching comments:', error));
+            });
+        });
+    });
+</script>
+@endsection

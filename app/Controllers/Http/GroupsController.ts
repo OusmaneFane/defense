@@ -6,6 +6,7 @@ import Student from "App/Models/Student";
 import Hash from "@ioc:Adonis/Core/Hash";
 import Database from "@ioc:Adonis/Lucid/Database";
 import db from "@adonisjs/lucid/services/db";
+import Document from "App/Models/Document";
 
 const ExternalApiService = require("../../Services/ExternalApiService");
 const apiBaseUrl = "https://api-staging.supmanagement.ml"; // Remplacez par l'URL de l'API externe
@@ -237,5 +238,25 @@ export default class GroupsController {
         .status(500)
         .send("Une erreur est survenue lors de la création du groupe.");
     }
+  }
+  public async show({ params, view }: HttpContextContract) {
+    const group = await Group.query()
+      .where("id", params.id)
+      .preload("supervisor")
+      .preload("students")
+      .preload("classes")
+      .firstOrFail();
+
+    const documents = await Document.query()
+      .where("group_id", params.id)
+      .preload("comments"); // Précharge les commentaires
+
+    // Convertir chaque document en JSON
+    const documentsJson = documents.map((doc) => doc.toJSON());
+
+    return view.render("super_admin.groups.show", {
+      group: group.toJSON(),
+      documents: documentsJson,
+    });
   }
 }

@@ -1,37 +1,40 @@
-import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { DateTime } from "luxon";
+import { BaseModel, column, hasMany, HasMany } from "@ioc:Adonis/Lucid/Orm";
+import Comment from "./Comment";
 
 export default class Document extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: number;
 
   @column()
-  public user_id: number
+  public user_id: number;
 
   @column()
-  public group_id: number
+  public group_id: number;
 
   @column()
-  public file_name: string
+  public file_name: string;
 
   @column()
-
-  public file_path: string
-
-  @column()
-  public file_type: string
+  public file_path: string;
 
   @column()
-  public file_size: number
+  public file_type: string;
 
   @column()
-  public file_extension: string
+  public file_size: number;
 
+  @column()
+  public file_extension: string;
 
+  @hasMany(() => Comment, {
+    foreignKey: "file_id",
+  })
+  public comments: HasMany<typeof Comment>;
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public createdAt: DateTime;
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  public updatedAt: DateTime;
 }

@@ -1,112 +1,79 @@
 @layout('layouts.base')
 
 @section('content')
-@layout('layouts.base')
+<div class="card mb-3 bg-secondary text-white">
+    <div class="bg-holder d-none d-lg-block bg-card"
+        style="background-image:url(../assets/img/illustrations/corner-4.png);">
+    </div>
+    <!--/.bg-holder-->
 
-@section('content')
-<section class="p-t-20">
-  <div class="container">
-      <div class="row">
-          <div class="col-md-12">
-            @!component('components/flash')
-              <h3 class="title-5 m-b-35">Gestion des Documents</h3>
-              <div class="table-data__tool">
-                  {{--  <div class="table-data__tool-left">
-                      <div class="rs-select2--light rs-select2--md">
-                          <select class="js-select2" name="property">
-                              <option selected="selected">All Properties</option>
-                              <option value="">Option 1</option>
-                              <option value="">Option 2</option>
-                          </select>
-                          <div class="dropDownSelect2"></div>
-                      </div>
-                      <div class="rs-select2--light rs-select2--sm">
-                          <select class="js-select2" name="time">
-                              <option selected="selected">Today</option>
-                              <option value="">3 Days</option>
-                              <option value="">1 Week</option>
-                          </select>
-                          <div class="dropDownSelect2"></div>
-                      </div>
-                      <button class="au-btn-filter">
-                          <i class="zmdi zmdi-filter-list"></i>filters</button>
-                  </div>  --}}
-                  <div class="table-data__tool-right">
-                      <a href="{{ route('superadmin.create_group') }}" class="au-btn au-btn-icon au-btn--green au-btn--small">
-                          <i class="zmdi zmdi-plus"></i>Nouveau Groupe</a>
-                          <a href="{{ route('superadmin.create_classe') }}" class="au-btn au-btn-icon au-btn--blue au-btn--small">
-                          <i class="zmdi zmdi-plus"></i>Nouvelle classe</a>
-                  </div>
-              </div>
-              <div class="table-responsive table-responsive-data2">
-                <table class="table table-data2">
-                    <thead>
-                        <tr>
-                            <th>
-                                <label class="au-checkbox">
-                                    <input type="checkbox">
-                                    <span class="au-checkmark"></span>
-                                </label>
-                            </th>
-                            <th>Nom du document</th>
-                            <th>Groupe</th>
-                            <th>Etudiants</th>
-                            <th>ID Etudiant</th>
-                            <th>Action</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @each(doc in documents)
-                        <tr class="tr-shadow">
-                            <td>
-                                <label class="au-checkbox">
-                                    <input type="checkbox">
-                                    <span class="au-checkmark"></span>
-                                </label>
-                            </td>
-                            <td>{{ doc.file_name }}</td>
-                            <td>
-                                <span class="role admin">{{  }}</span>
-                            </td>
-                            <td>
-                              @each (student in group.students)
-                                <span class="role user">{{  }}</span>
-                              @endeach
-                            </td>
-                            <td>
-                              @each(classe in group.classes)
-                                <span class="role user">{{  }}</span>
-                              @endeach
-                            </td>
-                            <td>
-                                <div class="table-data-feature">
-                                    <button class="item" data-toggle="tooltip" data-placement="top" title="">
-                                        <i class="zmdi zmdi-mail-send"></i>
-                                    </button>
-                                    <a href="" class="item" data-toggle="tooltip" data-placement="top" title="Modifier">
-                                        <i class="zmdi zmdi-edit"></i>
-                                    </a>
-                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Supprimer">
-                                        <i class="zmdi zmdi-delete"></i>
-                                    </button>
-                                    <button class="item" data-toggle="tooltip" data-placement="top" title="plus">
-                                        <i class="zmdi zmdi-more"></i>
-                                    </button>
-                                </div>
-                            </td>
-                            <tr class="spacer"></tr>
-                        </tr>
-                        @endeach
-                    </tbody>
-                </table>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="mb-0">Documents</h3>
+                <p class="mt-2">Consulter les documents par groupe, vous pouvez télécharger tous les documents
+                </p><a class="btn btn-link pl-0 btn-sm" href="https://www.tiny.cloud/docs/quick-start/" target="_blank">
+                    Liste des documents<span class="fas fa-chevron-right ml-1 fs--2"></span></a>
             </div>
+        </div>
+    </div>
+</div>
 
-          </div>
-      </div>
-  </div>
-</section>
-@endsection
+<style>
+    .folder {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        background-color: #f8f9fa;
+    }
 
+    .folder-icon {
+        margin-right: 10px;
+    }
 
+    .folder-red {
+        background-color: #ffebee;
+    }
+</style>
+<div class="card mb-3">
+    <div class="container mt-3">
+        <h2 class="fs-0 mb-0 text-nowrap py-2 py-xl-0 mb-4">Liste des groupes</h2>
+        <table class="table table-sm mb-0 table-striped table-dashboard fs--1 data-table border-bottom border-200"
+            data-options='{"searching":false,"responsive":false,"pageLength":12,"info":false,"lengthChange":false,"sWrapper":"falcon-data-table-wrapper","dom":"<&#39;row mx-1&#39;<&#39;col-sm-12 col-md-6&#39;l><&#39;col-sm-12 col-md-6&#39;f>><&#39;table-responsive&#39;tr><&#39;row no-gutters px-1 py-3 align-items-center justify-content-center&#39;<&#39;col-auto&#39;p>>","language":{"paginate":{"next":"<span class=\"fas fa-chevron-right\"></span>","previous":"<span class=\"fas fa-chevron-left\"></span>"}}}'>
+
+            <div class="row">
+                @each(group in groups)
+                <div class="col-md-4 mb-3">
+                    <div class="folder">
+                        <div class="d-flex align-items-center">
+                            <i class="folder-icon fas fa-folder"></i>
+                            <span><b>{{ group.name }}</b></span>
+                        </div>
+                        <div class="dropdown text-sans-serif">
+                            <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
+                                id="customer-dropdown-0" data-toggle="dropdown" data-boundary="viewport"
+                                aria-haspopup="true" aria-expanded="false"><span
+                                    class="fas fa-ellipsis-h fs--1"></span></button>
+                            <div class="dropdown-menu dropdown-menu-right border py-0"
+                                aria-labelledby="customer-dropdown-0">
+                                <div class="bg-white py-2"><a class="dropdown-item"
+                                        href="{{ route('groups.show', { id: group.id }) }}">Voir</a><a
+                                        class="dropdown-item text-danger" href="#!">Supprimer</a>
+                                    <a class="dropdown-item"
+                                        href="{{ route('groups.download', { groupName: group.name }) }}">Télécharger</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endeach
+
+            </div>
+        </table>
+    </div>
+</div>
 @endsection

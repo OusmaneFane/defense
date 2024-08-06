@@ -222,10 +222,13 @@ export default class StudentsController {
     // Récupérer les documents et les commentaires
     const documents = await Document.query()
       .where("group_id", group.group_id)
-      .exec();
+      .preload("comments");
+
     const commentData = await Database.from("comments")
       .where("group_id", group.group_id)
       .exec();
+    // Convertir chaque document en JSON
+    const documentsJson = documents.map((doc) => doc.toJSON());
 
     // Construire le chemin complet des fichiers
     const basePath = Application.publicPath("uploads");
