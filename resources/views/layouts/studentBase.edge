@@ -10,7 +10,7 @@
   <!-- ===============================================-->
   <!--    Document Title-->
   <!-- ===============================================-->
-  <title>Falcon | Dashboard &amp; WebApp Template</title>
+  <title>Sup'Memoire | Dashboard </title>
 
 
   <!-- ===============================================-->
@@ -113,9 +113,9 @@
             data-toggle="collapse" data-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse"
             aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                 class="toggle-line"></span></span></button>
-          <a class="navbar-brand mr-1 mr-sm-3" href="index.html">
+          <a class="navbar-brand mr-1 mr-sm-3" href="{{ route('student.dashboard') }}">
             <div class="d-flex align-items-center"><img class="mr-2" src="/assets/img/illustrations/falcon.png" alt=""
-                width="40" /><span class="text-sans-serif">falcon</span>
+                width="40" /><span class="text-sans-serif">Sup'Memoire</span>
             </div>
           </a>
           <ul class="navbar-nav align-items-center d-none d-lg-block">
@@ -123,127 +123,21 @@
               <div class="search-box">
                 <form class="position-relative" data-toggle="search" data-display="static">
 
-                  <input class="form-control search-input" type="search" placeholder="Search..." aria-label="Search" />
-                  <span class="fas fa-search search-box-icon"></span>
+                  <input class="form-control search-input ml-6" type="search" placeholder="Rechercher..."
+                    aria-label="Search" />
+                  <span class="fas fa-search search-box-icon ml-6"></span>
 
                 </form>
 
                 <button class="close" type="button" data-dismiss="search"><span class="fas fa-times"></span></button>
-                <div class="dropdown-menu">
-                  <div class="scrollbar perfect-scrollbar py-3" style="height: 24rem;">
-                    <h6 class="dropdown-header px-card pt-0 pb-2">Recently Browsed</h6>
-                    <a class="dropdown-item fs--1 px-card py-1 hover-primary" href="pages/events.html">
-                      <div class="d-flex align-items-center">
-                        <span class="fas fa-circle mr-2 text-300 fs--2"></span>
 
-                        <div class="font-weight-normal">Pages <span class="fas fa-chevron-right mx-1 text-500 fs--2"
-                            data-fa-transform="shrink-2"></span> Events</div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item fs--1 px-card py-1 hover-primary" href="e-commerce/customers.html">
-                      <div class="d-flex align-items-center">
-                        <span class="fas fa-circle mr-2 text-300 fs--2"></span>
-
-                        <div class="font-weight-normal">E-commerce <span
-                            class="fas fa-chevron-right mx-1 text-500 fs--2" data-fa-transform="shrink-2"></span>
-                          Customers</div>
-                      </div>
-                    </a>
-
-                    <hr class="border-200" />
-                    <h6 class="dropdown-header px-card pt-0 pb-2">Suggested Filter</h6>
-                    <a class="dropdown-item px-card py-1 fs-0" href="e-commerce/customers.html">
-                      <div class="d-flex align-items-center"><span
-                          class="badge font-weight-medium text-decoration-none mr-2 badge-soft-warning">customers:</span>
-                        <div class="flex-1 fs--1">All customers list</div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item px-card py-1 fs-0" href="pages/events.html">
-                      <div class="d-flex align-items-center"><span
-                          class="badge font-weight-medium text-decoration-none mr-2 badge-soft-success">events:</span>
-                        <div class="flex-1 fs--1">Latest events in current month</div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item px-card py-1 fs-0" href="e-commerce/product-grid.html">
-                      <div class="d-flex align-items-center"><span
-                          class="badge font-weight-medium text-decoration-none mr-2 badge-soft-info">products:</span>
-                        <div class="flex-1 fs--1">Most popular products</div>
-                      </div>
-                    </a>
-
-                    <hr class="border-200" />
-                    <h6 class="dropdown-header px-card pt-0 pb-2">Files</h6>
-                    <a class="dropdown-item px-card py-2" href="#!">
-                      <div class="d-flex align-items-center">
-                        <div class="file-thumbnail mr-2"><img class="border h-100 w-100 fit-cover rounded-lg"
-                            src="/assets/img/products/3-thumb.png" alt="" /></div>
-                        <div class="flex-1">
-                          <h6 class="mb-0">iPhone</h6>
-                          <p class="fs--2 mb-0"><span class="font-weight-semi-bold">Antony</span><span
-                              class="font-weight-medium text-600 ml-2">27 Sep at 10:30 AM</span></p>
-                        </div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item px-card py-2" href="#!">
-                      <div class="d-flex align-items-center">
-                        <div class="file-thumbnail mr-2"><img class="img-fluid" src="/assets/img/icons/zip.png"
-                            alt="" /></div>
-                        <div class="flex-1">
-                          <h6 class="mb-0">Falcon v1.8.2</h6>
-                          <p class="fs--2 mb-0"><span class="font-weight-semi-bold">John</span><span
-                              class="font-weight-medium text-600 ml-2">30 Sep at 12:30 PM</span></p>
-                        </div>
-                      </div>
-                    </a>
-
-                    <hr class="border-200" />
-                    <h6 class="dropdown-header px-card pt-0 pb-2">Members</h6>
-                    <a class="dropdown-item px-card py-2" href="pages/profile.html">
-                      <div class="d-flex align-items-center">
-                        <div class="avatar avatar-l status-online mr-2">
-                          <img class="rounded-circle" src="/assets/img/team/1.jpg" alt="" />
-
-                        </div>
-                        <div class="flex-1">
-                          <h6 class="mb-0">Anna Karinina</h6>
-                          <p class="fs--2 mb-0">Technext Limited</p>
-                        </div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item px-card py-2" href="pages/profile.html">
-                      <div class="d-flex align-items-center">
-                        <div class="avatar avatar-l mr-2">
-                          <img class="rounded-circle" src="/assets/img/team/2.jpg" alt="" />
-
-                        </div>
-                        <div class="flex-1">
-                          <h6 class="mb-0">Antony Hopkins</h6>
-                          <p class="fs--2 mb-0">Brain Trust</p>
-                        </div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item px-card py-2" href="pages/profile.html">
-                      <div class="d-flex align-items-center">
-                        <div class="avatar avatar-l mr-2">
-                          <img class="rounded-circle" src="/assets/img/team/3.jpg" alt="" />
-
-                        </div>
-                        <div class="flex-1">
-                          <h6 class="mb-0">Emma Watson</h6>
-                          <p class="fs--2 mb-0">Google</p>
-                        </div>
-                      </div>
-                    </a>
-
-                  </div>
-                </div>
               </div>
             </li>
           </ul>
           <ul class="navbar-nav navbar-nav-icons ml-auto flex-row align-items-center">
             <li class="nav-item d-none d-md-block">
-              <a class="nav-link px-3 py-0" href="https://prium.github.io/falcon/v3.0.0-beta6/" target="_blank">Gestion
-                de Soutenance</a>
+              <a class="nav-link px-3 py-0" href="https://prium.github.io/falcon/v3.0.0-beta6/" target="_blank"><img
+                  src="/assets/img/LOGO HORIZONTAL HD.png" alt="" height="35" /></a>
             </li>
             <li class="nav-item">
               <a class="nav-link settings-popover" href="#settings-modal" data-toggle="modal"><span
@@ -257,15 +151,29 @@
 
             </li>
 
+
             <li class="nav-item dropdown dropdown-on-hover"><a class="nav-link pr-0" id="navbarDropdownUser" href="#"
                 role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-xl">
-                  <img class="rounded-circle" src="/assets/img/team/3-thumb.png" alt="" />
-
+                  @each(memb in members)
+                  @if(memb.id == student.id)
+                  <img class="rounded-circle" src="data:image/jpeg;base64,{{ memb.photo }}" alt="" />
+                  @endif
+                  @endeach
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-right py-0" aria-labelledby="navbarDropdownUser">
                 <div class="bg-white rounded-soft py-2">
+                  <a class="dropdown-item font-weight-bold text-warning" href="#!"><span
+                      class="fas fa-crown mr-1"></span><span>Sup'Memoire</span></a>
+
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{ route('student.dashboard') }}">Chats</a>
+                  <a class="dropdown-item" href="{{ route('student.upload_file') }}">Déposer un memoire</a>
+
+                  <a class="dropdown-item" href="{{ route('user.profil', { id: student.id }) }}">Profil</a>
+
+                  <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="/logout">Déconnexion</a>
                 </div>
               </div>

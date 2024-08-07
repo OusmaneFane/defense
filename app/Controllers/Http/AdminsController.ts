@@ -70,11 +70,39 @@ export default class AdminsController {
   }
   public async profil({ view, params }: HttpContextContract) {
     const user = await User.findOrFail(params.id);
+    const student = await Student.findOrFail(params.id);
+
     const roles = await Role.all();
-    // Récupération du mot de passe réel
     const password = user.password.split("$")[2];
 
-    return view.render("super_admin.profil", { user, roles, password });
+    // Récupérer la photo de l'utilisateur via l'API externe
+    const externalApiService = new ExternalApiService(apiBaseUrl, token);
+    const include_photo = true;
+    let userPhoto = null;
+
+    try {
+      const studentsInfo = await externalApiService.getStudentsPhoto(
+        student.name,
+        include_photo
+      );
+      if (studentsInfo && studentsInfo.length > 0) {
+        userPhoto = studentsInfo[0].user_photo.base64;
+      }
+    } catch (error) {
+      console.error(
+        `Erreur lors de la récupération des informations pour l'utilisateur ${user.name}:`,
+        error
+      );
+    }
+    console.log("UserPhoto: ", userPhoto);
+
+    return view.render("super_admin.profil", {
+      user,
+      roles,
+      password,
+      userPhoto,
+      student, // Transmettre la photo de l'utilisateur
+    });
   }
 
   public async update({ params, request, response, session }) {

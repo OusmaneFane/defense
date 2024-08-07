@@ -22,6 +22,7 @@
 
               <a href="{{ route('student.upload_file') }}" class="au-btn au-btn-icon au-btn--blue au-btn--small">
                 <i class="zmdi zmdi-plus"></i>Déposer un Projet/Memoire</a>
+
               {{-- <button type="button" class="btn btn-primary mb-1" data-toggle="modal" data-target="#mediumModal">
                 Déposer un Projet/Memoire
               </button> --}}
@@ -306,17 +307,11 @@
       <form class="chat-editor-area" action="{{ route('messages.store') }}" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="group_id" value="{{ group.group_id }}">
         <input class="d-none" type="file" name="file" id="fileInput">
-        <label class="mb-0 p-1 chat-file-upload cursor-pointer" for="fileInput"><span
-            class="fas fa-paperclip"></span></label>
+
         <textarea name="content" class="emojiarea border-0 outline-none shadow-none"
           data-options='{"placeholder":"Ecrivez votre message","emojiPlaceholder":":smile_cat:","search":false,"tones":false,"filtersPosition":"bottom","recentEmojis":false}'></textarea>
-        <script>
-          function handleFileClick() {
-            document.getElementById('fileInput').click();
-            document.getElementById('fileName').textContent = fileName;
-          }
-        </script>
-        <button class="btn btn-sm btn-send outline-none ml-2" type="submit">Envoyer</button>
+
+        <button class="btn btn-sm btn-send outline-none ml-2" type="submit">Send</button>
       </form>
     </div>
   </div>

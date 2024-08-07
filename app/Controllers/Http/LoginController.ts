@@ -6,6 +6,10 @@ import Group from "App/Models/Group";
 import Database from "@ioc:Adonis/Lucid/Database";
 import Swal from "sweetalert2";
 const axios = require("axios");
+const ExternalApiService = require("../../Services/ExternalApiService");
+const apiBaseUrl = "https://api-staging.supmanagement.ml"; // Remplacez par l'URL de l'API externe
+const token = "0000-8432-3244-0923";
+const schoolYear = "2023-2024";
 
 export default class LoginController {
   public async index({ view }: HttpContextContract) {
@@ -38,7 +42,6 @@ export default class LoginController {
         return response.redirect().back();
       } else if (data.message === "Invalid credentials") {
         session.flash({ InvalidCredentials: "Mot de passe incorrect" });
-
         return response.redirect().back();
       }
 
@@ -47,21 +50,46 @@ export default class LoginController {
 
       // Récupérer l'étudiant dans la table users
       const student = await Student.findBy("user_id", user.id);
-      // récuperer le groupe de l'étudiant à partir de la table group_student
+
+      // Récupérer le groupe de l'étudiant à partir de la table group_student
       const group = await Database.from("group_student")
         .where("student_id", student.id)
         .first();
 
-      // recuperer les membres du groupe
+      // Récupérer les membres du groupe
       const members = await Database.from("group_student")
         .where("group_id", group.group_id)
         .exec();
-      //console.log('Membres: ', members.length)
+
+      // Récupérer la photo de l'utilisateur connecté via l'API externe
+      const externalApiService = new ExternalApiService(apiBaseUrl, token);
+      const include_photo = true;
+      let userPhoto = null;
+
+      try {
+        const studentsInfo = await externalApiService.getStudentsPhoto(
+          user.name,
+          include_photo
+        );
+        if (studentsInfo && studentsInfo.length > 0) {
+          userPhoto = studentsInfo[0].user_photo.base64;
+        }
+      } catch (error) {
+        console.error(
+          `Erreur lors de la récupération des informations pour l'utilisateur ${user.name}:`,
+          error
+        );
+      }
+      console.log("UserPhoto ", userPhoto);
+
       session.flash({ connected: "Vous êtes connectés !" });
 
-      return response
-        .redirect()
-        .toRoute("student.dashboard", { student, group, members });
+      return response.redirect().toRoute("student.dashboard", {
+        student,
+        group,
+        members,
+        userPhoto,
+      });
     } else if (user.role === "supervisor") {
       await auth.use("web").login(user);
 

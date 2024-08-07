@@ -133,7 +133,6 @@ export default class StudentsController {
     members.forEach((member, index) => {
       member.photo = membersPhotos[index]; // Ajoutez une propriété 'photo' à chaque membre
     });
-    console.log(members);
 
     return view.render("student.dashboard", {
       student: student,
@@ -213,11 +212,35 @@ export default class StudentsController {
     const supervisor = await User.query()
       .where("id", supervisor2)
       .firstOrFail();
+    const memberNames = members.map((member) => member.name);
+    const externalApiService = new ExternalApiService(apiBaseUrl, token);
 
     const users = await User.all();
     const infoGroup = await Group.query()
       .where("id", group.group_id)
       .firstOrFail();
+    const include_photo = true;
+    const membersPhotos = [];
+    for (const username of memberNames) {
+      try {
+        const studentsInfo = await externalApiService.getStudentsPhoto(
+          username,
+          include_photo
+        );
+        const memberPhoto = studentsInfo.map(
+          (studentInfo) => studentInfo.user_photo.base64
+        );
+        membersPhotos.push(...memberPhoto);
+      } catch (error) {
+        console.error(
+          `Erreur lors de la récupération des informations pour l'utilisateur ${username}:`,
+          error
+        );
+      }
+    }
+    members.forEach((member, index) => {
+      member.photo = membersPhotos[index]; // Ajoutez une propriété 'photo' à chaque membre
+    });
 
     // Récupérer les documents et les commentaires
     const documents = await Document.query()
