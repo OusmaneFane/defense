@@ -12,6 +12,7 @@ import { createWriteStream } from "fs";
 import { join } from "path";
 import { tmpdir } from "os";
 import { promises as fs } from "fs";
+import Group from "App/Models/Group";
 async function uploadFileToDrive(auth, groupId, filePath) {
   const drive = google.drive({ version: "v3", auth });
 
@@ -153,18 +154,31 @@ export default class DocumentsController {
       return response.redirect().back();
     }
   }
-  public async comment_file({ view, auth, params }: HttpContextContract) {
+  public async comment_file({
+    view,
+    auth,
+    params,
+    request,
+  }: HttpContextContract) {
     await auth.use("web").authenticate();
 
     const documentInfo = await Document.findOrFail(params.id);
 
-    const groupInfo = await Database.from("groups")
+    const groupInfo = await Database.from("documents")
       .where("id", params.id)
       .first();
+    console.log("groupInfo: ", groupInfo.id);
+    const group = await Group.query()
+      .where("id", groupInfo.group_id)
+      .preload("supervisor")
+      .firstOrFail();
+
+    console.log("groups: ", group.supervisor_id);
 
     return view.render("supervisor.comments.index", {
       documentInfo,
-      groupInfo,
+      group,
+      currentRoute: request.url(),
     });
   }
   public async store_comment({ response, request }: HttpContextContract) {
@@ -187,14 +201,18 @@ export default class DocumentsController {
     await commentData.save();
     console.log("OKKKKK");
 
-    return response.redirect().toRoute("supervisor.view_file");
+    return response.redirect().toRoute("supervisor.dashboard");
   }
 
-  public async edit({ params, view }: HttpContextContract) {
-    const comment = await Comment.findOrFail(params.id);
-    console.log(comment);
+  public async edit({ params, view, request }: HttpContextContract) {
+    console.log(params.id);
 
-    return view.render("supervisor.comments.edit", { comment });
+    const comment = await Comment.findOrFail(params.id);
+
+    return view.render("supervisor.comments.edit", {
+      comment,
+      currentRoute: request.url(),
+    });
   }
   public async update({
     params,
@@ -218,7 +236,7 @@ export default class DocumentsController {
     session.flash({ notification: "Commentaire mis à jour avec succès!" });
 
     // Rediriger vers une autre page (par exemple, la liste des documents)
-    return response.redirect().toRoute("supervisor.view_file");
+    return response.redirect().toRoute("supervisor.dashboard");
   }
   public async downloadZip({ params, response }: HttpContextContract) {
     const groupName = params.groupName as string;

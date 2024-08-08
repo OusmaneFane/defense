@@ -38,6 +38,7 @@
   <link href="/assets/lib/datatables-bs4/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link href="/assets/lib/datatables.net-responsive-bs4/responsive.bootstrap4.css" rel="stylesheet">
   <link href="/assets/lib/toastr/toastr.min.css" rel="stylesheet">
+
 </head>
 
 
@@ -60,35 +61,33 @@
 
           </div><a class="navbar-brand" href="index.html">
             <div class="d-flex align-items-center py-3"><img class="mr-2" src="/assets/img/illustrations/falcon.png"
-                alt="" width="40" /><span class="text-sans-serif">Sup</span>
+                alt="" width="40" /><span class="text-sans-serif">Sup'Memoire</span>
             </div>
           </a>
         </div>
         <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
           <div class="navbar-vertical-content perfect-scrollbar scrollbar">
             <ul class="navbar-nav flex-column" id="home">
-
-              <li class="nav-item active"><a class="nav-link" href="{{route('supervisor.dashboard')}}">
-                  <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                        class="fas fa-comments"></span></span><span class="nav-link-text"> Chats</span>
+              <li class="nav-item {{ currentRoute == route('supervisor.dashboard') ? 'active' : '' }}">
+                <a class="nav-link" href="{{route('supervisor.dashboard')}}">
+                  <div class="d-flex align-items-center">
+                    <span class="nav-link-icon"><span class="fas fa-comments"></span></span>
+                    <span class="nav-link-text"> Chats</span>
                   </div>
-                </a></li>
-              <li class="nav-item active"><a class="nav-link" href="">
-                  <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                        class="fas fa-comments"></span></span><span class="nav-link-text"> Gestion des groupes</span>
+                </a>
+              </li>
+              <li class="nav-item {{ currentRoute == route('supervisor.groups') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('supervisor.groups') }}">
+                  <div class="d-flex align-items-center">
+                    <span class="nav-link-icon"><span class="fas fa-users"></span></span>
+                    <span class="nav-link-text"> Gestion des groupes</span>
                   </div>
-                </a></li>
-              <li class="nav-item"><a class="nav-link" href="{{ route('supervisor.view_file') }}">
-                  <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                        class="fas fa-book"></span></span><span class="nav-link-text"> Gestion des documents</span>
-                  </div>
-                </a></li>
-
+                </a>
+              </li>
 
             </ul>
-            <div class="navbar-vertical-divider">
-              <hr class="navbar-vertical-hr my-2" />
-            </div>
+
+
 
             <div class="navbar-vertical-divider">
               <hr class="navbar-vertical-hr my-2" />
@@ -118,9 +117,9 @@
             data-toggle="collapse" data-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse"
             aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                 class="toggle-line"></span></span></button>
-          <a class="navbar-brand mr-1 mr-sm-3" href="index.html">
+          <a class="navbar-brand mr-1 mr-sm-3" href="{{ route('student.dashboard') }}">
             <div class="d-flex align-items-center"><img class="mr-2" src="/assets/img/illustrations/falcon.png" alt=""
-                width="40" /><span class="text-sans-serif">falcon</span>
+                width="40" /><span class="text-sans-serif">Sup'Memoire</span>
             </div>
           </a>
           <ul class="navbar-nav align-items-center d-none d-lg-block">
@@ -128,127 +127,21 @@
               <div class="search-box">
                 <form class="position-relative" data-toggle="search" data-display="static">
 
-                  <input class="form-control search-input" type="search" placeholder="Search..." aria-label="Search" />
-                  <span class="fas fa-search search-box-icon"></span>
+                  <input class="form-control search-input ml-6" type="search" placeholder="Rechercher..."
+                    aria-label="Search" />
+                  <span class="fas fa-search search-box-icon ml-6"></span>
 
                 </form>
 
                 <button class="close" type="button" data-dismiss="search"><span class="fas fa-times"></span></button>
-                <div class="dropdown-menu">
-                  <div class="scrollbar perfect-scrollbar py-3" style="height: 24rem;">
-                    <h6 class="dropdown-header px-card pt-0 pb-2">Recently Browsed</h6>
-                    <a class="dropdown-item fs--1 px-card py-1 hover-primary" href="pages/events.html">
-                      <div class="d-flex align-items-center">
-                        <span class="fas fa-circle mr-2 text-300 fs--2"></span>
 
-                        <div class="font-weight-normal">Pages <span class="fas fa-chevron-right mx-1 text-500 fs--2"
-                            data-fa-transform="shrink-2"></span> Events</div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item fs--1 px-card py-1 hover-primary" href="e-commerce/customers.html">
-                      <div class="d-flex align-items-center">
-                        <span class="fas fa-circle mr-2 text-300 fs--2"></span>
-
-                        <div class="font-weight-normal">E-commerce <span
-                            class="fas fa-chevron-right mx-1 text-500 fs--2" data-fa-transform="shrink-2"></span>
-                          Customers</div>
-                      </div>
-                    </a>
-
-                    <hr class="border-200" />
-                    <h6 class="dropdown-header px-card pt-0 pb-2">Suggested Filter</h6>
-                    <a class="dropdown-item px-card py-1 fs-0" href="e-commerce/customers.html">
-                      <div class="d-flex align-items-center"><span
-                          class="badge font-weight-medium text-decoration-none mr-2 badge-soft-warning">customers:</span>
-                        <div class="flex-1 fs--1">All customers list</div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item px-card py-1 fs-0" href="pages/events.html">
-                      <div class="d-flex align-items-center"><span
-                          class="badge font-weight-medium text-decoration-none mr-2 badge-soft-success">events:</span>
-                        <div class="flex-1 fs--1">Latest events in current month</div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item px-card py-1 fs-0" href="e-commerce/product-grid.html">
-                      <div class="d-flex align-items-center"><span
-                          class="badge font-weight-medium text-decoration-none mr-2 badge-soft-info">products:</span>
-                        <div class="flex-1 fs--1">Most popular products</div>
-                      </div>
-                    </a>
-
-                    <hr class="border-200" />
-                    <h6 class="dropdown-header px-card pt-0 pb-2">Files</h6>
-                    <a class="dropdown-item px-card py-2" href="#!">
-                      <div class="d-flex align-items-center">
-                        <div class="file-thumbnail mr-2"><img class="border h-100 w-100 fit-cover rounded-lg"
-                            src="/assets/img/products/3-thumb.png" alt="" /></div>
-                        <div class="flex-1">
-                          <h6 class="mb-0">iPhone</h6>
-                          <p class="fs--2 mb-0"><span class="font-weight-semi-bold">Antony</span><span
-                              class="font-weight-medium text-600 ml-2">27 Sep at 10:30 AM</span></p>
-                        </div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item px-card py-2" href="#!">
-                      <div class="d-flex align-items-center">
-                        <div class="file-thumbnail mr-2"><img class="img-fluid" src="/assets/img/icons/zip.png"
-                            alt="" /></div>
-                        <div class="flex-1">
-                          <h6 class="mb-0">Falcon v1.8.2</h6>
-                          <p class="fs--2 mb-0"><span class="font-weight-semi-bold">John</span><span
-                              class="font-weight-medium text-600 ml-2">30 Sep at 12:30 PM</span></p>
-                        </div>
-                      </div>
-                    </a>
-
-                    <hr class="border-200" />
-                    <h6 class="dropdown-header px-card pt-0 pb-2">Members</h6>
-                    <a class="dropdown-item px-card py-2" href="pages/profile.html">
-                      <div class="d-flex align-items-center">
-                        <div class="avatar avatar-l status-online mr-2">
-                          <img class="rounded-circle" src="/assets/img/team/1.jpg" alt="" />
-
-                        </div>
-                        <div class="flex-1">
-                          <h6 class="mb-0">Anna Karinina</h6>
-                          <p class="fs--2 mb-0">Technext Limited</p>
-                        </div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item px-card py-2" href="pages/profile.html">
-                      <div class="d-flex align-items-center">
-                        <div class="avatar avatar-l mr-2">
-                          <img class="rounded-circle" src="/assets/img/team/2.jpg" alt="" />
-
-                        </div>
-                        <div class="flex-1">
-                          <h6 class="mb-0">Antony Hopkins</h6>
-                          <p class="fs--2 mb-0">Brain Trust</p>
-                        </div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item px-card py-2" href="pages/profile.html">
-                      <div class="d-flex align-items-center">
-                        <div class="avatar avatar-l mr-2">
-                          <img class="rounded-circle" src="/assets/img/team/3.jpg" alt="" />
-
-                        </div>
-                        <div class="flex-1">
-                          <h6 class="mb-0">Emma Watson</h6>
-                          <p class="fs--2 mb-0">Google</p>
-                        </div>
-                      </div>
-                    </a>
-
-                  </div>
-                </div>
               </div>
             </li>
           </ul>
           <ul class="navbar-nav navbar-nav-icons ml-auto flex-row align-items-center">
             <li class="nav-item d-none d-md-block">
-              <a class="nav-link px-3 py-0" href="https://prium.github.io/falcon/v3.0.0-beta6/" target="_blank">Gestion
-                de Soutenance</a>
+              <a class="nav-link px-3 py-0" href="https://prium.github.io/falcon/v3.0.0-beta6/" target="_blank"><img
+                  src="/assets/img/LOGO HORIZONTAL HD.png" alt="" height="35" /></a>
             </li>
             <li class="nav-item">
               <a class="nav-link settings-popover" href="#settings-modal" data-toggle="modal"><span
@@ -262,15 +155,27 @@
 
             </li>
 
+
             <li class="nav-item dropdown dropdown-on-hover"><a class="nav-link pr-0" id="navbarDropdownUser" href="#"
                 role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-xl">
-                  <img class="rounded-circle" src="/assets/img/team/3-thumb.png" alt="" />
+
+                  <img class="rounded-circle" src="/assets/img/LV.jpg" alt="" />
 
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-right py-0" aria-labelledby="navbarDropdownUser">
                 <div class="bg-white rounded-soft py-2">
+                  <a class="dropdown-item font-weight-bold text-warning" href="#!"><span
+                      class="fas fa-user mr-1"></span><span>{{ auth.user.name }}</span></a>
+
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{ route('student.dashboard') }}">Chats</a>
+                  <a class="dropdown-item" href="{{ route('student.upload_file') }}">Déposer un memoire</a>
+
+                  <a class="dropdown-item" href="">Profil</a>
+
+                  <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="/logout">Déconnexion</a>
                 </div>
               </div>
@@ -285,7 +190,7 @@
                 </span><br class="d-sm-none" /> 2024 &copy; <a href="https://supmanagement.ml">Sup'Management </a></p>
             </div>
             <div class="col-12 col-sm-auto text-center">
-              <p class="mb-0 text-600">v2.8.2</p>
+              <p class="mb-0 text-600">v1.0</p>
             </div>
           </div>
         </footer>
@@ -323,34 +228,9 @@
   <script src="/assets/lib/datatables-bs4/dataTables.bootstrap4.min.js"></script>
   <script src="/assets/lib/datatables.net-responsive/dataTables.responsive.js"></script>
   <script src="/assets/lib/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+  <script src="/assets/lib/toastr/toastr.min.js"></script>
   <script src="/assets/lib/tinymce/tinymce.min.js"></script>
 
-
-
-  <!-- ===============================================-->
-  <!--    JavaScripts-->
-  <!-- ===============================================-->
-  <script src="/assets/js/jquery.min.js"></script>
-  <script src="/assets/js/popper.min.js"></script>
-  <script src="/assets/js/bootstrap.min.js"></script>
-  <script src="/assets/lib/@fortawesome/all.min.js"></script>
-  <script src="/assets/lib/stickyfilljs/stickyfill.min.js"></script>
-  <script src="/assets/lib/sticky-kit/sticky-kit.min.js"></script>
-  <script src="/assets/lib/is_js/is.min.js"></script>
-  <script src="/assets/lib/lodash/lodash.min.js"></script>
-  <script src="/assets/lib/perfect-scrollbar/perfect-scrollbar.js"></script>
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:100,200,300,400,500,600,700,800,900&amp;display=swap"
-    rel="stylesheet">
-  <script src="/assets/lib/prismjs/prism.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.8.7/polyfill.min.js"></script>
-  <script src="/assets/lib/dropzone/dropzone.min.js"></script>
-  <script src="/assets/js/theme.js"></script>
-  <script src="/assets/lib/datatables/js/jquery.dataTables.min.js"></script>
-  <script src="/assets/lib/datatables-bs4/dataTables.bootstrap4.min.js"></script>
-  <script src="/assets/lib/datatables.net-responsive/dataTables.responsive.js"></script>
-  <script src="/assets/lib/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
-  <script src="/assets/lib/fancybox/jquery.fancybox.min.js"></script>
 
 
 </body>

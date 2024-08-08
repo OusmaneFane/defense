@@ -171,13 +171,13 @@
               <div class="dropdown-menu dropdown-menu-right py-0" aria-labelledby="navbarDropdownUser">
                 <div class="bg-white rounded-soft py-2">
                   <a class="dropdown-item font-weight-bold text-warning" href="#!"><span
-                      class="fas fa-crown mr-1"></span><span>Sup'Memoire</span></a>
+                      class="fas fa-user mr-1"></span><span>{{ auth.user.name }}</span></a>
 
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{{ route('student.dashboard') }}">Chats</a>
                   <a class="dropdown-item" href="{{ route('student.upload_file') }}">Déposer un memoire</a>
 
-                  <a class="dropdown-item" href="pages/profile.html">Profil</a>
+                  <a class="dropdown-item" href="{{ route('user.profil', { id: student.id }) }}">Profil</a>
 
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="/logout">Déconnexion</a>
@@ -187,12 +187,12 @@
           </ul>
         </nav>
         <div class="card mb-3">
-          <div class="bg-holder d-none d-lg-block bg-card"
+          <div class="bg-holder d-none d-lg-block bg-secondary text-white"
             style="background-image:url(../assets/img/illustrations/corner-4.png);">
           </div>
           <!--/.bg-holder-->
 
-          <div class="card-body">
+          <div class="card-body text-white">
             <div class="row">
               <div class="col-lg-8">
                 <h3 class="mb-0">Gestion de document</h3>
@@ -238,11 +238,7 @@
                                             </button>
                                           </div>
                                         </div>
-                                        <p class="mb-2 fs--1">Une fois que vous avez invité des amis, vous pouvez <a
-                                            href="#!">voir le statut de
-                                            vos parrainages</a><br class="d-none d-xl-block d-xxl-none" /> ou visiter
-                                          notre <a href="#!">Centre
-                                            d'Aide</a> si vous avez des questions.</p>
+
                                       </div>
                                     </div>
                                   </div>

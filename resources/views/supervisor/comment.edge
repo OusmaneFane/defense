@@ -13,7 +13,7 @@
             <div class="col-lg-8">
                 <h3 class="mb-0">Commenter le document</h3>
                 <p class="mt-2">Ce commentaire sera visible à l'interface des etudiants
-                </p><a class="btn btn-link pl-0 btn-sm" href="https://www.tiny.cloud/docs/quick-start/" target="_blank">
+                </p><a class="btn btn-link pl-0 btn-sm" href="" target="_blank">
                     Commenter document<span class="fas fa-chevron-right ml-1 fs--2"></span></a>
             </div>
         </div>
@@ -21,7 +21,7 @@
 </div>
 <div class="card mb-3">
     <div class="card-header bg-light">
-        <h5 class="mb-0">Example</h5>
+        <h5 class="mb-0">Commenter le document : {{ documentInfo.file_name}} </h5>
     </div>
     <form action="/store/comment" method="POST">
         <div class="card-body p-0">

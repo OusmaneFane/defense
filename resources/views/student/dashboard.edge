@@ -262,7 +262,12 @@
             @else
             <div class="media p-2">
               <div class="avatar avatar-l mr-2">
-                <img class="rounded-circle" src="assets/img/team/2.jpg" alt="" />
+                @each(memb in members)
+                @if(memb.user_id == message.sender_id)
+                <img class="rounded-circle " src="data:image/jpeg;base64,{{ memb.photo }}" />
+                @endif
+                @endeach
+                <img class="rounded-circle" src="/assets/img/LV.jpg" alt="" />
 
               </div>
               <div class="media-body">

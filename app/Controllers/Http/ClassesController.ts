@@ -7,7 +7,7 @@ const apiBaseUrl = "https://api-staging.supmanagement.ml"; // Remplacez par l'UR
 const token = "0000-8432-3244-0923";
 const schoolYear = "2023-2024";
 export default class ClassesController {
-  public async index({ view }: HttpContextContract) {
+  public async index({ view, request }: HttpContextContract) {
     const externalApiService = new ExternalApiService(apiBaseUrl, token);
 
     try {
@@ -19,13 +19,16 @@ export default class ClassesController {
       return view.render("super_admin.classes.index", {
         classes: classes,
         allClasses,
+        currentRoute: request.url(),
       });
     } catch (error) {
       console.log(error);
     }
   }
-  public async create({ view }: HttpContextContract) {
-    return view.render("super_admin.classes.create");
+  public async create({ view, request }: HttpContextContract) {
+    return view.render("super_admin.classes.create", {
+      currentRoute: request.url(),
+    });
   }
 
   public async store({ request, response, session }) {
@@ -41,9 +44,12 @@ export default class ClassesController {
     return response.redirect().toRoute("superadmin.manage_classe");
   }
 
-  public async edit({ view, params }: HttpContextContract) {
+  public async edit({ view, params, request }: HttpContextContract) {
     const classe = await Classe.findOrFail(params.id);
-    return view.render("super_admin.classes.edit", { classe: classe });
+    return view.render("super_admin.classes.edit", {
+      classe: classe,
+      currentRoute: request.url(),
+    });
   }
 
   public async update({ request, response, params, session }) {
@@ -52,6 +58,8 @@ export default class ClassesController {
     classe.merge(request.only(["name", "description"]));
     await classe.save();
     session.flash({ success: "Modification effectuée avec succès" });
-    return response.redirect().toRoute("superadmin.manage_classe");
+    return response.redirect().toRoute("superadmin.manage_classe", {
+      currentRoute: request.url(),
+    });
   }
 }

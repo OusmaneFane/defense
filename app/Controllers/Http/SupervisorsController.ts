@@ -13,7 +13,7 @@ const token = "0000-8432-3244-0923";
 const schoolYear = "2023-2024";
 
 export default class SupervisorsController {
-  public async dashboard({ view, auth }: HttpContextContract) {
+  public async dashboard({ view, auth, request }: HttpContextContract) {
     await auth.use("web").authenticate();
 
     const externalApiService = new ExternalApiService(apiBaseUrl, token);
@@ -129,9 +129,10 @@ export default class SupervisorsController {
       users: users,
       groupInfo: groupInfo,
       documents: documents,
+      currentRoute: request.url(),
     });
   }
-  public async viewFile({ view, auth }: HttpContextContract) {
+  public async viewFile({ view, auth, request }: HttpContextContract) {
     await auth.use("web").authenticate();
 
     // recupérer l'étudiant connecté
@@ -190,6 +191,20 @@ export default class SupervisorsController {
       infoGroup: infoGroup,
       documents: documents,
       commentData: commentData,
+      currentRoute: request.url(),
+    });
+  }
+  public async groups({ auth, view, request }: HttpContextContract) {
+    const supervisor = await auth.user;
+
+    // Récupérer les groupes de l'encadrant
+    const groups = await Group.query()
+      .where("supervisor_id", supervisor.id)
+      .preload("students"); // préchargez les étudiants si nécessaire
+
+    return view.render("supervisor.groups", {
+      groups,
+      currentRoute: request.url(),
     });
   }
 }

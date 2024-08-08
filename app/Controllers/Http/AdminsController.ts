@@ -10,7 +10,7 @@ const apiBaseUrl = "https://api-staging.supmanagement.ml"; // Remplacez par l'UR
 const token = "0000-8432-3244-0923";
 
 export default class AdminsController {
-  public async dashboard({ view, auth }: HttpContextContract) {
+  public async dashboard({ view, auth, request }: HttpContextContract) {
     await auth.use("web").authenticate();
     //  const externalApiService = new ExternalApiService(apiBaseUrl, token);
 
@@ -22,19 +22,27 @@ export default class AdminsController {
     //   console.log(error);
     //}
 
-    return view.render("super_admin.dashboard");
+    return view.render("super_admin.dashboard", {
+      currentRoute: request.url(),
+    });
   }
 
-  public async manage_users({ view }: HttpContextContract) {
+  public async manage_users({ view, request }: HttpContextContract) {
     const users = await User.all();
 
-    return view.render("super_admin.manage_users", { users: users });
+    return view.render("super_admin.manage_users", {
+      users: users,
+      currentRoute: request.url(),
+    });
   }
 
-  public async create({ view }: HttpContextContract) {
+  public async create({ view, request }: HttpContextContract) {
     const roles = await Role.all();
 
-    return view.render("super_admin.create", { roles: roles });
+    return view.render("super_admin.create", {
+      roles: roles,
+      currentRoute: request.url(),
+    });
   }
 
   public async store({ response, request, session }: HttpContextContract) {
@@ -60,15 +68,20 @@ export default class AdminsController {
     return response.redirect().back();
   }
 
-  public async edit({ view, params }: HttpContextContract) {
+  public async edit({ view, params, request }: HttpContextContract) {
     const user = await User.findOrFail(params.id);
     const roles = await Role.all();
     // Récupération du mot de passe réel
     const password = user.password.split("$")[2];
 
-    return view.render("super_admin.edit", { user, roles, password });
+    return view.render("super_admin.edit", {
+      user,
+      roles,
+      password,
+      currentRoute: request.url(),
+    });
   }
-  public async profil({ view, params }: HttpContextContract) {
+  public async profil({ view, params, request }: HttpContextContract) {
     const user = await User.findOrFail(params.id);
     const student = await Student.findOrFail(params.id);
 
@@ -101,7 +114,8 @@ export default class AdminsController {
       roles,
       password,
       userPhoto,
-      student, // Transmettre la photo de l'utilisateur
+      student,
+      currentRoute: request.url(),
     });
   }
 
@@ -116,7 +130,7 @@ export default class AdminsController {
     return response.redirect().toRoute("superadmin.manage_users");
   }
 
-  public async document_index({ view, auth }: HttpContextContract) {
+  public async document_index({ view, auth, request }: HttpContextContract) {
     await auth.use("web").authenticate();
     const documents = await Document.all();
     const groups = await Group.query()
@@ -124,6 +138,10 @@ export default class AdminsController {
       .preload("students")
       .preload("classes");
 
-    return view.render("super_admin.documents.index", { documents, groups });
+    return view.render("super_admin.documents.index", {
+      documents,
+      groups,
+      currentRoute: request.url(),
+    });
   }
 }

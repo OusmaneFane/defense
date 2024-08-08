@@ -1,0 +1,84 @@
+@layout('layouts.supervisorBase')
+
+@section('content')
+<div class="card mb-3 bg-secondary text-white">
+    <div class="bg-holder d-none d-lg-block bg-card"
+        style="background-image:url(../assets/img/illustrations/corner-4.png);">
+    </div>
+    <!--/.bg-holder-->
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="mb-0">Gestion des groupes</h3>
+                <p class="mt-2">Vous pouvez Consulter les documents, les discussions de(s) groupe(s),
+                </p><a class="btn btn-link pl-0 btn-sm" href="" target="_blank">
+                    Liste des documents<span class="fas fa-chevron-right ml-1 fs--2"></span></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .folder {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        background-color: #f8f9fa;
+    }
+
+    .folder-icon {
+        margin-right: 10px;
+    }
+
+    .folder-red {
+        background-color: #ffebee;
+    }
+</style>
+<div class="card mb-3">
+    <div class="card-header bg-info">
+        <h2 class="fs-0 mb-0 text-nowrap py-2 py-xl-0  text-center">Liste des groupes assignés</h2>
+    </div>
+    <div class="container mt-5">
+
+        <div class="row">
+            @each(group in groups)
+            <div class="col-md-4 mb-3">
+                <div class="folder">
+                    <div class="d-flex align-items-center">
+                        <i class="folder-icon fas fa-folder"></i>
+                        <span><b>{{ group.name }}</b></span>
+                    </div>
+                    <div class="dropdown text-sans-serif">
+                        <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
+                            id="customer-dropdown-0" data-toggle="dropdown" data-boundary="viewport"
+                            aria-haspopup="true" aria-expanded="false"><span
+                                class="fas fa-ellipsis-h fs--1"></span></button>
+                        <div class="dropdown-menu dropdown-menu-right border py-0"
+                            aria-labelledby="customer-dropdown-0">
+                            <div class="bg-white py-2">
+                                <a class="dropdown-item" href="{{ route('groups.showChats', { id: group.id }) }}">Voir
+                                    Chats</a>
+                                <a class="dropdown-item"
+                                    href="{{ route('groups.showDocuments', { id: group.id }) }}">Voir Documents</a>
+                                <a class="dropdown-item"
+                                    href="{{ route('groups.download', { groupName: group.name }) }}">Télécharger les
+                                    documents</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endeach
+        </div>
+    </div>
+</div>
+
+
+
+
+@endsection

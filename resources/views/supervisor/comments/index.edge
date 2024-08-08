@@ -20,8 +20,8 @@
     </div>
 </div>
 <div class="card mb-3">
-    <div class="card-header bg-light">
-        <h5 class="mb-0">Example</h5>
+    <div class="card-header bg-warning">
+        <h5 class="mb-0 text-white">Commenter le document : {{ documentInfo.file_name}}</h5>
     </div>
     <form action="/store/comment" method="POST">
         <div class="card-body p-0">
@@ -31,7 +31,7 @@
                         <input hidden type="text" name="fileId" value=" {{ documentInfo.id}}">
                         <input hidden type="text" name="fileName" value="{{ documentInfo.file_name}}">
                         <input hidden type="text" name="groupId" value="{{ documentInfo.group_id}}">
-                        <input hidden type="text" name="supervisorId" value=" {{ groupInfo.supervisor_id}}">
+                        <input hidden type="text" name="supervisorId" value=" {{ group.supervisor_id}}">
 
                         <textarea class="tinymce d-none" name="content"></textarea>
 

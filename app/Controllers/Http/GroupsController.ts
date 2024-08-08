@@ -7,6 +7,7 @@ import Hash from "@ioc:Adonis/Core/Hash";
 import Database from "@ioc:Adonis/Lucid/Database";
 import db from "@adonisjs/lucid/services/db";
 import Document from "App/Models/Document";
+import Message from "App/Models/Message";
 
 const ExternalApiService = require("../../Services/ExternalApiService");
 const apiBaseUrl = "https://api-staging.supmanagement.ml"; // Remplacez par l'URL de l'API externe
@@ -14,17 +15,20 @@ const token = "0000-8432-3244-0923";
 const schoolYear = "2023-2024";
 
 export default class GroupsController {
-  public async index({ view }: HttpContextContract) {
+  public async index({ view, request }: HttpContextContract) {
     const groups = await Group.query()
       .preload("supervisor")
       .preload("students")
       .preload("classes");
     console.log(groups);
 
-    return view.render("super_admin.groups.index", { groups: groups });
+    return view.render("super_admin.groups.index", {
+      groups: groups,
+      currentRoute: request.url(),
+    });
   }
 
-  public async create({ view }: HttpContextContract) {
+  public async create({ view, request }: HttpContextContract) {
     const externalApiService = new ExternalApiService(apiBaseUrl, token);
 
     try {
@@ -43,6 +47,7 @@ export default class GroupsController {
         superviseurs: superviseurs,
         classes: classes,
         allClasses: allClasses,
+        currentRoute: request.url(),
       });
     } catch (error) {
       console.log(error);
@@ -93,9 +98,9 @@ export default class GroupsController {
       return view.render("super_admin.groups.create2", {
         classes,
         superviseurs,
-
         classIds,
         etudiantsDataBASE,
+        currentRoute: request.url(),
       });
     } catch (error) {
       console.log(error);
@@ -239,7 +244,7 @@ export default class GroupsController {
         .send("Une erreur est survenue lors de la création du groupe.");
     }
   }
-  public async show({ params, view }: HttpContextContract) {
+  public async show({ params, view, request }: HttpContextContract) {
     const group = await Group.query()
       .where("id", params.id)
       .preload("supervisor")
@@ -257,6 +262,162 @@ export default class GroupsController {
     return view.render("super_admin.groups.show", {
       group: group.toJSON(),
       documents: documentsJson,
+      currentRoute: request.url(),
+    });
+  }
+  public async showGroupChat({
+    view,
+    auth,
+    params,
+    request,
+  }: HttpContextContract) {
+    await auth.use("web").authenticate();
+
+    const externalApiService = new ExternalApiService(apiBaseUrl, token);
+
+    // recupérer l'étudiant connecté
+    const supervisor = await User.findByOrFail("email", auth.user?.email);
+
+    const groupInfo = await Database.from("groups")
+      .where("id", params.id)
+      .first();
+    console.log("GroupID: ", groupInfo.name);
+
+    // recuperer les membres du groupe
+    const members = await Database.from("group_student")
+      .join("students", "group_student.student_id", "students.id")
+      .where("group_student.group_id", params.id)
+      .select("*");
+    console.log("membres: ", members);
+
+    //boucles pour recuperer l'id des membres
+    //let studentsName = [];
+    //for (let i = 0; i < members.length; i++) {
+    // studentsName.push(members[i].name);
+    // }
+
+    // recuperer l'encadrant du groupe avec la jointure de la table groups
+    const supervisorWithGroupStudentInfo = await Database.from("groups")
+      .join("group_student", "groups.id", "group_student.group_id")
+      .where("group_id", params.id)
+      .select("*");
+
+    const users = await User.all();
+
+    const classes = await Classe.all();
+    // console.log('Membres: ', members)
+
+    // recuperer tous les messages par le dernier message au premier
+    const messages = await Message.query()
+      .where("group_id", params.id)
+      .preload("document")
+      .orderBy("id", "asc")
+      .exec();
+    console.log("Messages : ", messages);
+
+    // convertir la date à laquelle le message a été envoyé sous forme 13:24
+    for (let i = 0; i < messages.length; i++) {
+      let currentDate = new Date(messages[i].created_at as string);
+      var hours = currentDate.getHours().toString();
+      var minutes = currentDate.getMinutes().toString();
+
+      if (hours.length == 1) hours = "0" + hours;
+      if (minutes.length == 1) minutes = "0" + minutes;
+      messages[i].time = `${hours}:${minutes}`;
+    }
+
+    const documents = await Database.from("documents").where(
+      "group_id",
+      params.id
+    );
+    /*
+    let allStudentsInfo = [];
+    try {
+      // Appel de la fonction getStudentsInClass pour chaque classe
+      const studentsInfo = await externalApiService.getStudentsPhoto(
+        schoolYear,
+        incl_students_photo
+      );
+      console.log("studentsInfo :", studentsInfo);
+
+      // Ajout des informations des étudiants de cette classe à la liste
+      allStudentsInfo = allStudentsInfo.concat(studentsInfo);
+    } catch (error) {
+      console.error(
+        `Erreur lors de la récupération des étudiants pour la classe`,
+        error
+      );
+    }
+    // Maintenant, allStudentsInfo contient les informations des étudiants de toutes les classes sélectionnées
+    console.log("Informations de tous les étudiants :", allStudentsInfo);
+
+    // Filtrer les étudiants en fonction de studentIds
+    const filteredStudentsInfo = allStudentsInfo.filter((studentInfo) =>
+      studentsName.includes(studentInfo.user.username)
+    );
+    console.log("filteredStudentsInfo", filteredStudentsInfo);
+*/
+    // Mapper les résultats pour extraire uniquement les noms
+    const memberNames = members.map((member) => member.name);
+    //voir le name des membres dans la console
+    const include_photo = true;
+    const membersPhotos = [];
+    for (const username of memberNames) {
+      try {
+        const studentsInfo = await externalApiService.getStudentsPhoto(
+          username,
+          include_photo
+        );
+        const memberPhoto = studentsInfo.map(
+          (studentInfo) => studentInfo.user_photo.base64
+        );
+        membersPhotos.push(...memberPhoto);
+      } catch (error) {
+        console.error(
+          `Erreur lors de la récupération des informations pour l'utilisateur ${username}:`,
+          error
+        );
+      }
+    }
+    members.forEach((member, index) => {
+      member.photo = membersPhotos[index]; // Ajoutez une propriété 'photo' à chaque membre
+    });
+    return view.render("supervisor.groups.chat", {
+      supervisor: supervisor,
+      supervisorWithGroupStudentInfo: supervisorWithGroupStudentInfo,
+      members: members,
+      classes: classes,
+      messages: messages,
+      users: users,
+      groupInfo: groupInfo,
+      documents: documents,
+      currentRoute: request.url(),
+    });
+  }
+  public async showDocuments({
+    params,
+    view,
+    auth,
+    request,
+  }: HttpContextContract) {
+    await auth.use("web").authenticate();
+    const groupId = params.id;
+    const group = await Group.findOrFail(groupId);
+    const documents = await Database.from("documents").where(
+      "group_id",
+      groupId
+    );
+    const users = await User.all();
+    const commentData = await Database.from("comments")
+      .where("group_id", groupId)
+      .exec();
+    console.log("commentData : ", commentData);
+    return view.render("supervisor.groups.documents", {
+      group,
+      documents,
+      users,
+      commentData,
+      currentRoute: request.url(),
     });
   }
 }

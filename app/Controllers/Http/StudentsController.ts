@@ -44,7 +44,7 @@ async function uploadFileToDrive(auth, filePath, folderId, mimeType) {
   }
 }
 export default class StudentsController {
-  public async dashboard({ view, auth }: HttpContextContract) {
+  public async dashboard({ view, auth, request }: HttpContextContract) {
     await auth.use("web").authenticate();
 
     // recupérer l'étudiant connecté
@@ -147,6 +147,7 @@ export default class StudentsController {
       infoGroup: infoGroup,
       documents: documents,
       memberPhotos: membersPhotos,
+      currentRoute: request.url(),
     });
   }
 
@@ -154,6 +155,7 @@ export default class StudentsController {
     view,
     params,
     auth,
+    request,
   }: HttpContextContract) {
     await auth.use("web").authenticate();
     // Récupérer l'ID de la classe à partir des paramètres
@@ -165,7 +167,11 @@ export default class StudentsController {
     // Récupérer tous les étudiants qui n'ont pas de classe associée
     const students = await Student.query().whereNull("class_id").exec();
 
-    return view.render("student.assignClass", { classe, students });
+    return view.render("student.assignClass", {
+      classe,
+      students,
+      currentRoute: request.url(),
+    });
   }
 
   public async assignToClass({ request, response, params, auth }) {
@@ -186,7 +192,7 @@ export default class StudentsController {
     // Redirection vers une autre page ou affichage d'un message de succès
     return response.redirect().toRoute("superadmin.manage_classe");
   }
-  public async upload({ view, auth }: HttpContextContract) {
+  public async upload({ view, auth, request }: HttpContextContract) {
     await auth.use("web").authenticate();
 
     // Récupérer l'étudiant connecté
@@ -272,9 +278,10 @@ export default class StudentsController {
       infoGroup,
       documents: fileData, // Passer les données des fichiers
       commentData,
+      currentRoute: request.url(),
     });
   }
-  public async upload_file({ view }: HttpContextContract) {
+  public async upload_file({ request }: HttpContextContract) {
     const credentials = require("../../../memoires-388217-ff7fa116af5e.json");
     // Create an OAuth2 client using the service account credentials
 

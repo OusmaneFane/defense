@@ -24,6 +24,9 @@ Route.group(() => {
   Route.get("/view-files", "SupervisorsController.viewFile").as(
     "supervisor.view_file"
   );
+  Route.get("/supervisor/groups", "SupervisorsController.groups").as(
+    "supervisor.groups"
+  );
 
   Route.get("/manage_users", "AdminsController.manage_users").as(
     "superadmin.manage_users"
@@ -52,6 +55,12 @@ Route.group(() => {
     "superadmin.groups.store"
   );
   Route.get("/groups/:id", "GroupsController.show").as("groups.show");
+  Route.get("/groups/:id/chats", "GroupsController.showGroupChat").as(
+    "groups.showChats"
+  );
+  Route.get("/groups/:id/documents", "GroupsController.showDocuments").as(
+    "groups.showDocuments"
+  );
 
   // create classe
   Route.get("/manage_classe", "ClassesController.index").as(
