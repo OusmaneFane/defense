@@ -1,35 +1,34 @@
 // Importation des modules nécessaires
-import { DateTime } from 'luxon'
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
-import Student from './Student'
+import { DateTime } from "luxon";
+import { BaseModel, column, belongsTo, BelongsTo } from "@ioc:Adonis/Lucid/Orm";
+import Student from "./Student";
 
 // Définition de la classe User
 export default class User extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: number;
 
   @column()
-  public name: string
+  public name: string;
 
   @column()
-  public email: string
+  public email: string;
 
   @column()
-  public password: string // ne pas utiliser hash.make()
+  public password: string; // ne pas utiliser hash.make()
 
   @column()
-  public role: string
+  public role: string;
 
   @belongsTo(() => Student)
   public student: BelongsTo<typeof Student>;
 
-
   @column()
-  public class_id: number
+  public class_id: number;
 
   public async getRole(): Promise<string> {
-    const user = await User.find(this.id)
-    return user ? user.role : ''
+    const user = await User.find(this.id);
+    return user ? user.role : "";
   }
 
   // Méthode pour assigner l'étudiant à une classe
@@ -39,8 +38,26 @@ export default class User extends BaseModel {
   }
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public createdAt: DateTime;
 
   @column.dateTime({ autoUpdate: true })
-  public updatedAt: DateTime
+  public updatedAt: DateTime;
+  @column.dateTime()
+  public blockedAt: DateTime | null;
+  // Méthode pour bloquer un utilisateur
+  public async block() {
+    this.blockedAt = DateTime.now();
+    await this.save();
+  }
+
+  // Méthode pour débloquer un utilisateur
+  public async unblock() {
+    this.blockedAt = null;
+    await this.save();
+  }
+
+  // Méthode pour vérifier si l'utilisateur est bloqué
+  public isBlocked(): boolean {
+    return this.blockedAt !== null;
+  }
 }

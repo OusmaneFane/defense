@@ -5,25 +5,36 @@ import Hash from "@ioc:Adonis/Core/Hash";
 import Student from "App/Models/Student";
 import Group from "App/Models/Group";
 import Document from "App/Models/Document";
+import Classe from "App/Models/Classe";
+import Database from "@ioc:Adonis/Lucid/Database";
 const ExternalApiService = require("../../Services/ExternalApiService");
 const apiBaseUrl = "https://api-staging.supmanagement.ml"; // Remplacez par l'URL de l'API externe
 const token = "0000-8432-3244-0923";
 
 export default class AdminsController {
-  public async dashboard({ view, auth, request }: HttpContextContract) {
+  public async dashboard({
+    view,
+    auth,
+    request,
+    response,
+  }: HttpContextContract) {
     await auth.use("web").authenticate();
-    //  const externalApiService = new ExternalApiService(apiBaseUrl, token);
-
-    // try {
-    //  const students = await externalApiService.getAllStudents();
-    //   console.log(students);
-
-    // }catch (error) {
-    //   console.log(error);
-    //}
-
+    const totalGroups = await Database.from("groups").count("* as total");
+    const totalClasses = await Database.from("classes").count("* as total");
+    const totalDocuments = await Database.from("documents").count("* as total");
+    const users = await User.all();
+    const filesByDay = await Database.from("documents")
+      .select(Database.raw("DATE(created_at) as date"))
+      .count("id as file_count")
+      .groupBy("date")
+      .orderBy("date", "asc");
     return view.render("super_admin.dashboard", {
       currentRoute: request.url(),
+      totalGroups,
+      totalClasses,
+      totalDocuments,
+      users,
+      filesByDay,
     });
   }
 
@@ -68,11 +79,12 @@ export default class AdminsController {
     return response.redirect().back();
   }
 
-  public async edit({ view, params, request }: HttpContextContract) {
+  public async edit({ view, params, request, session }: HttpContextContract) {
     const user = await User.findOrFail(params.id);
     const roles = await Role.all();
     // Récupération du mot de passe réel
     const password = user.password.split("$")[2];
+    session.flash({ success: "Bon travail" });
 
     return view.render("super_admin.edit", {
       user,

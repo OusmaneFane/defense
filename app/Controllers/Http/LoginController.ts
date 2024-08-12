@@ -25,6 +25,11 @@ export default class LoginController {
       session.flash({ error: "Adresse e-mail incorrect" });
       return response.redirect().back();
     }
+    // Vérifiez si l'utilisateur est bloqué
+    if (user.blockedAt) {
+      session.flash({ blocked: "Votre compte est bloqué" });
+      return response.redirect().back();
+    }
 
     if (user.role == "student") {
       const apiResponse = await axios.post(
@@ -92,7 +97,7 @@ export default class LoginController {
       });
     } else if (user.role === "supervisor") {
       await auth.use("web").login(user);
-
+      session.flash({ connected: "Vous êtes connectés !" });
       return response.redirect().toRoute("supervisor.dashboard");
     } else if (user.role === "super_admin") {
       const isPasswordValid = await Hash.verify(user.password, password);
@@ -116,8 +121,9 @@ export default class LoginController {
     }
   }
 
-  public async logout({ auth, response }) {
+  public async logout({ auth, response, session }) {
     await auth.logout();
+    session.flash({ disconnected: "Vous êtes deconnectés !" });
     return response.redirect().toRoute("login");
   }
 }

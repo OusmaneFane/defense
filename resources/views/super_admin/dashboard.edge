@@ -5,24 +5,26 @@
 @!component('components/flash')
 
 <div class="card mb-3">
-  <div class="card-body rounded-soft bg-gradient">
+  <div class="card-body rounded-soft bg-dark text-white">
     <div class="row text-white align-items-center no-gutters">
       <div class="col">
-        <h4 class="text-white mb-0">Today $764.39</h4>
-        <p class="fs--1 font-weight-semi-bold">Yesterday <span class="opacity-50">$684.87</span></p>
+        <h4 class="text-white mb-0">Historique des Fichiers Uploadés Aujourd'hui: <span id="today-count"></span></h4>
+        <p class="fs--1 font-weight-semi-bold">Hier <span class="opacity-50" id="yesterday-count"></span></p>
       </div>
       <div class="col-auto d-none d-sm-block">
         <select class="custom-select custom-select-sm mb-3" id="dashboard-chart-select">
-          <option value="all">All Payments</option>
-          <option value="successful" selected="selected">Successful Payments</option>
-          <option value="failed">Failed Payments</option>
+          <option value="all">Tous les Fichiers</option>
+          <option value="successful" selected="selected">Fichiers Uploadés</option>
+          <!-- Vous pouvez ajouter plus d'options si nécessaire -->
         </select>
       </div>
     </div>
-    <canvas class="max-w-100 rounded" id="chart-line" width="1618" height="375" aria-label="Line chart"
+    <canvas class="max-w-100 rounded" id="chart-line-two" width="1618" height="375" aria-label="Line chart"
       role="img"></canvas>
+
   </div>
 </div>
+
 <div class="card bg-light mb-3">
   <div class="card-body p-3">
     <p class="fs--1 mb-0"><a href="#!"><span class="fas fa-exchange-alt mr-2" data-fa-transform="rotate-90"></span>A
@@ -39,9 +41,9 @@
 
     <div class="card-body position-relative">
       <h6>Total Classes<span class="badge badge-soft-warning rounded-capsule ml-2">-0.23%</span></h6>
-      <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-warning">58.39k</div><a
-        class="font-weight-semi-bold fs--1 text-nowrap" href="#!">Voir plus<span class="fas fa-angle-right ml-1"
-          data-fa-transform="down-1"></span></a>
+      <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-warning">{{ totalClasses[0].total }}</div>
+      <a class="font-weight-semi-bold fs--1 text-nowrap" href="{{route('superadmin.manage_classe')}}">Voir plus<span
+          class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
     </div>
   </div>
   <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
@@ -51,9 +53,9 @@
 
     <div class="card-body position-relative">
       <h6>Total Groupes<span class="badge badge-soft-info rounded-capsule ml-2">0.0%</span></h6>
-      <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info">73.46k</div><a
-        class="font-weight-semi-bold fs--1 text-nowrap" href="#!">Voir plus<span class="fas fa-angle-right ml-1"
-          data-fa-transform="down-1"></span></a>
+      <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info">{{totalGroups[0].total}}</div><a
+        class="font-weight-semi-bold fs--1 text-nowrap" href="{{route('superadmin.manage_groups')}}">Voir plus<span
+          class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
     </div>
   </div>
   <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
@@ -62,11 +64,11 @@
     <!--/.bg-holder-->
 
     <div class="card-body position-relative">
-      <h6>Total Encadrant<span class="badge badge-soft-success rounded-capsule ml-2">9.54%</span></h6>
+      <h6>Total Documents<span class="badge badge-soft-success rounded-capsule ml-2">9.54%</span></h6>
       <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif"
-        data-countup='{"count":43594,"format":"comma","prefix":"$"}'>0</div><a
-        class="font-weight-semi-bold fs--1 text-nowrap" href="#!">Voir plus<span class="fas fa-angle-right ml-1"
-          data-fa-transform="down-1"></span></a>
+        data-countup='{"count":{{totalDocuments[0].total}},"format":"comma","prefix":""}'>
+      </div><a class="font-weight-semi-bold fs--1 text-nowrap" href="{{route('manage_documents')}}">Voir
+        plus<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
     </div>
   </div>
 </div>
@@ -74,7 +76,7 @@
   <div class="card-header">
     <div class="row align-items-center justify-content-between">
       <div class="col-6 col-sm-auto d-flex align-items-center pr-0">
-        <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Recent Purchases</h5>
+        <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Liste des utilisateurs</h5>
       </div>
       <div class="col-6 col-sm-auto ml-auto text-right pl-0">
         <div class="d-none" id="purchases-actions">
@@ -115,345 +117,63 @@
                 <label class="custom-control-label" for="checkbox-bulk-purchases-select"></label>
               </div>
             </th>
-            <th class="sort pr-1 align-middle">Customer</th>
+            <th class="sort pr-1 align-middle">Nom</th>
             <th class="sort pr-1 align-middle">Email</th>
-            <th class="sort pr-1 align-middle">Product</th>
-            <th class="sort pr-1 align-middle text-center">Payment</th>
-            <th class="sort pr-1 align-middle text-right">Amount</th>
+            <th class="sort pr-1 align-middle">Role</th>
+            <th class="sort pr-1 align-middle">Satut</th>
+
             <th class="no-sort pr-1 align-middle data-table-row-action"></th>
           </tr>
         </thead>
         <tbody id="purchases">
+          @each(user in users)
           <tr class="btn-reveal-trigger">
             <td class="align-middle">
               <div class="custom-control custom-checkbox">
-                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="checkbox-0" />
-                <label class="custom-control-label" for="checkbox-0"></label>
+                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox"
+                  id="checkbox-{{user.id}}" />
+                <label class="custom-control-label" for="checkbox-{{user.id}}"></label>
               </div>
             </td>
-            <th class="align-middle"><a href="pages/customer-details.html">Sylvia Plath</a></th>
-            <td class="align-middle">john@gmail.com</td>
-            <td class="align-middle">Slick - Drag &amp; Drop Bootstrap Generator</td>
-            <td class="align-middle text-center fs-0"><span
-                class="badge badge rounded-capsule badge-soft-success">Success<span class="ml-1 fas fa-check"
-                  data-fa-transform="shrink-2"></span></span>
+            <th class="align-middle"><a href="pages/customer-details.html">{{ user.name }}</a></th>
+            <td class="align-middle">{{ user.email }}</td>
+            <td class="align-middle text-center fs-0">
+              <span class="badge badge rounded-capsule badge-soft-success">{{ user.role }}<span
+                  class="ml-1 fas fa-check" data-fa-transform="shrink-2"></span></span>
             </td>
-            <td class="align-middle text-right">$99</td>
+            <td class="align-middle text-center fs-0">
+              <span
+                class="badge badge rounded-capsule {{ user.blockedAt ? 'badge-soft-danger' : 'badge-soft-success' }}">
+                {{ user.blockedAt ? 'Blocked' : 'Active' }}
+                <span class="ml-1 fas fa-{{ user.blockedAt ? 'ban' : 'check' }}" data-fa-transform="shrink-2"></span>
+              </span>
+            </td>
             <td class="align-middle white-space-nowrap">
               <div class="dropdown text-sans-serif">
                 <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
-                  id="dropdown0" data-toggle="dropdown" data-boundary="html" aria-haspopup="true"
+                  id="dropdown{{ user.id }}" data-toggle="dropdown" data-boundary="html" aria-haspopup="true"
                   aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown0">
-                  <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
-                      href="#!">Edit</a><a class="dropdown-item" href="#!">Refund</a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item text-warning" href="#!">Archive</a><a
-                      class="dropdown-item text-danger" href="#!">Delete</a>
+                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown{{ user.id }}">
+                  <div class="bg-white py-2">
+                    <a class="dropdown-item" href="#!">View</a>
+                    <a class="dropdown-item" href="#!">Edit</a>
+                    <a class="dropdown-item" href="#!">Refund</a>
+                    <div class="dropdown-divider"></div>
+                    @if (user.blockedAt)
+                    <a class="dropdown-item text-success"
+                      href="{{ route('users.unblock', {id:user.id}) }}">Déploquer</a>
+                    @else
+                    <a class="dropdown-item text-warning" href="{{ route('users.block', {id:user.id}) }}">Bloquer</a>
+                    @endif
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-warning" href="#!">Archive</a>
+                    <a class="dropdown-item text-danger" href="#!">Delete</a>
                   </div>
                 </div>
               </div>
             </td>
           </tr>
-          <tr class="btn-reveal-trigger">
-            <td class="align-middle">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="checkbox-1" />
-                <label class="custom-control-label" for="checkbox-1"></label>
-              </div>
-            </td>
-            <th class="align-middle"><a href="pages/customer-details.html">Homer</a></th>
-            <td class="align-middle">sylvia@mail.ru</td>
-            <td class="align-middle">Bose SoundSport Wireless Headphones</td>
-            <td class="align-middle text-center fs-0"><span
-                class="badge badge rounded-capsule badge-soft-success">Success<span class="ml-1 fas fa-check"
-                  data-fa-transform="shrink-2"></span></span>
-            </td>
-            <td class="align-middle text-right">$634</td>
-            <td class="align-middle white-space-nowrap">
-              <div class="dropdown text-sans-serif">
-                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
-                  id="dropdown1" data-toggle="dropdown" data-boundary="html" aria-haspopup="true"
-                  aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown1">
-                  <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
-                      href="#!">Edit</a><a class="dropdown-item" href="#!">Refund</a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item text-warning" href="#!">Archive</a><a
-                      class="dropdown-item text-danger" href="#!">Delete</a>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr class="btn-reveal-trigger">
-            <td class="align-middle">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="checkbox-2" />
-                <label class="custom-control-label" for="checkbox-2"></label>
-              </div>
-            </td>
-            <th class="align-middle"><a href="pages/customer-details.html">Edgar Allan Poe</a></th>
-            <td class="align-middle">edgar@yahoo.com</td>
-            <td class="align-middle">All-New Fire HD 8 Kids Edition Tablet</td>
-            <td class="align-middle text-center fs-0"><span
-                class="badge badge rounded-capsule badge-soft-secondary">Blocked<span class="ml-1 fas fa-ban"
-                  data-fa-transform="shrink-2"></span></span>
-            </td>
-            <td class="align-middle text-right">$199</td>
-            <td class="align-middle white-space-nowrap">
-              <div class="dropdown text-sans-serif">
-                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
-                  id="dropdown2" data-toggle="dropdown" data-boundary="html" aria-haspopup="true"
-                  aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown2">
-                  <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
-                      href="#!">Edit</a><a class="dropdown-item" href="#!">Refund</a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item text-warning" href="#!">Archive</a><a
-                      class="dropdown-item text-danger" href="#!">Delete</a>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr class="btn-reveal-trigger">
-            <td class="align-middle">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="checkbox-3" />
-                <label class="custom-control-label" for="checkbox-3"></label>
-              </div>
-            </td>
-            <th class="align-middle"><a href="pages/customer-details.html">William Butler Yeats</a></th>
-            <td class="align-middle">william@gmail.com</td>
-            <td class="align-middle">Apple iPhone XR (64GB)</td>
-            <td class="align-middle text-center fs-0"><span
-                class="badge badge rounded-capsule badge-soft-success">Success<span class="ml-1 fas fa-check"
-                  data-fa-transform="shrink-2"></span></span>
-            </td>
-            <td class="align-middle text-right">$798</td>
-            <td class="align-middle white-space-nowrap">
-              <div class="dropdown text-sans-serif">
-                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
-                  id="dropdown3" data-toggle="dropdown" data-boundary="html" aria-haspopup="true"
-                  aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown3">
-                  <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
-                      href="#!">Edit</a><a class="dropdown-item" href="#!">Refund</a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item text-warning" href="#!">Archive</a><a
-                      class="dropdown-item text-danger" href="#!">Delete</a>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr class="btn-reveal-trigger">
-            <td class="align-middle">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="checkbox-4" />
-                <label class="custom-control-label" for="checkbox-4"></label>
-              </div>
-            </td>
-            <th class="align-middle"><a href="pages/customer-details.html">Rabindranath Tagore</a></th>
-            <td class="align-middle">tagore@twitter.com</td>
-            <td class="align-middle">ASUS Chromebook C202SA-YS02 11.6&quot;</td>
-            <td class="align-middle text-center fs-0"><span
-                class="badge badge rounded-capsule badge-soft-secondary">Blocked<span class="ml-1 fas fa-ban"
-                  data-fa-transform="shrink-2"></span></span>
-            </td>
-            <td class="align-middle text-right">$318</td>
-            <td class="align-middle white-space-nowrap">
-              <div class="dropdown text-sans-serif">
-                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
-                  id="dropdown4" data-toggle="dropdown" data-boundary="html" aria-haspopup="true"
-                  aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown4">
-                  <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
-                      href="#!">Edit</a><a class="dropdown-item" href="#!">Refund</a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item text-warning" href="#!">Archive</a><a
-                      class="dropdown-item text-danger" href="#!">Delete</a>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr class="btn-reveal-trigger">
-            <td class="align-middle">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="checkbox-5" />
-                <label class="custom-control-label" for="checkbox-5"></label>
-              </div>
-            </td>
-            <th class="align-middle"><a href="pages/customer-details.html">Emily Dickinson</a></th>
-            <td class="align-middle">emily@gmail.com</td>
-            <td class="align-middle">Mirari OK to Wake! Alarm Clock &amp; Night-Light</td>
-            <td class="align-middle text-center fs-0"><span
-                class="badge badge rounded-capsule badge-soft-warning">Pending<span class="ml-1 fas fa-stream"
-                  data-fa-transform="shrink-2"></span></span>
-            </td>
-            <td class="align-middle text-right">$11</td>
-            <td class="align-middle white-space-nowrap">
-              <div class="dropdown text-sans-serif">
-                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
-                  id="dropdown5" data-toggle="dropdown" data-boundary="html" aria-haspopup="true"
-                  aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown5">
-                  <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
-                      href="#!">Edit</a><a class="dropdown-item" href="#!">Refund</a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item text-warning" href="#!">Archive</a><a
-                      class="dropdown-item text-danger" href="#!">Delete</a>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr class="btn-reveal-trigger">
-            <td class="align-middle">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="checkbox-6" />
-                <label class="custom-control-label" for="checkbox-6"></label>
-              </div>
-            </td>
-            <th class="align-middle"><a href="pages/customer-details.html">Giovanni Boccaccio</a></th>
-            <td class="align-middle">giovanni@outlook.com</td>
-            <td class="align-middle">Summer Infant Contoured Changing Pad</td>
-            <td class="align-middle text-center fs-0"><span
-                class="badge badge rounded-capsule badge-soft-success">Success<span class="ml-1 fas fa-check"
-                  data-fa-transform="shrink-2"></span></span>
-            </td>
-            <td class="align-middle text-right">$31</td>
-            <td class="align-middle white-space-nowrap">
-              <div class="dropdown text-sans-serif">
-                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
-                  id="dropdown6" data-toggle="dropdown" data-boundary="html" aria-haspopup="true"
-                  aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown6">
-                  <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
-                      href="#!">Edit</a><a class="dropdown-item" href="#!">Refund</a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item text-warning" href="#!">Archive</a><a
-                      class="dropdown-item text-danger" href="#!">Delete</a>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr class="btn-reveal-trigger">
-            <td class="align-middle">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="checkbox-7" />
-                <label class="custom-control-label" for="checkbox-7"></label>
-              </div>
-            </td>
-            <th class="align-middle"><a href="pages/customer-details.html">Oscar Wilde</a></th>
-            <td class="align-middle">oscar@hotmail.com</td>
-            <td class="align-middle">Munchkin 6 Piece Fork and Spoon Set</td>
-            <td class="align-middle text-center fs-0"><span
-                class="badge badge rounded-capsule badge-soft-success">Success<span class="ml-1 fas fa-check"
-                  data-fa-transform="shrink-2"></span></span>
-            </td>
-            <td class="align-middle text-right">$43</td>
-            <td class="align-middle white-space-nowrap">
-              <div class="dropdown text-sans-serif">
-                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
-                  id="dropdown7" data-toggle="dropdown" data-boundary="html" aria-haspopup="true"
-                  aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown7">
-                  <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
-                      href="#!">Edit</a><a class="dropdown-item" href="#!">Refund</a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item text-warning" href="#!">Archive</a><a
-                      class="dropdown-item text-danger" href="#!">Delete</a>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr class="btn-reveal-trigger">
-            <td class="align-middle">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="checkbox-8" />
-                <label class="custom-control-label" for="checkbox-8"></label>
-              </div>
-            </td>
-            <th class="align-middle"><a href="pages/customer-details.html">John Doe</a></th>
-            <td class="align-middle">doe@gmail.com</td>
-            <td class="align-middle">Falcon - Responsive Dashboard Template</td>
-            <td class="align-middle text-center fs-0"><span
-                class="badge badge rounded-capsule badge-soft-success">Success<span class="ml-1 fas fa-check"
-                  data-fa-transform="shrink-2"></span></span>
-            </td>
-            <td class="align-middle text-right">$57</td>
-            <td class="align-middle white-space-nowrap">
-              <div class="dropdown text-sans-serif">
-                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
-                  id="dropdown8" data-toggle="dropdown" data-boundary="html" aria-haspopup="true"
-                  aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown8">
-                  <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
-                      href="#!">Edit</a><a class="dropdown-item" href="#!">Refund</a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item text-warning" href="#!">Archive</a><a
-                      class="dropdown-item text-danger" href="#!">Delete</a>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr class="btn-reveal-trigger">
-            <td class="align-middle">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="checkbox-9" />
-                <label class="custom-control-label" for="checkbox-9"></label>
-              </div>
-            </td>
-            <th class="align-middle"><a href="pages/customer-details.html">Emma Watson</a></th>
-            <td class="align-middle">emma@gmail.com</td>
-            <td class="align-middle">Apple iPhone XR (64GB)</td>
-            <td class="align-middle text-center fs-0"><span
-                class="badge badge rounded-capsule badge-soft-secondary">Blocked<span class="ml-1 fas fa-ban"
-                  data-fa-transform="shrink-2"></span></span>
-            </td>
-            <td class="align-middle text-right">$999</td>
-            <td class="align-middle white-space-nowrap">
-              <div class="dropdown text-sans-serif">
-                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
-                  id="dropdown9" data-toggle="dropdown" data-boundary="html" aria-haspopup="true"
-                  aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown9">
-                  <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
-                      href="#!">Edit</a><a class="dropdown-item" href="#!">Refund</a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item text-warning" href="#!">Archive</a><a
-                      class="dropdown-item text-danger" href="#!">Delete</a>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr class="btn-reveal-trigger">
-            <td class="align-middle">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input checkbox-bulk-select-target" type="checkbox" id="checkbox-10" />
-                <label class="custom-control-label" for="checkbox-10"></label>
-              </div>
-            </td>
-            <th class="align-middle"><a href="pages/customer-details.html">Sylvia Plath</a></th>
-            <td class="align-middle">plath@yahoo.com</td>
-            <td class="align-middle">All-New Fire HD 8 Kids Edition Tablet</td>
-            <td class="align-middle text-center fs-0"><span
-                class="badge badge rounded-capsule badge-soft-warning">Pending<span class="ml-1 fas fa-stream"
-                  data-fa-transform="shrink-2"></span></span>
-            </td>
-            <td class="align-middle text-right">$199</td>
-            <td class="align-middle white-space-nowrap">
-              <div class="dropdown text-sans-serif">
-                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button"
-                  id="dropdown10" data-toggle="dropdown" data-boundary="html" aria-haspopup="true"
-                  aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown10">
-                  <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
-                      href="#!">Edit</a><a class="dropdown-item" href="#!">Refund</a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item text-warning" href="#!">Archive</a><a
-                      class="dropdown-item text-danger" href="#!">Delete</a>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
+          @endeach
         </tbody>
       </table>
     </div>
@@ -546,5 +266,104 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Remplacez cette URL par celle correspondant à votre configuration
+    const apiUrl = '/api/files-by-day';
+
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+        console.log('Données reçues:', data); // Ajoutez ce log pour vérifier les données
+
+        // Extraire les labels et les données du JSON
+        const labels = data.map(item => new Date(item.date).toLocaleDateString());
+        const chartData = data.map(item => item.file_count);
+
+        console.log('Labels:', labels); // Ajoutez ce log pour vérifier les labels
+        console.log('Chart Data:', chartData); // Ajoutez ce log pour vérifier les données
+
+        // Initialiser le graphique
+        const ctx = document.getElementById('chart-line-two').getContext('2d');
+
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Nombre de Fichiers Uploadés',
+              data: chartData,
+              borderColor: '#FFA500', // Orange color
+              backgroundColor: 'rgba(255, 165, 0, 0.2)',
+              borderWidth: 2,
+              tension: 0.1
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                  color: '#fff' // Texte des labels de la légende en blanc
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return `Nombre de fichiers: ${context.raw}`;
+                  },
+                  title: function () {
+                    return null; // Pas de titre dans les tooltips
+                  }
+                },
+                backgroundColor: 'rgba(0, 0, 0, 0.8)', // Couleur de fond des tooltips
+                titleColor: '#fff', // Couleur du titre des tooltips
+                bodyColor: '#fff' // Couleur du texte du corps des tooltips
+              }
+            },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Date',
+                  color: '#fff' // Couleur du texte du titre de l'axe x
+                },
+                ticks: {
+                  // Couleur du texte des ticks de l'axe x
+                  fontColor: 'rgba(255, 255, 255, 0.7)',
+                  autoSkip: true,
+                  maxTicksLimit: 10
+                },
+                grid: {
+                  color: '#fff', // Couleur des lignes de grille de l'axe x
+                  zeroLineColor: 'rgba(255, 255, 255, 0.1)' // Couleur de la ligne zéro de l'axe x
+                }
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Nombre de Fichiers',
+                  color: '#fff' // Couleur du texte du titre de l'axe y
+                },
+                ticks: {
+                  fontColor: 'rgba(255, 255, 255, 0.7)', // Couleur du texte des ticks de l'axe y
+                },
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.1)', // Couleur des lignes de grille de l'axe y
+                  zeroLineColor: 'rgba(255, 255, 255, 0.1)' // Couleur de la ligne zéro de l'axe y
+                }
+              }
+            }
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération des données:', error);
+      });
+  });
+</script>
+
 
 @endsection

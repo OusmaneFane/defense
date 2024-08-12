@@ -1,94 +1,114 @@
-@if(flashMessages.has('success'))
+@if (flashMessages.has('success'))
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        toastr.options = {
-            "closeButton": false,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": true,
-            "positionClass": "toastr-top-right",
-            "preventDuplicates": true,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
-        toastr.success("Ajouté avec succès", "success");
-    });
+    new Noty({
+        type: 'success',
+        layout: 'topRight',
+        text: '🎉 Succès ! Votre action a été complétée avec succès. 👍',
+        timeout: 3000
+    }).show();
 </script>
 @endif
-@if(flashMessages.has('connected'))
+
+@if (flashMessages.has('connected'))
 <script>
-    import Swal from 'sweetalert2'
-    Swal.fire({
-        title: "Custom animation with Animate.css",
-        showClass: {
-            popup: `
-      animate__animated
-      animate__fadeInUp
-      animate__faster
-    `
-        },
-        hideClass: {
-            popup: `
-      animate__animated
-      animate__fadeOutDown
-      animate__faster
-    `
-        }
-    });
+    new Noty({
+        type: 'success',
+        layout: 'topRight',
+        text: '😊 Heureux de vous revoir à nouveau ! 🎉',
+        timeout: 3000
+    }).show();
 </script>
 @endif
-@if(flashMessages.has('InvalidCredentials'))
+
+@if (flashMessages.has('InvalidCredentials'))
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        toastr.options = {
-            "closeButton": false,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": true,
-            "positionClass": "toastr-top-right",
-            "preventDuplicates": true,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
-        toastr.error("Identifiants incorrects...", "InvalidCredentials");
-    });
+    new Noty({
+        type: 'error',
+        layout: 'topRight',
+        text: '⚠️ Oupsss ! Identifiants incorrects... ❌',
+        timeout: 3000
+    }).show();
 </script>
 @endif
-@if(flashMessages.has('error'))
+
+@if (flashMessages.has('blocked'))
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        toastr.options = {
-            "closeButton": false,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": true,
-            "positionClass": "toastr-top-right",
-            "preventDuplicates": true,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
-        toastr.error("Une erreur s'est produite", "erreur");
-    });
+    new Noty({
+        type: 'error',
+        layout: 'topRight',
+        text: '🔒 Oupsss ! Ce compte est bloqué... 🚫',
+        timeout: 3000
+    }).show();
+</script>
+@endif
+
+@if (flashMessages.has('error'))
+<script>
+    new Noty({
+        type: 'error',
+        layout: 'topRight',
+        text: '🚫 Une erreur est survenue ! 😔',
+        timeout: 3000
+    }).show();
+</script>
+@endif
+@if (flashMessages.has('EditComment'))
+<script>
+    new Noty({
+        type: 'success',
+        layout: 'topRight',
+        text: '🎉 Succès ! Commentaire mis à jour avec succès. 👍',
+        timeout: 3000
+    }).show();
+</script>
+@endif
+@if (flashMessages.has('fileUploaded'))
+<script>
+    new Noty({
+        type: 'success',
+        layout: 'topRight',
+        text: '🎉 Succès ! Fichier uploadé avec succès. 👍',
+        timeout: 3000
+    }).show();
+</script>
+@endif
+@if (flashMessages.has('GroupCreated'))
+<script>
+    new Noty({
+        type: 'success',
+        layout: 'topRight',
+        text: '🎉 Succès ! Group créé avec succès. 👍',
+        timeout: 3000
+    }).show();
+</script>
+@endif
+@if (flashMessages.has('disconnected'))
+<script>
+    new Noty({
+        type: 'success',
+        layout: 'topRight',
+        text: '🎉 Succès ! Vous êtes déconnectés. 👍',
+        timeout: 3000
+    }).show();
+</script>
+@endif
+@if (flashMessages.has('blocked'))
+<script>
+    new Noty({
+        type: 'success',
+        layout: 'topRight',
+        text: '🎉 Succès ! Utilisateur bloqué avec succès . 👍',
+        timeout: 3000
+    }).show();
+</script>
+@endif
+@if (flashMessages.has('unblocked'))
+<script>
+    new Noty({
+        type: 'success',
+        layout: 'topRight',
+        text: '🎉 Succès ! Utilisateur a été bloqué avec succès 👍',
+        timeout: 3000
+    }).show();
 </script>
 @endif

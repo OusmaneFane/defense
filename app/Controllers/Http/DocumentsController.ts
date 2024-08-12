@@ -137,7 +137,7 @@ export default class DocumentsController {
         await document.save();
         console.log("Création document");
 
-        session.flash({ success: "Fichier uploadé avec succès" });
+        session.flash({ fileUploaded: "Fichier uploadé avec succès" });
         return response.redirect().back();
       } else {
         console.error("Aucun fichier n'a été envoyé.");
@@ -173,15 +173,17 @@ export default class DocumentsController {
       .preload("supervisor")
       .firstOrFail();
 
-    console.log("groups: ", group.supervisor_id);
-
     return view.render("supervisor.comments.index", {
       documentInfo,
       group,
       currentRoute: request.url(),
     });
   }
-  public async store_comment({ response, request }: HttpContextContract) {
+  public async store_comment({
+    response,
+    request,
+    session,
+  }: HttpContextContract) {
     const data = request.only([
       "fileId",
       "fileName",
@@ -199,7 +201,7 @@ export default class DocumentsController {
 
     // Enregistrer le commentaire dans la base de données
     await commentData.save();
-    console.log("OKKKKK");
+    session.flash({ success: "Commentaire effectué avec succèss" });
 
     return response.redirect().toRoute("supervisor.dashboard");
   }
@@ -233,7 +235,7 @@ export default class DocumentsController {
     await comment.save();
 
     // Ajouter un message de succès à la session
-    session.flash({ notification: "Commentaire mis à jour avec succès!" });
+    session.flash({ EditComment: "Commentaire mis à jour avec succès!" });
 
     // Rediriger vers une autre page (par exemple, la liste des documents)
     return response.redirect().toRoute("supervisor.dashboard");

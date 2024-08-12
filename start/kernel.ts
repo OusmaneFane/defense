@@ -19,6 +19,7 @@ const globalMiddleware = [
   // ...
   "Adonis/Core/BodyParserMiddleware",
   "Adonis/Core/SessionMiddleware",
+  "Adonis/Middleware/Session",
   GlobalMiddleware, // Ajout du middleware ViewGlobal
 ];
 

@@ -110,7 +110,7 @@ export default class GroupsController {
     }
   }
 
-  public async store_group({ request, response }) {
+  public async store_group({ request, response, session }) {
     const externalApiService = new ExternalApiService(apiBaseUrl, token);
     try {
       // Récupérer les données du formulaire
@@ -141,6 +141,10 @@ export default class GroupsController {
           // Ajout des informations des étudiants de cette classe à la liste
           allStudentsInfo = allStudentsInfo.concat(studentsInfo);
         } catch (error) {
+          session.flash({
+            error: "Une erreur s'est produite",
+          });
+
           console.error(
             `Erreur lors de la récupération des étudiants pour la classe ${classId}:`,
             error
@@ -149,13 +153,13 @@ export default class GroupsController {
       }
 
       // Maintenant, allStudentsInfo contient les informations des étudiants de toutes les classes sélectionnées
-      console.log("Informations de tous les étudiants :", allStudentsInfo);
+      // console.log("Informations de tous les étudiants :", allStudentsInfo);
 
       // Filtrer les étudiants en fonction de studentIds
       const filteredStudentsInfo = allStudentsInfo.filter((studentInfo) =>
         studentIds.includes(studentInfo.user.username)
       );
-      console.log("filteredStudentsInfo", filteredStudentsInfo);
+      //console.log("filteredStudentsInfo", filteredStudentsInfo);
 
       // Créer les utilisateurs et étudiants correspondants à partir des informations obtenues
       for (const studentInfo of filteredStudentsInfo) {
@@ -175,6 +179,9 @@ export default class GroupsController {
           student.group_id = group.id;
           await student.save();
         } catch (error) {
+          session.flash({
+            error: "Une erreur s'est produite",
+          });
           console.error(
             `Erreur lors de la création de l'étudiant ${studentInfo.user.username}:`,
             error
@@ -191,11 +198,17 @@ export default class GroupsController {
 
         const student = await Student.findBy("name", studentInfo.user.username);
         if (student) {
+          session.flash({
+            error: "Une erreur s'est produite",
+          });
           console.log(
             `Étudiant trouvé pour le nom ${studentInfo.user.username}`
           );
           await group.related("students").attach([student.id]);
         } else {
+          session.flash({
+            error: "Une erreur s'est produite",
+          });
           console.error(
             `Étudiant introuvable pour le nom ${studentInfo.user.username}`
           );
@@ -225,18 +238,29 @@ export default class GroupsController {
             // Attacher la classe au groupe
             await group.related("classes").attach([classe.id]);
           } else {
+            session.flash({
+              error: "Une erreur s'est produite",
+            });
             console.error(`Classe non trouvée pour l'ID ${classId}`);
           }
         } catch (error) {
+          session.flash({
+            error: "Une erreur s'est produite",
+          });
           console.error(
             `Erreur lors de la récupération des informations pour la classe ${classId}:`,
             error
           );
         }
       }
-
+      session.flash({
+        GroupCreated: "Group créé avec succès",
+      });
       return response.redirect().toRoute("superadmin.manage_groups");
     } catch (error) {
+      session.flash({
+        error: "Une erreur s'est produite",
+      });
       // Gérer les erreurs
       console.error(error);
       return response

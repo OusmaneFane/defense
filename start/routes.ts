@@ -112,6 +112,12 @@ Route.group(() => {
   Route.get("groups/download/:groupName", "DocumentsController.downloadZip").as(
     "groups.download"
   );
+  Route.get("/users/:id/block", "UsersController.block").as("users.block");
+  Route.get("/users/:id/unblock", "UsersController.unblock").as(
+    "users.unblock"
+  );
   // start/routes.js
-  //Route.get('uploads/:filename', 'FilesController.download').as('file.download')
+  // start/routes.js
+
+  Route.get("/api/files-by-day", "FilesController.filesByDay");
 }).middleware("auth");
